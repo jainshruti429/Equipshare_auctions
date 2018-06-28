@@ -7,7 +7,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
- SET NAMES utf8mb4 ;
+ SET NAMES latin1 ;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,7 +21,6 @@
 
 DROP TABLE IF EXISTS `account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
 CREATE TABLE `account` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `password` varchar(255) DEFAULT NULL,
@@ -56,7 +55,6 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `admin`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
 CREATE TABLE `admin` (
   `id` int(5) DEFAULT NULL,
   `location` int(5) DEFAULT NULL,
@@ -79,7 +77,6 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `all_equipment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
 CREATE TABLE `all_equipment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `brand` varchar(20) DEFAULT NULL,
@@ -127,7 +124,6 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `emails`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
 CREATE TABLE `emails` (
   `email` varchar(60) DEFAULT NULL,
   `date` varchar(10) DEFAULT NULL,
@@ -135,7 +131,7 @@ CREATE TABLE `emails` (
   `sno` int(6) NOT NULL AUTO_INCREMENT,
   `remarks` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`sno`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -154,7 +150,6 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `equipment_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
 CREATE TABLE `equipment_type` (
   `type_id` int(5) NOT NULL AUTO_INCREMENT,
   `category` varchar(50) DEFAULT NULL,
@@ -173,7 +168,7 @@ CREATE TABLE `equipment_type` (
   `brand` varchar(50) DEFAULT NULL,
   `owner_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -192,14 +187,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `featured`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
 CREATE TABLE `featured` (
   `equip_id` int(11) NOT NULL,
   `display` int(1) NOT NULL,
   `start_date` varchar(10) DEFAULT NULL,
   `end_date` varchar(10) DEFAULT NULL,
   `views` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -218,11 +212,10 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `requests`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
 CREATE TABLE `requests` (
   `equip_id` varchar(11) DEFAULT NULL,
   `applicant_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -241,14 +234,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `save`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
 CREATE TABLE `save` (
   `user_id` int(11) DEFAULT NULL,
   `date` varchar(10) DEFAULT NULL,
   `subcategory` varchar(50) DEFAULT NULL,
   `save_id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`save_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -267,11 +259,10 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `views`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
 CREATE TABLE `views` (
   `equip_id` varchar(11) DEFAULT NULL,
   `viewer_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

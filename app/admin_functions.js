@@ -39,8 +39,6 @@ module.exports = {
         })    
     },
 
-
-
     feat_data : function(req,res,next){
         feat_data = [];
         str1 = "SELECT views.equip_id, count(views.equip_id) as no_views FROM views INNER JOIN featured ON featured.equip_id = views.equip_id WHERE featured.display = 1 GROUP BY views.equip_id";
@@ -228,9 +226,7 @@ module.exports = {
             if(err) throw err;
             else res.send(rows);
         });
-    },
-
-    
+    },    
 
     view_equipment: function(req , res){
         req.session.title = "Available Equipments";
@@ -420,9 +416,7 @@ module.exports = {
                 });
             }
         });
-
     },
-
     
     inquiry : function(req, res){
         connection.query("SELECT * FROM emails WHERE resolved = 0",function(err,rows){

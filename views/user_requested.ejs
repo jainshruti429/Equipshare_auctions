@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+  <title>Equipshare User</title>
+</head>
+<body>
+	<p>
+		<h3>NEW EQUIPMENTS</h3>
+		<table>
+			<tr>
+				<th>sno</th>
+				<th>subcategory</th>
+				<th>brand</th>
+				<th>model</th>
+			</tr>
+			<%for(var i = 0 ; i < new_equip.length; i++){%>
+			<tr>
+				<td><%=(i+1)%></td>
+				<td><%=new_equip[i].subcategory%></td>
+				<td><%=new_equip[i].brand%></td>
+				<td><a href="#"><%=new_equip[i].model%></a></td>
+			<%}%>
+		</table>		
+
+		<h3>USED EQUIPMENTS</h3>
+		<table>
+			<tr>
+				<th>sno</th>
+				<th>subcategory</th>
+				<th>brand</th>
+				<th>model</th>
+			</tr>
+			<%for(var i = 0 ; i < used_equip.length; i++){%>
+			<tr>
+				<td><%=(i+1)%></td>
+				<td><%=used_equip[i].subcategory%></td>
+				<td><%=used_equip[i].brand%></td>
+				<td><a href="#"><%=used_equip[i].model%></a></td>
+			<%}%>
+		</table>		
+				
+
+	</p>
+
+</body>
+</html>

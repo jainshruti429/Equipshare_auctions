@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+  <title>Equipshare User</title>
+</head>
+<body>
+<%if(isLoggedIn){%>
+<input type="button" value="Save Search" name="save_search" onclick="search_now()"/>
+<%}
+else{%>
+<form action= "/login0" method="get">
+	<input type="submit" value="Save Search" name="login0" />
+</form>
+<%}%>
+<div>
+<%for(var i =0; i< datarows.length; i++){%>
+	<p>
+		<%=datarows[i].subcategory%>, <%=datarows[i].brand%>, <a href="/viewt<%=datarows[i].type_id%>"> <%=datarows[i].model%> </a>  <input type="checkbox" name="compare" value="<%=datarows[i].type_id%>" onchange="comparefunc(this.value)" />  
+	</p>
+<%}%>
+</div>
+<div id="compare"></div>
+<input type="button" value ="Compare Now" name="compare_now" onclick="compare_nowfunc()" />
+<div id="compare_now"></div>
+
+<script type="text/javascript">
+function search_now(){
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+	if (this.readyState == 4 && (this.status == 200 || this.status == 304)) {
+	  
+	  var msg=new Array();
+	  msg =JSON.parse(this.responseText);
+	  console.log(msg);
+	  // var mydiv = document.getElementById('compare_now');
+	  // //mydiv.remove(i);
+	  // mydiv.innerHTML = compare_now.length;
+    }
+  };
+  xhttp.open("GET", "/user_save_search" ,true);
+  xhttp.send();
+}
+
+function compare_nowfunc(){
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+	if (this.readyState == 4 && (this.status == 200 || this.status == 304)) {
+	  
+	  var compare_now=new Array();
+	  compare_now =JSON.parse(this.responseText);
+
+	  var mydiv = document.getElementById('compare_now');
+	  //mydiv.remove(i);
+	  mydiv.innerHTML = compare_now.length;
+    }
+  };
+  xhttp.open("GET", "/compare_now" ,true);
+  xhttp.send();
+}
+
+
+
+function comparefunc(val){
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && (this.status == 200 || this.status == 304)) {
+  
+  var compare=new Array();
+  compare =JSON.parse(this.responseText);
+
+  var mydiv = document.getElementById('compare');
+  var x = mydiv.childElementCount
+  
+  for(var i = 0; i < x; i++) {
+        mydiv.removeChild(mydiv.childNodes[0]);
+        }
+
+  for(var i=0;i<compare.length;i++) { 
+            div = document.createElement('div');
+    		div.innerHTML = compare[i];
+     		mydiv.appendChild(div);
+     }
+    }
+  };
+  xhttp.open("GET", "/compare?type_id="+val,true);
+  xhttp.send();
+}
+
+</script>
+</body>
+</html>

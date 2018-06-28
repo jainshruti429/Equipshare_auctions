@@ -1,0 +1,61 @@
+
+<%- include user_header.ejs %>
+      <link rel="stylesheet" href="css/style.css">
+      <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+
+
+<body>
+
+  <div class="container">
+    <div class="row">
+      <div class="offset-md-3 col-md-6 col-sm-6 col-xs-12">
+
+          <div class="login-page">
+  <div class="form">
+    <h1 class="text-center" style="padding-bottom: 15px"><img src="img/logo - Copy.png"></h1>
+    <%if(login_para){%>
+    <form style= 'display: none;' action = '/user_signup<%=id%>' method = 'post'>
+    <%}
+    else{%>
+    <form style= 'display: block;' action = '/user_signup<%=id%>' method = 'post'>
+    <%}%>
+      <p><strong><%=msg%></strong></p>
+      <input type="text" placeholder="Enter Name" name  = 'name' class="form-control" required />
+      <input type="number" placeholder="Enter Mobile Number" name="mobile" class="form-control" minlength="10" maxlength="10" required />
+      <input type="password" placeholder="Create a Password" name="password" class="form-control"/>
+      <input type="password" placeholder="Retype Password" name="retype_password" class="form-control" required/>
+      <input type="checkbox" class="form-control" name="agree" style="float: left;width: 7%;font-size: 100px;margin: 20px 0;" required >
+      <span style="float: left;position: relative;top: -5px;padding: 20px 0;">I agree to Terms &amp; Conditions.</span>
+      <button type = 'submit' class="btn btn-info">Create</button>
+      <p class="message custom-registered-msg">Already registered? <a href="#">Sign In</a></p>
+        </form></form>
+    
+    <%if(login_para){%>
+    <form style= 'display: block;' action = '/user_login<%=id%>' method = 'post'>
+    <%}
+    else{%>
+    <form style= 'display: none;' action = '/user_login<%=id%>' method = 'post'>
+    <%}%>
+      <p><strong><%=msg%></strong></p>
+      <input type="number" placeholder="Enter Mobile Number" name = 'mobile' class="form-control" required/>
+      <input type="password" placeholder="Enter Password" name = 'password' class="form-control" required/>
+      <button type = 'submit' class="btn btn-primary">Login</button>
+      <p class="message">Not registered? <a href="#">Create an account</a></p>
+        </form></form>
+
+  </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  
+</div>
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script  src="js/index.js"></script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+
+</body>
+
+</html>

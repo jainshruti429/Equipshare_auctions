@@ -2,14 +2,14 @@
 
 
 // load all the things we need.
-var functions = require('./functions');
+//var functions = require('./functions');
 var others = require('./others');
 
 var mysql = require('mysql');
 var dbconfig = require('../config/database');
 var connection = mysql.createConnection(dbconfig.connection);
 
-connection.query('USE ' + dbconfig.database);
+//connection.query('USE ' + dbconfig.connection.database);
 
 // ========================================================
 
@@ -32,6 +32,15 @@ module.exports = {
 //================================================================================
     //get_login and post_login in routes page...passport k pain tha
   
+    saved_searches : function(req,res){
+        connection.query("SELECT * FROM save", function(err,rows){
+            if(err) throw err;
+            else res.send(rows);
+        })    
+    },
+
+
+
     feat_data : function(req,res,next){
         feat_data = [];
         str1 = "SELECT views.equip_id, count(views.equip_id) as no_views FROM views INNER JOIN featured ON featured.equip_id = views.equip_id WHERE featured.display = 1 GROUP BY views.equip_id";
@@ -126,17 +135,9 @@ module.exports = {
         connection.query(str1, function(err,rows){
             if(err) throw err;
             else{
-                var j =0;
-                var k =0;
                 for(var i = 0; i<rows.length; i++){
-                    if(rows[i].display){
-                        featured[j] = rows[i];
-                        j++;
-                    }
-                    else{
-                        prev_featured[k] = rows[i];
-                        k++;
-                    } 
+                    if(rows[i].display) featured.push(rows[i]);
+                    else prev_featured[k] = rows[i];
                 }
                 str = "SELECT name, address1, address2, address3, city, state, zipcode, mobile FROM account WHERE id IN (";
                 for(var i = 0; i <featured.length; i++){
@@ -221,6 +222,15 @@ module.exports = {
             }
         });
     },
+
+    view_equipment_type : function(req,res){
+        connection.query("SELECT subcategory, brand, model FROM equipment_type", function(err, rows){
+            if(err) throw err;
+            else res.send(rows);
+        });
+    },
+
+    
 
     view_equipment: function(req , res){
         req.session.title = "Available Equipments";
@@ -754,7 +764,8 @@ module.exports = {
     //================================================================================
 
     //Handle POST request to add a new working location 
-    add_new_location: function(req, res){
+    /*
+    add_new_location : function(req, res){
     	var city = req.body.city;
     	var city = city.toUpperCase(); // Change CASE to uppercase for handling case-coflicts while comparing
 
@@ -1051,5 +1062,6 @@ module.exports = {
             else res.send("Dealer is verified");
         });
     }
+    */
 
 }

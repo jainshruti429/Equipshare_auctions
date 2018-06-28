@@ -1,4 +1,6 @@
 // config/passport.js
+// functions for signup and login
+
 
 // load all the things we need
 var LocalStrategy   = require('passport-local').Strategy;
@@ -9,7 +11,7 @@ var bcrypt = require('bcrypt-nodejs');
 var dbconfig = require('./database');
 var connection = mysql.createConnection(dbconfig.connection);
 
-connection.query('USE ' + dbconfig.database);
+//connection.query('USE ' + dbconfig.database);
 // expose this function to our app using module.exports
 module.exports = function(passport) {
 
@@ -32,59 +34,39 @@ module.exports = function(passport) {
     });
 
     // =========================================================================
-    // LOCAL SIGNUP 
+    // SIGNUP 
     // =========================================================================
-    // we are using named strategies since we have one for login and one for signup
-    // by default, if there was no name, it would just be called 'local'
 
     passport.use(
         'local-signup',
         new LocalStrategy({
-            // by default, local strategy uses username and password
+            // by default, local strategy uses username and password, we will override with mobile
             usernameField : 'mobile',
             passwordField : 'password',
             passReqToCallback : true // allows us to pass back the entire request to the callback
         },
-        function(req, username, password, done) {
+        // functions called on signup.
+        function(req, mobile, password, done) {
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
-            connection.query("SELECT * FROM account WHERE mobile = ?",[username], function(err, rows) {
-                if (err)
-                    return done(err);
-                if (rows.length) {
-                    return done(null, false, {usrmsg: 'That username is already taken'});
-                } else {
-                    // if there is no user with that username
-                    // create the user
+            connection.query("SELECT id FROM account WHERE mobile = ?",[mobile], function(err, rows) {
+                if (err) return done(err);
+                if (rows.length) return done(null, false, {usrmsg: 'This mobile no. is already registered'});
+                else {
+                    // if there is no user with that mobile no. create the user
                     var newUserMysql = {
-                        first_name: req.body.first_name,
-                        last_name: req.body.last_name,
-                        middle_name: req.body.middle_name,
-                        city: req.body.city,
-                        state: req.body.state,
-                        country: req.body.country,
-                        zipcode: req.body.zipcode,
-                        pan_number: req.body.pan_number,
+                        name: req.body.name,
                         password: bcrypt.hashSync(password, null, null),  // use the generateHash function in our user model
-                        category: req.body.category,
-                        email: req.body.email,
-                        mobile: req.body.mobile,
-                        address: req.body.address,
-                        wallet: 0
+                        category: 1,
+                        mobile: req.body.mobile
                     };
-
-                    var insertQuery = "INSERT INTO account (first_name, last_name, middle_name, city, state, country, zipcode, pan_number, password, category, email, mobile, wallet, address) values (?,?,?,?,?,?, ?, ?, ?,?,?,?,?,?)";
-
-                    connection.query(insertQuery,[newUserMysql.first_name, newUserMysql.last_name, newUserMysql.middle_name, newUserMysql.city, newUserMysql.state, newUserMysql.country, newUserMysql.zipcode, newUserMysql.pan_number, newUserMysql.password, newUserMysql.category, newUserMysql.email, newUserMysql.mobile, newUserMysql.wallet, newUserMysql.address],function(err, rows) {
-                        if(err){
-                            console.log('$'+newUserMysql.mobile+'$')
-                            return done(err);
-                        }
-                        else{
-                        newUserMysql.id = rows.insertId;
-                        req.session.user = newUserMysql.id;
-                        req.session.category = newUserMysql.category;
-                        return done(null, newUserMysql);
+                    // insert the data into the db-table account
+                    var insertQuery = "INSERT INTO account (name, password, mobile, category) values (?,?,?,?)";
+                    // make a query
+                    connection.query(insertQuery,[newUserMysql.name, newUserMysql.password,  newUserMysql.mobile, newUserMysql.category],function(err) {
+                        if(err)return done(err);
+                        else{    
+                        return done(null, newUserMysql, "Successfull");
                         }
                     });
                 }
@@ -95,36 +77,75 @@ module.exports = function(passport) {
     // =========================================================================
     // LOCAL LOGIN
     // =========================================================================
-    // we are using named strategies since we have one for login and one for signup
-    // by default, if there was no name, it would just be called 'local'
+
+    passport.use(
+        'local-admin_login',
+        new LocalStrategy({
+             // by default, local strategy uses username and password, we will override with mobile
+            usernameField : 'username',
+            passwordField : 'password',
+            passReqToCallback : true // allows us to pass back the entire request to the callback
+        },
+        // function for login
+        function(req, username, password, done) { // callback with email and password from our form
+            // select if account exists.
+            connection.query("SELECT id,name,category,password FROM account WHERE name = ?",[username], function(err, rows){
+                if (err){ // if error occurs
+                    return done(err);
+                }
+                if (!rows.length) { // if there is no rows selected, i.e. no user is there, then
+                    return done(null, false, "No user found"); 
+                }
+                // if the user is found but the password is wrong
+                if (!bcrypt.compareSync(password, rows[0].password)){
+                    return done(null, false, "Oops! Wrong password"); }//send error message to client
+                //otherwise, add data to session.
+                else{
+                    req.session.msg = "Admin: "+rows[0].name+" ID: "+rows[0].id+" logged in";
+                    req.session.user = rows[0].id;
+                    req.session.category = rows[0].category;
+                    req.session.name = rows[0].name;
+
+                    // if all is well, then return "Welcome" after saving data to session
+                    console.log("Admin: "+rows[0].name+" ID: "+rows[0].id+" logged in");       
+                    return done(null, rows[0], "Admin: "+rows[0].name+" ID: "+rows[0].id+" logged in");
+                }
+            });
+        })
+    );
 
     passport.use(
         'local-login',
         new LocalStrategy({
-            // by default, local strategy uses username and password, we will override with email
+             // by default, local strategy uses username and password, we will override with mobile
             usernameField : 'mobile',
             passwordField : 'password',
             passReqToCallback : true // allows us to pass back the entire request to the callback
         },
-        function(req, username, password, done) { // callback with email and password from our form
-
-            connection.query("SELECT * FROM account WHERE mobile = ?",[username], function(err, rows){
-                console.log("Username: " + username);
-                if (err)
+        // function for login
+        function(req, mobile, password, done) { // callback with email and password from our form
+            // select if account exists.
+            connection.query("SELECT id,name,category,password FROM account WHERE mobile = ?",[mobile], function(err, rows){
+                if (err){ // if error occurs
                     return done(err);
-                if (!rows.length) {
-                    return done(null, false, "No user found"); // req.flash is the way to set flashdata using connect-flash
+                }
+                if (!rows.length) { // if there is no rows selected, i.e. no user is there, then
+                    return done(null, false, "No user found"); 
                 }
                 // if the user is found but the password is wrong
-                if (!bcrypt.compareSync(password, rows[0].password))
-                    return done(null, false, "Oops! Wrong password"); // create the loginMessage and save it to session as flashdata
-
+                if (!bcrypt.compareSync(password, rows[0].password)){
+                    return done(null, false, "Oops! Wrong password"); }//send error message to client
+                //otherwise, add data to session.
+                else{
                 req.session.user = rows[0].id;
                 req.session.category = rows[0].category;
+                req.session.name = rows[0].name;
+                req.session.msg = "Welcome" + rows[0].name;
 
-                // all is well, return successful user
-                category = rows[0].category;
-                return done(null, rows[0], "Welcome");
+                // if all is well, then return "Welcome" after saving data to session
+                console.log("User: "+rows[0].name+" ID: "+rows[0].id+" logged in");       
+                return done(null, rows[0], "User: "+rows[0].name+" ID: "+rows[0].id+" logged in");
+                }
             });
         })
     );

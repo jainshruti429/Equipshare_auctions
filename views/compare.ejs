@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+  <title>Equipshare User</title>
+</head>
+<body>
+<div>
+  <!--<%- include header.ejs %>-->
+
+        <div class="col-sm-6 col-sm-offset-3">
+
+  <table style="width:100%">
+    <tr>
+      <th>Asset Name</th>
+      <td><%= datarows[0].subcategory %></td>
+      <td><%= datarows[1].subcategory %></td>
+    </tr>  
+    <tr>
+      <th>Asset Model</th>
+      <td><%= datarows[0].model %></td>
+      <td><%= datarows[1].model %></td>
+    </tr>  
+  <tr>
+      <th>Asset Brand</th>
+      <td><%= datarows[0].brand %></td>
+      <td><%= datarows[1].brand %></td>
+    </tr>  
+  <tr>
+      <th>Asset Price</th>
+      <td><%= datarows[0].expected_price %></td>
+      <td><%= datarows[1].expected_price %></td>
+    </tr>  
+    
+
+  </table>
+</div>
+</div>
+</body>
+</html>

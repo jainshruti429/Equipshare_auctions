@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+	<title>Equipshare User</title>
+</head>
+<body>
+<div>
+	<div class="main">
+		<div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+
+				<div class="well">
+					<h3>Upload csv</h3>
+					<p><strong><%=msg%></strong></p>
+					<p>	
+					<p> File should be in the format as given below :</p>
+					<img src= "/img/csv_format.png" class="img-responsive"/>
+					<p> PS : - Remove first row before uploading the csv </p>
+					<form  action= "/csv" method="post" enctype="multipart/form-data">
+						<div class = "form-group">
+							<lable>Upload csv</lable>
+							<input type = "file" name = "csv"/>
+						</div>	
+						<button type="submit" value = "submit_form" class="btn btn-warning btn-lg" >Upload</button>
+					</form>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</html>

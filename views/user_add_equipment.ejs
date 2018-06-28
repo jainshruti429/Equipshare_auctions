@@ -1,0 +1,374 @@
+<%- include user_header.ejs %>
+			<!-- UPDATE FORM AREA -->	
+            <div class="update-form">
+            <div class="container">
+                <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                   <!-- <h3 style="border-bottom:solid thin #e1e1e1;padding-bottom:10px;margin-bottom:10px;">Edit Product Detail</h3> -->
+                   <form action="/user_add_equipment" method="post" style="margin-top:20px;margin-bottom:20px;" class="product-edit-custom-form" autocomplete="off" enctype="multipart/form-data">
+                       <h3 style="border-bottom:solid thin #e1e1e1;padding-bottom:10px;margin-bottom:10px;">Add Equipment</h3>
+                       <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Equipment Category</label>
+    <div class="col-sm-9">
+        <select class = "form-control" name="category"  onchange="if(this.value!= 0) { find_subcategory(this.value); }" id = 'cat'> 
+								<option value="0">Select Category</option>
+                <%for(var i = 0;i< cat_rows.length; i++){%> 
+								  <option value="<%=cat_rows[i].category%>"><%=cat_rows[i].category%> </option>
+							    <%}%>
+						    </select>
+    </div>
+  </div>
+                        <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Equipment Subcategory</label>
+    <div class="col-sm-9">
+       <select id ='subcat' class = "form-control" name="subcategory"  list="subcat"  autocomplete="off"  onchange="if(this.value!= 0) { find_brand(this.value); }"  required ></select> 
+    </div>
+  </div>
+
+         <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Equipment Brand</label>
+    <div class="col-sm-9">
+       <select id ='brand' class = "form-control" name="brand"  list="brand"  autocomplete="off"  onchange="if(this.value!= 0) { find_model(this.value); }"  required ></select> 
+    </div>
+  </div>
+
+    <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Equipment Model</label>
+    <div class="col-sm-9">
+       <select id ='model' class = "form-control" name="model"  list="model"  autocomplete="off" required ></select>
+    </div>
+  </div>
+
+    <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Equipment Price</label>
+    <div class="col-sm-9">
+      <input type="number" class="form-control" name = 'expected_price' placeholder="Enter Equipment Price" required>
+    </div>
+  </div>
+    <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Equipment Year</label>
+    <div class="col-sm-9">
+      <input type="number" class="form-control"  name="year" placeholder="Enter Equipment Year" required>
+    </div>
+  </div>
+    <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Equipment Charge Per</label>
+    <div class="col-sm-9">
+      <select class="form-control">
+          <option>Km / Hr</option>
+        <option>Km</option>
+        <option>Hour</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">value</label>
+    <div class="col-sm-9">
+      <input type="number" class="form-control"  name="km" placeholder="Enter Equipment Year" required>
+    </div>
+  </div>
+
+                        <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Equipment Colour</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control" name="colour" placeholder="Enter Equipment Colour" required>
+    </div>
+  </div>
+                       <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Equipment Description</label>
+    <div class="col-sm-9">
+      <textarea class="form-control" rows="3"  name="description" placeholder="Enter Equipment Description" required></textarea>
+    </div>
+  </div>
+                       <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Featured Image</label>
+    <div class="col-sm-9">
+       <input type="file" class="form-control-file" name = 'photo1' aria-describedby="fileHelp" required>
+       <p>Image Size should be of 500*500</p>
+    
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Image 2</label>
+    <div class="col-sm-9">
+       <input type="file" class="form-control-file" name = 'photo2' aria-describedby="fileHelp" required>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Image 3</label>
+    <div class="col-sm-9">
+       <input type="file" class="form-control-file" name = 'photo3' aria-describedby="fileHelp" required>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Image 4</label>
+    <div class="col-sm-9">
+       <input type="file" class="form-control-file" name = 'photo4' aria-describedby="fileHelp" required>
+    </div>
+  </div>
+                      
+                        <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Invoice</label>
+    <div class="col-sm-9">
+       <input type="file" class="form-control-file" name = 'doc_invoice' aria-describedby="fileHelp" required>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Insurance</label>
+    <div class="col-sm-9">
+       <input type="file" class="form-control-file" name = 'doc_insurance' aria-describedby="fileHelp" required>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">RC</label>
+    <div class="col-sm-9">
+       <input type="file" class="form-control-file" name = 'doc_fitness' aria-describedby="fileHelp">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Road Tax</label>
+    <div class="col-sm-9">
+       <input type="file" class="form-control-file" name = 'doc_rc' aria-describedby="fileHelp">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Fitness</label>
+    <div class="col-sm-9">
+       <input type="file" class="form-control-file" name = 'doc_poc' aria-describedby="fileHelp">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">POC</label>
+    <div class="col-sm-9">
+       <input type="file" class="form-control-file" name = 'doc_roadtax' aria-describedby="fileHelp">
+    </div>
+  </div>
+   <input type="submit" class="btn btn-primary" value="SUBMIT">
+  </form>
+                    </div>
+                    
+                    
+                    
+                </div>
+                </div>
+            </div>
+            
+            <!--END UPDATE FORM AREA-->
+            
+            
+            
+            
+            
+            <!--FEATURED PRODUCT HERE-->
+           
+            
+            <!--END FEATURED PRODUCT HERE-->
+            
+
+			<!-- start footer Area -->		
+			<footer class="footer-area section-gap">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-3  offset-md-1 col-md-2 col-sm-6">
+							<div class="single-footer-widget">
+								<!--<h4 class="text-white">About Us</h4>
+								<p>
+									Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore dolore magna aliqua.
+								</p>-->
+                                <img src="img/logo%20-%20Copy.png" class="img-fluid" style="width:80%">
+                                
+							</div>
+						</div>
+						<div class="col-lg-2  col-md-2 col-sm-6">
+							<div class="single-footer-widget">
+								<h4 class="text-white">Equipments</h4>
+                                <ul>
+                                <li>Popular</li>
+                                <li>Catalog</li>
+                                <li>Trending</li>
+                                <li>Features</li>
+                                </ul>
+                                
+                                
+                                
+							</div>
+						</div>						
+						<div class="col-lg-2  col-md-2 col-sm-6">
+							<div class="single-footer-widget">
+								<h4 class="text-white">Company</h4>
+                                 <ul>
+                                <li>Home</li>
+                                <li>Rental</li>
+                                <li>Solutions</li>
+                                <li>Blog</li>
+                                </ul>
+                                    
+								
+							</div>
+						</div>
+                        
+                        <div class="col-lg-2 col-md-2 col-sm-6">
+                        <div class="single-footer-widget">
+                            <h4 class="text-white">Info</h4>
+                            <ul>
+                            <li>Support</li>
+                            <li>Disclaimer</li>
+                            <li>Privacy Policy</li>
+                            <li>Terms of Services</li>
+                            </ul>
+                            </div>
+                        </div>
+                        
+                         <div class="col-lg-2 col-md-2 col-sm-6">
+                        <div class="single-footer-widget">
+                            <h4 class="text-white">Follow Us :</h4>
+                            <div class="footer-bottom d-flex justify-content-between align-items-center flex-wrap">
+                            <div class="footer-social d-flex align-items-center">
+							<a href="#"><i class="fa fa-facebook"></i></a>
+							<a href="#"><i class="fa fa-twitter"></i></a>
+							<a href="#"><i class="fa fa-linkedin"></i></a>
+							<!--<a href="#"><i class="fa fa-behance"></i></a>-->
+                                </div>
+						</div>
+                            </div>
+                        </div>
+                        
+                        
+                        
+                        
+                        
+                        
+					</div>
+				</div>
+			</footer>	
+			<!-- End footer Area -->
+           
+            <!--<script src="js/jquery1.11.1.js"></script>-->
+             <script language="Javascript" src="js/stat-jquery.js"></script>
+			<script src="js/vendor/jquery-2.2.4.min.js"></script>
+			<script src="js/superfish.min.js"></script>	
+			<script src="js/jquery.ajaxchimp.min.js"></script>
+			<script src="js/jquery.magnific-popup.min.js"></script>			
+			<script src="js/parallax.min.js"></script>	
+			<script src="js/jquery.counterup.min.js"></script>
+            <script src="js/owl.carousel.min.js"></script>
+            <script src="js/vendor/bootstrap.min.js"></script>
+			<script src="js/main.js"></script>   
+            
+             <script type="text/JavaScript" src='js/state.js'></script>
+           
+           <!--custom slider js-->
+                <!-- Syntax Highlighter -->
+  <script type="text/javascript" src="js/custom-slider/shCore.js"></script>
+  <script type="text/javascript" src="js/custom-slider/shBrushXml.js"></script>
+  <script type="text/javascript" src="js/custom-slider/shBrushJScript.js"></script>
+            
+             <script defer src="js/custom-slider/jquery.flexslider.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      SyntaxHighlighter.all();
+    });
+    $(window).load(function(){
+      $('.flexslider').flexslider({
+        animation: "slide",
+        controlNav: "thumbnails",
+        start: function(slider){
+          $('body').removeClass('loading');
+        }
+      });
+    });
+  </script>
+
+  <script>
+function find_subcategory(val){
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && (this.status == 200 || this.status == 304)) {
+  
+  var subcat=new Array();
+  subcat=JSON.parse(this.responseText);
+
+  
+  var select = document.getElementById('subcat');
+       for(var i = select.options.length - 1 ; i > 0 ; i--) {
+         select.remove(i);
+        }
+  
+  for(var i=0;i<subcat.length;i++) { 
+            option = document.createElement('option');
+            option.value =subcat[i].subcategory ;
+            option.text = subcat[i].subcategory ;
+            select.appendChild(option);
+     }
+    }
+  };
+  xhttp.open("GET", "/user_add_equipment_category?category="+val,true);
+  xhttp.send();
+}
+
+
+function find_brand(val){
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && (this.status == 200 || this.status == 304)) {
+  
+  var brand=new Array();
+  brand=JSON.parse(this.responseText);
+
+  var select = document.getElementById('brand');
+       for(var i = select.options.length - 1 ; i > 0 ; i--) {
+         select.remove(i);
+}
+  
+  for(var i=0;i<brand.length;i++) { 
+    
+        option = document.createElement('option');
+            option.value =brand[i].brand ;
+            option.text = brand[i].brand ;
+            select.appendChild(option);
+     }
+    }
+  };
+  var category = document.getElementById('cat').value;
+  xhttp.open("GET", "/user_add_equipment_subcategory?subcategory="+val+'&category='+category,true);
+  xhttp.send();
+}
+
+
+function find_model(val){
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && (this.status == 200 || this.status == 304)) {
+  var model=new Array();
+  model=JSON.parse(this.responseText);
+
+  
+  var select = document.getElementById('model');
+       for(var i = select.options.length - 1 ; i > 0 ; i--) {
+         select.remove(i);
+}
+  
+  for(var i=0;i<model.length;i++) { 
+        option = document.createElement('option');
+            option.value =model[i].model ;
+            option.text = model[i].model ;
+            select.appendChild(option);
+     }
+    }
+  };
+  var category = document.getElementById('cat').value;
+  var subcategory = document.getElementById('subcat').value;
+  xhttp.open("GET", "/user_add_equipment_brand?brand="+val+'&category='+category+'&subcategory='+subcategory,true);
+  xhttp.send();
+}
+
+</script>          
+            <!--end custom slider js-->
+          
+		</body>
+	</html>
+
+
+

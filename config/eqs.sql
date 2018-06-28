@@ -21,7 +21,7 @@
 
 DROP TABLE IF EXISTS `account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/* SET character_set_client = utf8mb4 ;*/
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `account` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `password` varchar(255) DEFAULT NULL,
@@ -56,7 +56,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `admin`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- /*SET character_set_client = utf8mb4 ;*/
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `admin` (
   `id` int(5) DEFAULT NULL,
   `location` int(5) DEFAULT NULL,
@@ -79,7 +79,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `all_equipment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- /*SET character_set_client = utf8mb4 ;*/
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `all_equipment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `brand` varchar(20) DEFAULT NULL,
@@ -127,7 +127,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `emails`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*SET character_set_client = utf8mb4 ;*/
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `emails` (
   `email` varchar(60) DEFAULT NULL,
   `date` varchar(10) DEFAULT NULL,
@@ -135,7 +135,7 @@ CREATE TABLE `emails` (
   `sno` int(6) NOT NULL AUTO_INCREMENT,
   `remarks` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`sno`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -154,7 +154,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `equipment_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- /*SET character_set_client = utf8mb4 ;*/
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `equipment_type` (
   `type_id` int(5) NOT NULL AUTO_INCREMENT,
   `category` varchar(50) DEFAULT NULL,
@@ -171,8 +171,9 @@ CREATE TABLE `equipment_type` (
   `doc2` varchar(10) DEFAULT NULL,
   `subcategory` varchar(50) DEFAULT NULL,
   `brand` varchar(50) DEFAULT NULL,
+  `owner_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,7 +182,7 @@ CREATE TABLE `equipment_type` (
 
 LOCK TABLES `equipment_type` WRITE;
 /*!40000 ALTER TABLE `equipment_type` DISABLE KEYS */;
-INSERT INTO `equipment_type` VALUES (7,'2','m1',NULL,'24','1000cc','10t','34',NULL,'20t','67',NULL,NULL,'4','b1'),(8,'2','m2',NULL,'24','1000cc','10t','34',NULL,'2t','67',NULL,NULL,'4','b1'),(10,'2','m2',NULL,'24','1000cc','10t','34',NULL,'2t','gfghj',NULL,NULL,'4','b1'),(11,'2','m2',NULL,'24','1000cc','10t','dbhjbvhj',NULL,'2t','gfghj',NULL,NULL,'2','b1'),(12,'1','m2',NULL,'24','1000cc','10t','34',NULL,'2t','gfghj',NULL,NULL,'2','b1'),(13,'1','m2',NULL,'24','1000cc','10t','34',NULL,'2t','23',NULL,NULL,'1','b1'),(14,'1','m2',NULL,'24','1000cc','10t','34',NULL,'28kg','23',NULL,NULL,'1','b1'),(15,'1','m2',NULL,'24','1000cc','10t','34',NULL,'28kg','2m',NULL,NULL,'2','b2'),(16,'1','m2',NULL,'24','1000cc','10t','34',NULL,'28','2m',NULL,NULL,'3','b2'),(17,'1','m2',NULL,'24','1000cc','10t','34gfdg',NULL,'28','2m',NULL,NULL,'2','b2'),(18,'2','m2',NULL,'24','1000cc','10t','34gfdg',NULL,'28gfh','2m',NULL,NULL,'2','b2'),(19,'Earth moving Equipment','H234','','78','56787','678','8797','789','15t','67578','','','Backhoes','HITACHI'),(20,'Earth moving Equipment','H687','','5m','789hp','7897','78','78kg','7t','GUYG','','','Backhoes','HITACHI'),(21,'Earth moving Equipment','T89H','','hvbhjk','bvhjb','hbhjb','hbhjb','bhjb','bhj','bnmb ','','','Backhoes','TATA'),(22,'Earth moving Equipment','T7879J','','678','9898','gyu','guyg87','gy','gg','8','','','Backhoes','TATA'),(23,'Earth moving Equipment','B8789','','gyug','hgh','b76t7','8h','78tgiy','hvt','fyb','','','Excavators','Caterpilar'),(24,'Earth moving Equipment','Vhjhk','','76y78','hy7g','ubyg','8u','byug','8ub','yug','','','Excavators','Caterpilar'),(25,'Earth moving Equipment','&*(YHUBhj','','gbyugiub','hbhloj','yugvyuvb','hub8998','9089yuyg','byug78','8h78uh','','','Excavators','Hyundai'),(26,'Earth moving Equipment','C7897','','789yhub','u78guy','guguygbo','gyg87','890890','78tyg','7y89yhg','','','Excavators','Hyundai'),(27,'Concrete Pumps','H234','','78','56787','678','8797','789','15t','67578','','','Mini Mobile Batching Plant','HITACHI'),(28,'Concrete Pumps','H687','','5m','789hp','7897','78','78kg','7t','GUYG','','','Mini Mobile Batching Plant','HITACHI'),(29,'Concrete Pumps','T89H','','hvbhjk','bvhjb','hbhjb','hbhjb','bhjb','bhj','bnmb ','','','Mini Mobile Batching Plant','TATA'),(30,'Concrete Pumps','T7879J','','678','9898','gyu','guyg87','gy','gg','8','','','Mini Mobile Batching Plant','TATA'),(31,'Concrete Pumps','B8789','','gyug','hgh','b76t7','8h','78tgiy','hvt','fyb','','','Static Batching Plant','Caterpilar'),(32,'Concrete Pumps','Vhjhk','','76y78','hy7g','ubyg','8u','byug','8ub','yug','','','Static Batching Plant','Caterpilar'),(33,'Concrete Pumps','&*(YHUBhj','','gbyugiub','hbhloj','yugvyuvb','hub8998','9089yuyg','byug78','8h78uh','','','Static Batching Plant','Hyundai'),(34,'Concrete Pumps','C7897','','789yhub','u78guy','guguygbo','gyg87','890890','78tyg','7y89yhg','','','Static Batching Plant','Hyundai'),(35,'Concrete and Masonry','MT678','78987','8098','89890gbuyg','gyvuyg87','yg87y','v7yg78','vyviyuv','yg87g','t45_1.png','t45_2.png','Concrete Batching Plant','gdfg'),(36,'Earth Moving Equipments','H234','787','9890','ggyv ghv uyb','78g78h','g78g78','h78yh89y','u78h8','h89y0','t45_1.png','t45_2.png','Backhoes','HITACHI'),(37,'Compaction','H234','','78','56787','678','8797','789','15t','67578',NULL,NULL,'Ride on Vinratory Roller - Single Drum','Brand2'),(38,'Compaction','H687','','5m','789hp','7897','78','78kg','7t','GUYG',NULL,NULL,'Ride on Vinratory Roller - Single Drum','HITACHI'),(39,'Compaction','T89H','','hvbhjk','bvhjb','hbhjb','hbhjb','bhjb','bhj','bnmb ',NULL,NULL,'Ride on Vinratory Roller - Single Drum','TATA'),(40,'Compaction','T7879J','','678','9898','gyu','guyg87','gy','gg','8',NULL,NULL,'Ride on Vinratory Roller - Single Drum','TATA'),(41,'Compaction','B8789','','gyug','hgh','b76t7','8h','78tgiy','hvt','fyb',NULL,NULL,'Ride on Vibratory Roller - Double Drum','Caterpilar'),(42,'Compaction','Vhjhk','','76y78','hy7g','ubyg','8u','byug','8ub','yug',NULL,NULL,'Ride on Vibratory Roller - Double Drum','Caterpilar'),(43,'Compaction','HUBhj','','gbyugiub','hbhloj','yugvyuvb','hub8998','9089yuyg','78','8h78uh',NULL,NULL,'Ride on Vibratory Roller - Double Drum','Hyundai'),(44,'Compaction','C7897','','789yhub','u78guy','guguygbo','gyg87','890890','78tyg','7y89yhg',NULL,NULL,'Ride on Vibratory Roller - Double Drum','Hyundai'),(45,'Power & HVAC','H234','','78','56787','678','8797','789','15t','67578',NULL,NULL,'Mobile Generator','Brand1'),(46,'Power & HVAC','H687','','5m','789hp','7897','78','78kg','7t','GUYG',NULL,NULL,'Mobile Generator','HITACHI'),(47,'Power & HVAC','T89H','','hvbhjk','bvhjb','hbhjb','hbhjb','bhjb','bhj','bnmb ',NULL,NULL,'Mobile Generator','TATA'),(48,'Power & HVAC','T7879J','','678','9898','gyu','guyg87','gy','gg','8',NULL,NULL,'Mobile Generator','TATA'),(49,'Power & HVAC','B8789','','gyug','hgh','b76t7','8h','78tgiy','hvt','fyb',NULL,NULL,'Portable Generator','Caterpilar'),(50,'Power & HVAC','Vhjhk','','76y78','hy7g','ubyg','8u','byug','8ub','yug',NULL,NULL,'Portable Generator','Caterpilar'),(51,'Power & HVAC','HUBhj','','gbyugiub','hbhloj','yugvyuvb','hub8998','9089yuyg','78','8h78uh',NULL,NULL,'Portable Generator','Hyundai'),(52,'Power & HVAC','C7897','','789yhub','u78guy','guguygbo','gyg87','890890','78tyg','7y89yhg',NULL,NULL,'Portable Generator','Hyundai');
+INSERT INTO `equipment_type` VALUES (7,'2','m1',NULL,'24','1000cc','10t','34',NULL,'20t','67',NULL,NULL,'4','b1',NULL),(8,'2','m2',NULL,'24','1000cc','10t','34',NULL,'2t','67',NULL,NULL,'4','b1',NULL),(10,'2','m2',NULL,'24','1000cc','10t','34',NULL,'2t','gfghj',NULL,NULL,'4','b1',NULL),(11,'2','m2',NULL,'24','1000cc','10t','dbhjbvhj',NULL,'2t','gfghj',NULL,NULL,'2','b1',NULL),(12,'1','m2',NULL,'24','1000cc','10t','34',NULL,'2t','gfghj',NULL,NULL,'2','b1',NULL),(13,'1','m2',NULL,'24','1000cc','10t','34',NULL,'2t','23',NULL,NULL,'1','b1',NULL),(14,'1','m2',NULL,'24','1000cc','10t','34',NULL,'28kg','23',NULL,NULL,'1','b1',NULL),(15,'1','m2',NULL,'24','1000cc','10t','34',NULL,'28kg','2m',NULL,NULL,'2','b2',NULL),(16,'1','m2',NULL,'24','1000cc','10t','34',NULL,'28','2m',NULL,NULL,'3','b2',NULL),(17,'1','m2',NULL,'24','1000cc','10t','34gfdg',NULL,'28','2m',NULL,NULL,'2','b2',NULL),(18,'2','m2',NULL,'24','1000cc','10t','34gfdg',NULL,'28gfh','2m',NULL,NULL,'2','b2',NULL),(19,'Earth moving Equipment','H234','','78','56787','678','8797','789','15t','67578','','','Backhoes','HITACHI',NULL),(20,'Earth moving Equipment','H687','','5m','789hp','7897','78','78kg','7t','GUYG','','','Backhoes','HITACHI',NULL),(21,'Earth moving Equipment','T89H','','hvbhjk','bvhjb','hbhjb','hbhjb','bhjb','bhj','bnmb ','','','Backhoes','TATA',NULL),(22,'Earth moving Equipment','T7879J','','678','9898','gyu','guyg87','gy','gg','8','','','Backhoes','TATA',NULL),(23,'Earth moving Equipment','B8789','','gyug','hgh','b76t7','8h','78tgiy','hvt','fyb','','','Excavators','Caterpilar',NULL),(24,'Earth moving Equipment','Vhjhk','','76y78','hy7g','ubyg','8u','byug','8ub','yug','','','Excavators','Caterpilar',NULL),(25,'Earth moving Equipment','&*(YHUBhj','','gbyugiub','hbhloj','yugvyuvb','hub8998','9089yuyg','byug78','8h78uh','','','Excavators','Hyundai',NULL),(26,'Earth moving Equipment','C7897','','789yhub','u78guy','guguygbo','gyg87','890890','78tyg','7y89yhg','','','Excavators','Hyundai',NULL),(27,'Concrete Pumps','H234','','78','56787','678','8797','789','15t','67578','','','Mini Mobile Batching Plant','HITACHI',NULL),(28,'Concrete Pumps','H687','','5m','789hp','7897','78','78kg','7t','GUYG','','','Mini Mobile Batching Plant','HITACHI',NULL),(29,'Concrete Pumps','T89H','','hvbhjk','bvhjb','hbhjb','hbhjb','bhjb','bhj','bnmb ','','','Mini Mobile Batching Plant','TATA',NULL),(30,'Concrete Pumps','T7879J','','678','9898','gyu','guyg87','gy','gg','8','','','Mini Mobile Batching Plant','TATA',NULL),(31,'Concrete Pumps','B8789','','gyug','hgh','b76t7','8h','78tgiy','hvt','fyb','','','Static Batching Plant','Caterpilar',NULL),(32,'Concrete Pumps','Vhjhk','','76y78','hy7g','ubyg','8u','byug','8ub','yug','','','Static Batching Plant','Caterpilar',NULL),(33,'Concrete Pumps','&*(YHUBhj','','gbyugiub','hbhloj','yugvyuvb','hub8998','9089yuyg','byug78','8h78uh','','','Static Batching Plant','Hyundai',NULL),(34,'Concrete Pumps','C7897','','789yhub','u78guy','guguygbo','gyg87','890890','78tyg','7y89yhg','','','Static Batching Plant','Hyundai',NULL),(35,'Concrete and Masonry','MT678','78987','8098','89890gbuyg','gyvuyg87','yg87y','v7yg78','vyviyuv','yg87g','t45_1.png','t45_2.png','Concrete Batching Plant','gdfg',NULL),(36,'Earth Moving Equipments','H234','787','9890','ggyv ghv uyb','78g78h','g78g78','h78yh89y','u78h8','h89y0','t45_1.png','t45_2.png','Backhoes','HITACHI',NULL),(37,'Compaction','H234','','78','56787','678','8797','789','15t','67578',NULL,NULL,'Ride on Vinratory Roller - Single Drum','Brand2',NULL),(38,'Compaction','H687','','5m','789hp','7897','78','78kg','7t','GUYG',NULL,NULL,'Ride on Vinratory Roller - Single Drum','HITACHI',NULL),(39,'Compaction','T89H','','hvbhjk','bvhjb','hbhjb','hbhjb','bhjb','bhj','bnmb ',NULL,NULL,'Ride on Vinratory Roller - Single Drum','TATA',NULL),(40,'Compaction','T7879J','','678','9898','gyu','guyg87','gy','gg','8',NULL,NULL,'Ride on Vinratory Roller - Single Drum','TATA',NULL),(41,'Compaction','B8789','','gyug','hgh','b76t7','8h','78tgiy','hvt','fyb',NULL,NULL,'Ride on Vibratory Roller - Double Drum','Caterpilar',NULL),(42,'Compaction','Vhjhk','','76y78','hy7g','ubyg','8u','byug','8ub','yug',NULL,NULL,'Ride on Vibratory Roller - Double Drum','Caterpilar',NULL),(43,'Compaction','HUBhj','','gbyugiub','hbhloj','yugvyuvb','hub8998','9089yuyg','78','8h78uh',NULL,NULL,'Ride on Vibratory Roller - Double Drum','Hyundai',NULL),(44,'Compaction','C7897','','789yhub','u78guy','guguygbo','gyg87','890890','78tyg','7y89yhg',NULL,NULL,'Ride on Vibratory Roller - Double Drum','Hyundai',NULL),(45,'Power & HVAC','H234','','78','56787','678','8797','789','15t','67578',NULL,NULL,'Mobile Generator','Brand1',NULL),(46,'Power & HVAC','H687','','5m','789hp','7897','78','78kg','7t','GUYG',NULL,NULL,'Mobile Generator','HITACHI',NULL),(47,'Power & HVAC','T89H','','hvbhjk','bvhjb','hbhjb','hbhjb','bhjb','bhj','bnmb ',NULL,NULL,'Mobile Generator','TATA',NULL),(48,'Power & HVAC','T7879J','','678','9898','gyu','guyg87','gy','gg','8',NULL,NULL,'Mobile Generator','TATA',NULL),(49,'Power & HVAC','B8789','','gyug','hgh','b76t7','8h','78tgiy','hvt','fyb',NULL,NULL,'Portable Generator','Caterpilar',NULL),(50,'Power & HVAC','Vhjhk','','76y78','hy7g','ubyg','8u','byug','8ub','yug',NULL,NULL,'Portable Generator','Caterpilar',NULL),(51,'Power & HVAC','HUBhj','','gbyugiub','hbhloj','yugvyuvb','hub8998','9089yuyg','78','8h78uh',NULL,NULL,'Portable Generator','Hyundai',NULL),(52,'Power & HVAC','C7897','','789yhub','u78guy','guguygbo','gyg87','890890','78tyg','7y89yhg',NULL,NULL,'Portable Generator','Hyundai',NULL);
 /*!40000 ALTER TABLE `equipment_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -191,14 +192,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `featured`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- /*SET character_set_client = utf8mb4 ;*/
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `featured` (
   `equip_id` int(11) NOT NULL,
   `display` int(1) NOT NULL,
   `start_date` varchar(10) DEFAULT NULL,
   `end_date` varchar(10) DEFAULT NULL,
   `views` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -217,11 +218,11 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `requests`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- /*SET character_set_client = utf8mb4 ;*/
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `requests` (
-  `equip_id` int(11) DEFAULT NULL,
+  `equip_id` varchar(11) DEFAULT NULL,
   `applicant_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -230,8 +231,34 @@ CREATE TABLE `requests` (
 
 LOCK TABLES `requests` WRITE;
 /*!40000 ALTER TABLE `requests` DISABLE KEYS */;
-INSERT INTO `requests` VALUES (2,3),(7,3),(8,3),(8,3),(8,3),(8,3),(8,3),(8,3),(9,3),(6,3),(11,1),(20,3),(8,3),(NULL,3),(NULL,3),(NULL,3),(NULL,3),(38,3),(44,7),(44,8),(41,8);
+INSERT INTO `requests` VALUES ('2',3),('7',3),('8',3),('8',3),('8',3),('8',3),('8',3),('8',3),('9',3),('6',3),('11',1),('20',3),('8',3),('38',3),('44',7),('44',8),('41',8),('2',3);
 /*!40000 ALTER TABLE `requests` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `save`
+--
+
+DROP TABLE IF EXISTS `save`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `save` (
+  `user_id` int(11) DEFAULT NULL,
+  `date` varchar(10) DEFAULT NULL,
+  `subcategory` varchar(50) DEFAULT NULL,
+  `save_id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`save_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `save`
+--
+
+LOCK TABLES `save` WRITE;
+/*!40000 ALTER TABLE `save` DISABLE KEYS */;
+INSERT INTO `save` VALUES (3,'26/06/2018','Concrete Batching Plant',1);
+/*!40000 ALTER TABLE `save` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -240,11 +267,11 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `views`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- /*SET character_set_client = utf8mb4 ;*/
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `views` (
-  `equip_id` int(11) DEFAULT NULL,
+  `equip_id` varchar(11) DEFAULT NULL,
   `viewer_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -253,7 +280,7 @@ CREATE TABLE `views` (
 
 LOCK TABLES `views` WRITE;
 /*!40000 ALTER TABLE `views` DISABLE KEYS */;
-INSERT INTO `views` VALUES (1,3),(2,3),(7,3),(8,3),(9,3),(8,3),(9,3),(7,3),(8,3),(7,3),(7,3),(7,3),(6,3),(2,7),(6,7),(1,1),(11,1),(6,1),(20,3),(25,1),(38,3),(44,1),(41,31),(42,31),(41,8),(49,8);
+INSERT INTO `views` VALUES ('1',3),('2',3),('7',3),('8',3),('9',3),('8',3),('9',3),('7',3),('8',3),('7',3),('7',3),('7',3),('6',3),('2',7),('6',7),('1',1),('11',1),('6',1),('20',3),('25',1),('38',3),('44',1),('41',31),('42',31),('41',8),('49',8);
 /*!40000 ALTER TABLE `views` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -266,4 +293,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-19 13:49:00
+-- Dump completed on 2018-06-28 16:02:35

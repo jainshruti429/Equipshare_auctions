@@ -39,6 +39,12 @@ module.exports = {
         })    
     },
 
+    show_requests: function(req,res){
+        connection.query("SELECT * FROM requests GROUP BY status", function(err,rows){
+            console.log(rows);
+        });
+    },
+
     feat_data : function(req,res,next){
         feat_data = [];
         str1 = "SELECT views.equip_id, count(views.equip_id) as no_views FROM views INNER JOIN featured ON featured.equip_id = views.equip_id WHERE featured.display = 1 GROUP BY views.equip_id";

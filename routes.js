@@ -293,7 +293,7 @@ module.exports = function(app, passport) {
     app.post('/admin_upload_type_csv',gfunc.isLoggedInfunc, admin_access, csv.type_csv, afunc.get_add_equipment_type);
     app.get('/admin_equipment_csv',gfunc.isLoggedInfunc, admin_access, afunc.get_equipment_csv);
     app.post('/admin_upload_equipment_csv', gfunc.isLoggedInfunc, admin_access,csv.equipment_csv, afunc.get_add_equipment_user);
-
+    app.get('/admin_show_requests', afunc.show_requests);
 };
 
 //-------------------------------------------------------

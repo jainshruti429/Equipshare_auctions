@@ -293,7 +293,9 @@ module.exports = function(app, passport) {
     app.post('/admin_upload_type_csv',gfunc.isLoggedInfunc, admin_access, csv.type_csv, afunc.get_add_equipment_type);
     app.get('/admin_equipment_csv',gfunc.isLoggedInfunc, admin_access, afunc.get_equipment_csv);
     app.post('/admin_upload_equipment_csv', gfunc.isLoggedInfunc, admin_access,csv.equipment_csv, afunc.get_add_equipment_user);
-    app.get('/admin_show_requests', afunc.show_requests);
+    app.get('/admin_show_requests', gfunc.isLoggedInfunc, admin_access, afunc.show_requests);
+    app.get('/admin_saved_searches', gfunc.isLoggedInfunc, admin_access, afunc.saved_searches);
+    
 };
 
 //-------------------------------------------------------
@@ -308,15 +310,15 @@ module.exports = function(app, passport) {
 //--------------------------------------------------------
 var dealer_access = function access(req,res,next){
     if(req.session.category==2) return next();
-    return res.render("Profiles/dealer/error.ejs");
+    return res.render("./error.ejs");
 }
 
 var admin_access = function access(req,res,next){
-    if(req.session.category==1) return next();
-    return res.render("Profiles/dealer/error.ejs");
+    if(req.session.category==0) return next();
+    return res.render("./error.ejs");
 }
 
-var dealer_user_access = function access(req,res,next){
-    if(req.session.category==0 || req.session.category ==2) return next();
-    return res.render("Profiles/dealer/error.ejs");
-}    
+// var dealer_user_access = function access(req,res,next){
+//     if(req.session.category==0 || req.session.category ==2) return next();
+//     return res.render("Profiles/dealer/error.ejs");
+// }    

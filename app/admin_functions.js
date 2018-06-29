@@ -53,12 +53,27 @@ module.exports = {
         connection.query("SELECT * FROM save", function(err,rows){
             if(err) throw err;
             else res.send(rows);
-        })    
+        });    
     },
 
     show_requests: function(req,res){
-        connection.query("SELECT * FROM requests GROUP BY status", function(err,rows){
-            console.log(rows);
+        connection.query("SELECT * FROM requests ORDER BY status", function(err,rows){
+            if(err) throw err;
+            else res.send(rows);
+        });
+    },
+
+    change_status : function(req,res){ //TBD
+        connection.query("UPDATE ? SET status = ? WHERE sno = ?",[req.query.table, req.body.status, req.params.sno],function(err,rows){
+            if(err) throw err;
+            else res.send("lo ho gaya......");
+        });
+    },
+
+    comment : function(req,res,next){ //TBD
+        connection.query("UPDATE ? SET comment = ? WHERE sno = ?", [req.query.table,req.body.comment,req.params.sno], function(err){
+            if(err) throw err;
+            else return next();
         });
     },
 
@@ -453,20 +468,7 @@ module.exports = {
         });
     },
 
-    resolved : function(req,res, next){
-        connection.query("UPDATE emails SET resolved = 1 WHERE sno = ?",[req.params.sno], function(err){
-            if(err) throw err;
-            else return next();
-        });
-    },
-
-    comment : function(req,res,next){
-        connection.query("UPDATE emails SET comment = req.body.comment WHERE sno = ?", [req.params.sno], function(err){
-            if(err) throw err;
-            else return next();
-        });
-    },
-
+    
     // get_add_new_admin: function(req,res){
     //  res.render('./Profiles/admin/add_new_admin.ejs', {msg: 'Enter the following details' , username:req.session.name});
     // },

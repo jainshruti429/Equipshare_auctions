@@ -102,22 +102,7 @@ module.exports = function(app, passport) {
 
 
     // //app.get('/deal', 
-    // //================================================================================
-    // //======================== General Routes ========================================
-    // //================================================================================
-
     // app.post('/add_new_bid', func.isLoggedInfunc,dealer_user_access, func.add_new_bid);
-
-
-    // // // TEMPORARY routes =================================================================
-
-    // app.get('/temp', function (req, res){
-    //     // for temporary use
-    //     query = "SHOW DATABASES";
-    //     connection.query(query, function(err, rows){
-    //         res.send(rows);
-    //     });
-    // });
 
 // =======================================================================================
 // =========================== WITHOUT AUTHORISATION FUNCTIONS ====================================== 
@@ -125,9 +110,6 @@ module.exports = function(app, passport) {
 
     //these functions do not require user to be logged in
     //HOME PAGE of website.... 
-    // app.get('/', function(req,res){
-    //     res.sendFile(__dirname+'/views/something.html');  
-    // });
 
     app.get('/', gfunc.home);
     app.get('/beta', gfunc.beta_home);
@@ -150,7 +132,7 @@ module.exports = function(app, passport) {
     
     app.post('/user_login:id', function(req, res, next){
             //call the local-login in ../config/passport.js
-            passport.authenticate('local-login', function (err, user, info) {
+            passport.authenticate('local-user-login', function (err, user, info) {
                 // info is json given by passport.aunthicate
                 //this function is called when LocalStrategy returns done function with parameters
                 if(err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para : 1, id:req.params.id, isLoggedIn : 0 });    
@@ -207,7 +189,7 @@ module.exports = function(app, passport) {
 // =========================== ADMIN FUNCTIONS ====================================== 
 // =======================================================================================
 
-    app.get('/admin_login',function(req, res) {
+    app.get('/admin',function(req, res) {
         res.render('./admin_login.ejs', {msg :"Please login to continue"});
     });
 
@@ -293,25 +275,64 @@ module.exports = function(app, passport) {
     app.post('/admin_upload_type_csv',gfunc.isLoggedInfunc, admin_access, csv.type_csv, afunc.get_add_equipment_type);
     app.get('/admin_equipment_csv',gfunc.isLoggedInfunc, admin_access, afunc.get_equipment_csv);
     app.post('/admin_upload_equipment_csv', gfunc.isLoggedInfunc, admin_access,csv.equipment_csv, afunc.get_add_equipment_user);
+    
     app.get('/admin_show_requests', gfunc.isLoggedInfunc, admin_access, afunc.show_requests);
     app.get('/admin_saved_searches', gfunc.isLoggedInfunc, admin_access, afunc.saved_searches);
+
+// =======================================================================================
+// =========================== COMPANY USER FUNCTIONS ====================================== 
+// =======================================================================================
+
+	app.get('/company',function(req, res) {
+        res.render('./company_login.ejs', {msg :"Please login to continue"});
+    });
+
+    app.post('/company_login', function(req, res, next){
+         //call the local-login in ../config/passport.js
+        passport.authenticate('local-company-login', function (err, user, info) {
+            // info is json given by passport.aunthicate
+            //this function is called when LocalStrategy returns done function with parameters
+            if(err) return res.render('./company_login.ejs', {msg : 'Please Try Again!'});;    
+            //if username or password doesn't match
+            if(!user) return res.render('./company_login.ejs', {msg: 'Please Try Again!'});  
+            //this is when login is successful
+            req.logIn(user, function(err) {
+                if (err) return next(err); 
+                else return next()
+            });   
+        })(req,res,next);
+    }, cfunc.home);
+
     
+	
+	//see views
+	//see saved searches
+	//see requests/leads
+	//add proposal
+
+// =======================================================================================
+// =========================== BANK USER FUNCTIONS ====================================== 
+// =======================================================================================
+	//see deals (approved by admin) 
+	//add proposal
+
 };
 
 //-------------------------------------------------------
 			// Admin = 0
 			// SA = 9
-			// Company Admin = 4
+			// Company Admin/User = 4
 			// Dealer Admin = 3
 			// Dealer User = 2
 			// User/Customer = 1
-			// Other = 5
-			// Bank User = 6;
+			// Bank User = 5;
+			// Other = 6;
 //--------------------------------------------------------
-var dealer_access = function access(req,res,next){
-    if(req.session.category==2) return next();
-    return res.render("./error.ejs");
-}
+
+// var dealer_access = function access(req,res,next){
+//     if(req.session.category==2) return next();
+//     return res.render("./error.ejs");
+// }
 
 var admin_access = function access(req,res,next){
     if(req.session.category==0) return next();

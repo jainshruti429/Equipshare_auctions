@@ -99,6 +99,7 @@ module.exports = function(passport) {
                 // if the user is found but the password is wrong
                 if (!bcrypt.compareSync(password, rows[0].password)){
                     return done(null, false, "Oops! Wrong password"); }//send error message to client
+                if(rows[0].category != 0) return done(null, false, "Wrong Category");
                 //otherwise, add data to session.
                 else{
                     req.session.msg = "Admin: "+rows[0].name+" ID: "+rows[0].id+" logged in";
@@ -115,7 +116,7 @@ module.exports = function(passport) {
     );
 
     passport.use(
-        'local-login',
+        'local-user-login',
         new LocalStrategy({
              // by default, local strategy uses username and password, we will override with mobile
             usernameField : 'mobile',
@@ -149,4 +150,79 @@ module.exports = function(passport) {
             });
         })
     );
+
+    passport.use(
+        'local-company-login',
+        new LocalStrategy({
+             // by default, local strategy uses username and password, we will override with mobile
+            usernameField : 'username',
+            passwordField : 'password',
+            passReqToCallback : true // allows us to pass back the entire request to the callback
+        },
+        // function for login
+        function(req, username, password, done) { // callback with email and password from our form
+            // select if account exists.
+            connection.query("SELECT id,name,category,password FROM account WHERE name = ?",[username], function(err, rows){
+                if (err){ // if error occurs
+                    return done(err);
+                }
+                if (!rows.length) { // if there is no rows selected, i.e. no user is there, then
+                    return done(null, false, "No user found"); 
+                }
+                // if the user is found but the password is wrong
+                if (!bcrypt.compareSync(password, rows[0].password)){
+                    return done(null, false, "Oops! Wrong password"); }//send error message to client
+                //otherwise, add data to session.
+                if(rows[0].category != 4) return done(null, false, "Wrong Category");
+                else{
+                    req.session.msg = "Comapany User: "+rows[0].name+" ID: "+rows[0].id+" logged in";
+                    req.session.user = rows[0].id;
+                    req.session.category = rows[0].category;
+                    req.session.name = rows[0].name;
+
+                    // if all is well, then return "Welcome" after saving data to session
+                    console.log("Comapany User: "+rows[0].name+" ID: "+rows[0].id+" logged in");       
+                    return done(null, rows[0], "Comapany User: "+rows[0].name+" ID: "+rows[0].id+" logged in");
+                }
+            });
+        })
+    );
+
+    passport.use(
+        'local-bank-login',
+        new LocalStrategy({
+             // by default, local strategy uses username and password, we will override with mobile
+            usernameField : 'username',
+            passwordField : 'password',
+            passReqToCallback : true // allows us to pass back the entire request to the callback
+        },
+        // function for login
+        function(req, username, password, done) { // callback with email and password from our form
+            // select if account exists.
+            connection.query("SELECT id,name,category,password FROM account WHERE name = ?",[username], function(err, rows){
+                if (err){ // if error occurs
+                    return done(err);
+                }
+                if (!rows.length) { // if there is no rows selected, i.e. no user is there, then
+                    return done(null, false, "No user found"); 
+                }
+                // if the user is found but the password is wrong
+                if (!bcrypt.compareSync(password, rows[0].password)){
+                    return done(null, false, "Oops! Wrong password"); }//send error message to client
+                //otherwise, add data to session.
+                if(rows[0].category != 5) return done(null, false, "Wrong Category");
+                else{
+                    req.session.msg = "Bank User: "+rows[0].name+" ID: "+rows[0].id+" logged in";
+                    req.session.user = rows[0].id;
+                    req.session.category = rows[0].category;
+                    req.session.name = rows[0].name;
+
+                    // if all is well, then return "Welcome" after saving data to session
+                    console.log("Bank User: "+rows[0].name+" ID: "+rows[0].id+" logged in");       
+                    return done(null, rows[0], "Bank User:  "+rows[0].name+" ID: "+rows[0].id+" logged in");
+                }
+            });
+        })
+    );
+
 };

@@ -32,23 +32,26 @@ module.exports = {
 //================================================================================
     //get_login and post_login in routes page...passport k pain tha
   
-//-----------------------------------general funtions for website-----------------------------
-    // inquiry : function(req, res){
-    //     connection.query("SELECT * FROM emails WHERE resolved = 0",function(err,rows){
-    //         if(err) throw err;
-    //         else {
-    //             connection.query("SELECT * FROM emails WHERE resolved = 1",function(err1,rows1){
-    //                 if(err1) throw err1;
-    //                 else res.render('./admin_inquiry.ejs',{current:rows , previous: rows1, username:req.session.name});
-    //             });
-    //         }
-    //     });
-    // },
+//-----------------------------------generic website funtions -------------------------------------------
+    inEmail : function(req, res){
+        connection.query("SELECT * FROM enquiry WHERE status = 0",function(err,rows){
+            if(err) throw err;
+            else {
+                connection.query("SELECT * FROM enquiry WHERE status = 1",function(err1,rows1){
+                    if(err1) throw err1;
+                    else res.render('./admin_inquiry.ejs',{current:rows , previous: rows1, username:req.session.name});
+                });
+            }
+        });
+    },
+
+
+    
 
 
 
 
-//-----------------------------------general function ends here-------------------------------
+//-----------------------------------generic website function ends here-------------------------------
     saved_searches : function(req,res){
         connection.query("SELECT * FROM save", function(err,rows){
             if(err) throw err;

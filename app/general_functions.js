@@ -177,7 +177,7 @@ module.exports = {
             else res.render(page , {datarows: rows,  isLoggedIn : isLoggedIn(req,res), username: req.session.name});  
         });
     },
-
+//Insert enquiry into db
     email : function(req,res, next){
         var today = new Date();
         var dd = today.getDate();
@@ -186,12 +186,23 @@ module.exports = {
         if(dd<10) dd = '0'+dd;
         if(mm<10) mm = '0'+mm; 
         today = dd + '/' + mm + '/' + yyyy;
-        connection.query("INSERT INTO emails(email, date, resolved) VALUES(?,?,?)", [req.body.email, today, 0], function(err){
+        connection.query("SELECT id FROM account WHERE (mobile= ? ) OR (email= ?)",[req.body.mobile, req.body.email], function(err,rows){
             if(err) throw err;
-            else {
-                req.session.msg = "Your inquiry is recorded"
-                next();}
-        });
+
+            else{
+                var uid= 0;
+             if (rows.length)
+                uid=rows[0].id;
+            
+                  connection.query("INSERT INTO enquiry (category, name, email, mobile, company, enquiry, date, status, userid) VALUES(?,?,?,?,?,?,?,?,?)", [req.body.category, req.body.name, req.body.email,req.body.mobile, req.body.company, req.body.enquiry, today, 0,uid], function(err){
+                    if(err) throw err;
+                   else {
+                  req.session.msg = "Your inquiry is recorded"
+                   next();}
+        
+                });
+              }
+          }
     },
 
     // route to check that the client is loged in

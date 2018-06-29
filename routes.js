@@ -278,6 +278,8 @@ module.exports = function(app, passport) {
     
     app.get('/admin_show_requests', gfunc.isLoggedInfunc, admin_access, afunc.show_requests);
     app.get('/admin_saved_searches', gfunc.isLoggedInfunc, admin_access, afunc.saved_searches);
+    app.get('/admin_enquiry', gfunc.isLoggedInfunc, admin_access, afunc.inEmail);
+
 
 // =======================================================================================
 // =========================== COMPANY USER FUNCTIONS ====================================== 
@@ -302,6 +304,8 @@ module.exports = function(app, passport) {
             });   
         })(req,res,next);
     }, cfunc.home);
+
+
 
     
 	

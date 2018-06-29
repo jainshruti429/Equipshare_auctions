@@ -202,7 +202,7 @@ module.exports = {
         
                 });
               }
-          }
+          });
     },
 
     // route to check that the client is loged in

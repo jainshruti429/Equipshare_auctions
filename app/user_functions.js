@@ -59,6 +59,33 @@ var used_equip = [];
 
 
 module.exports =  {
+   
+    //-------------------------------user funct 30-06-2018-------------------------------------------------
+     //    // views for user  )(user_views.ejs is to be designed)
+     //    views : function(req, res){
+     //    connection.query("SELECT equip_id FROM views WHERE viewer_id= ?",req.body.viewer_id,function(err,rows){
+     //        if(err) throw err;
+     //        else{
+     //            connection.query("SELECT * FROM all_equipment WHERE id= ?",rows[0].equip_id,function(err,rows1){
+     //                if(err)throw err;
+     //                else res.render('./user_views.ejs',{datarows:rows1,username:req.session.name});
+
+     //            });
+                    
+     //        }
+
+     //    });
+
+     // },
+
+
+
+//---------------------------------------------------------------------------------------------------------
+
+
+
+
+
     //get_login and post_login: in routes page...passport k pain tha
     dashboard: function(req,res){
         res.render("./new_dashboard.ejs");

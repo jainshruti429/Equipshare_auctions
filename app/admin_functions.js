@@ -33,6 +33,8 @@ module.exports = {
     //get_login and post_login in routes page...passport k pain tha
   
 //-----------------------------------generic website funtions -------------------------------------------
+
+   //enquiry info to admin (admin_inquiry.ejs is to be designed)
     inEmail : function(req, res){
         connection.query("SELECT * FROM enquiry WHERE status = 0",function(err,rows){
             if(err) throw err;
@@ -44,13 +46,6 @@ module.exports = {
             }
         });
     },
-
-
-    
-
-
-
-
 //-----------------------------------generic website function ends here-------------------------------
     saved_searches : function(req,res){
         connection.query("SELECT * FROM save", function(err,rows){

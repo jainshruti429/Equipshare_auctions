@@ -18,17 +18,19 @@ var fileUpload = require('express-fileupload');
 app.use(fileUpload());
 
 // import functions from other files.
-var gfunc = require('./app/general_functions') //common functions
-var afunc = require('./app/admin_functions'); //admin side functions
-var ufunc = require('./app/user_functions'); 
-var csv = require('./app/csv');
+// var gfunc = require('./app/general_functions') //common functions
+// var afunc = require('./app/admin_functions'); //admin side functions
+// var ufunc = require('./app/user_functions'); 
+// var csv = require('./app/csv');
 //var func = require('./app/functions')
 
 // ==========================================
 module.exports = function(app, passport) {
 
-    
-
+    app.get('/', function(req,res){
+    	res.render("./try.ejs", {username:'', title:'', datarows:[]});
+    });
+}
     // PROFILE SECTION =====================
     // app.get('/profile/:id', func.isLoggedInfunc, func.profilefunc); // issLoggedIn verifies that user is authenticated
 
@@ -110,7 +112,7 @@ module.exports = function(app, passport) {
 
     //these functions do not require user to be logged in
     //HOME PAGE of website.... 
-
+/*
     app.get('/', gfunc.home);
     app.get('/beta', gfunc.beta_home);
     app.get('/new', gfunc.new_home);
@@ -286,8 +288,9 @@ module.exports = function(app, passport) {
 // =======================================================================================
 
 	app.get('/company',function(req, res) {
-        res.render('./company_login.ejs', {msg :"Please login to continue"});
-    });
+		if(isLoggedIn(req,res)) return next();
+		else return res.render('./company_login.ejs', {msg :"Please login to continue"});
+    }, cfunc.home);
 
     app.post('/company_login', function(req, res, next){
          //call the local-login in ../config/passport.js
@@ -338,12 +341,20 @@ module.exports = function(app, passport) {
 //     return res.render("./error.ejs");
 // }
 
+var isLoggedIn = function(req, res) {  
+        var x ;
+        if (req.isAuthenticated()) x=1;
+        else x = 0;
+        return x;
+};
+
 var admin_access = function access(req,res,next){
     if(req.session.category==0) return next();
     return res.render("./error.ejs");
-}
+};
 
 // var dealer_user_access = function access(req,res,next){
 //     if(req.session.category==0 || req.session.category ==2) return next();
 //     return res.render("Profiles/dealer/error.ejs");
-// }    
+// } 
+*/   

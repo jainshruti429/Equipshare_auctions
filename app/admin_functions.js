@@ -413,7 +413,7 @@ module.exports = {
                         photoname[i] = photo[i].name;
                         resultp[i] = photoname[i].split('.');
                         photo_name[i] = radicle+'_'+i+'.'+resultp[i].slice(-1) ;
-                        photo[i].mv('images/'+photo_name[i], function(err3){           
+                        photo[i].mv('images/old/'+photo_name[i], function(err3){           
                             if (err3) throw(err3);
                         });
                     }
@@ -438,7 +438,7 @@ module.exports = {
                         docname[i] = doc[i].name;
                         resultd[i] = docname[i].split('.');
                         doc_name[i] = radicle+'_'+i+'.'+resultd[i].slice(-1) ;
-                        doc[i].mv('docs/'+doc_name[i] , function(err3){           
+                        doc[i].mv('docs/old/'+doc_name[i] , function(err3){           
                             if (err3) throw(err3);
                         });
                     }
@@ -542,7 +542,7 @@ module.exports = {
                                 docname[i] = doc[i].name;
                                 resultd[i] = docname[i].split('.');
                                 doc_name[i] = radicle+'_'+i+'.'+resultd[i].slice(-1) ;
-                                doc[i].mv('docs/'+doc_name[i] , function(err3){           
+                                doc[i].mv('docs/new/'+doc_name[i] , function(err3){           
                                     if (err3) throw(err3);
                                 });
                             }
@@ -732,7 +732,7 @@ module.exports = {
                         photoname[i] = photo[i].name;
                         resultp[i] = photoname[i].split('.');
                         photo_name[i] = radicle+'_'+i+'.'+resultp[i].slice(-1) ;
-                        photo[i].mv('images/'+photo_name[i], function(err3){           
+                        photo[i].mv('images/old/'+photo_name[i], function(err3){           
                             if (err3) throw(err3);
                         });
                 }
@@ -754,7 +754,7 @@ module.exports = {
                         docname[i] = doc[i].name;
                         resultd[i] = docname[i].split('.');
                         doc_name[i] = radicle+'_'+i+'.'+resultd[i].slice(-1) ;
-                        doc[i].mv('docs/'+doc_name[i] , function(err3){           
+                        doc[i].mv('docs/old/'+doc_name[i] , function(err3){           
                             if (err3) throw(err3);
                         });
                     }

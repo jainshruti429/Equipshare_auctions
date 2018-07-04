@@ -162,7 +162,7 @@ module.exports = function(passport) {
         // function for login
         function(req, username, password, done) { // callback with email and password from our form
             // select if account exists.
-            connection.query("SELECT id,name,category,password FROM account WHERE name = ?",[username], function(err, rows){
+            connection.query("SELECT id,name,category,password, address1 FROM account WHERE name = ?",[username], function(err, rows){
                 if (err){ // if error occurs
                     return done(err);
                 }
@@ -179,6 +179,7 @@ module.exports = function(passport) {
                     req.session.user = rows[0].id;
                     req.session.category = rows[0].category;
                     req.session.name = rows[0].name;
+                    req.session.comapany = rows[0].address1;
 
                     // if all is well, then return "Welcome" after saving data to session
                     console.log("Comapany User: "+rows[0].name+" ID: "+rows[0].id+" logged in");       
@@ -199,7 +200,7 @@ module.exports = function(passport) {
         // function for login
         function(req, username, password, done) { // callback with email and password from our form
             // select if account exists.
-            connection.query("SELECT id,name,category,password FROM account WHERE name = ?",[username], function(err, rows){
+            connection.query("SELECT id,name,category,password, address1 FROM account WHERE name = ?",[username], function(err, rows){
                 if (err){ // if error occurs
                     return done(err);
                 }
@@ -216,6 +217,7 @@ module.exports = function(passport) {
                     req.session.user = rows[0].id;
                     req.session.category = rows[0].category;
                     req.session.name = rows[0].name;
+                    req.session.bank = rows[0].address1;
 
                     // if all is well, then return "Welcome" after saving data to session
                     console.log("Bank User: "+rows[0].name+" ID: "+rows[0].id+" logged in");       

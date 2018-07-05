@@ -27,10 +27,10 @@ app.use(fileUpload());
 // ==========================================
 module.exports = function(app, passport) {
 
-    app.get('/', function(req,res){
-    	res.render("./try.ejs", {username:'', title:'', datarows:[]});
-    });
-}
+//     app.get('/', function(req,res){
+//     	res.render("./try.ejs", {username:'', title:'', datarows:[]});
+//     });
+// }
     // PROFILE SECTION =====================
     // app.get('/profile/:id', func.isLoggedInfunc, func.profilefunc); // issLoggedIn verifies that user is authenticated
 
@@ -112,65 +112,68 @@ module.exports = function(app, passport) {
 
     //these functions do not require user to be logged in
     //HOME PAGE of website.... 
-/*
-    app.get('/', gfunc.home);
-    app.get('/beta', gfunc.beta_home);
-    app.get('/new', gfunc.new_home);
-    app.post('/featured:id',gfunc.featured);
-    app.get('/search_category', gfunc.search_category);
-    app.post('/search',gfunc.search);
-    app.post('/new_search',gfunc.search);
+
+    // app.get('/', gfunc.home);
+    // app.get('/beta', gfunc.beta_home);
+    // app.get('/new', gfunc.new_home);
+    
     app.post('/view:id', gfunc.view);
     app.get('/view:id', gfunc.view);
-    app.post('/email', gfunc.email, gfunc.home);
-    app.get('/compare',gfunc.compare );
-    app.get('/compare_now', gfunc.compare_now);
+    // app.post('/email', gfunc.email, gfunc.home);
     
     
 // =======================================================================================
 // =========================== USER FUNCTIONS ================================================== 
 // =======================================================================================
-    app.get('/login:id', gfunc.login);
+    //TBD .... url depends on front end linking
+    app.get('/', gfunc.login);
     
-    app.post('/user_login:id', function(req, res, next){
+    app.post('/user_login', function(req, res, next){
             //call the local-login in ../config/passport.js
-            passport.authenticate('local-user-login', function (err, user, info) {
-                // info is json given by passport.aunthicate
-                //this function is called when LocalStrategy returns done function with parameters
-                if(err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para : 1, id:req.params.id, isLoggedIn : 0 });    
-                //if username or password doesn't match
-                if(!user) return res.render('./user_login.ejs', {msg: 'Please Try Again!', login_para : 1, id:req.params.id, isLoggedIn : 0});  
-                //this is when login is successful
-                req.logIn(user, function(err) {
-                    if (err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para : 1, id:req.params.id, isLoggedIn : 0}); 
-                    else  return next();
-                });   
-            })(req,res,next);
-        }, function(req,res,next){
-            if(req.params.id != 0) return next();
-            else return gfunc.home(req,res);
-        }, gfunc.view);
+        passport.authenticate('local-user-login', function (err, user, info) {
+            // info is json given by passport.aunthicate
+            //this function is called when LocalStrategy returns done function with parameters
+            if(err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para : 1});    
+            //if username or password doesn't match
+            if(!user) return res.render('./user_login.ejs', {msg: 'Please Try Again!', login_para : 1});  
+            //this is when login is successful
+            req.logIn(user, function(err) {
+                if (err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para : 1}); 
+                else  return next();
+            });   
+        })(req,res,next);
+     }, ufunc.home);
+        // function(req,res,next){
+        //     if(req.params.id != 0) return next();
+        //     else return gfunc.home(req,res);
+        // }, gfunc.view);
 
-    app.post('/user_signup:id', function(req, res, next){
-            passport.authenticate('local-signup', function (err, user, info) {
-                //this function is called when LocalStrategy returns done function with parameters
-                if(err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', id:req.params.id, login_para:0, isLoggedIn : 0});    
-                //if username or password doesn't match
-                if(!user) return res.render('./user_login.ejs', {msg:info.message, id:req.params.id, login_para:0, isLoggedIn : 0});
-                if (req.body.password != req.body.retype_password) return res.render('./user_login.ejs',{msg:'passwords did not match', id:req.params.id, login_para:0, isLoggedIn : 0});
-                //if (!req.body.agree) return res.render('./user_signup.ejs',{msg:'You need to agree to TnC'});          
-                //this is when signup is successful
-                else return res.render('./user_login.ejs',{msg:'Signup successful! Login to continue', login_para:1, id:req.params.id, isLoggedIn : 0});
-            })(req,res,next);
-        });
+    app.post('/user_signup', function(req, res, next){
+        passport.authenticate('local-signup', function (err, user, info) {
+            //this function is called when LocalStrategy returns done function with parameters
+            if(err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para:0);    
+            //if username or password doesn't match
+            if(!user) return res.render('./user_login.ejs', {msg:info.message,  login_para:0});
+            if (req.body.password != req.body.retype_password) return res.render('./user_login.ejs',{msg:'passwords did not match', login_para:0});
+            //if (!req.body.agree) return res.render('./user_signup.ejs',{msg:'You need to agree to TnC'});          
+            //this is when signup is successful
+            else return res.render('./user_login.ejs',{msg:'Signup successful! Login to continue', login_para:1});
+        })(req,res,next);
+    });
 
  // all are checking that the user is first logged in and then that he is of the right category that the request belong to.
-    app.get('/user_save_search', gfunc.isLoggedInfunc, ufunc.save_search);
-    app.get('/user_dashboard', gfunc.isLoggedInfunc, ufunc.dashboard);
-    app.get("/user_saved_searches", gfunc.isLoggedInfunc, ufunc.saved_searches);
-    app.get("/user_my_requests", gfunc.isLoggedInfunc, ufunc.my_requests1, ufunc.my_requests2, ufunc.my_requests3);
-
+    app.post('/user_featured:id',ufunc.featured);
+    app.get('/user_search_category', ufunc.search_category);
+    app.post('/user_search',ufunc.search);
+    app.get('/user_compare',ufunc.compare );
+    app.get('/user_compare_now', ufunc.compare_now);
+    app.get('/user_save_search', gfunc.isLoggedInfunc, ufunc.save_search);    
     app.get('/user_request:id', gfunc.isLoggedInfunc, ufunc.request_this);
+    app.get("/user_my_requests", gfunc.isLoggedInfunc, ufunc.my_requests1, ufunc.my_requests2, ufunc.my_requests3);
+    
+
+    app.get("/user_saved_searches", gfunc.isLoggedInfunc, ufunc.saved_searches);
+
     app.get('/user_reset_password', gfunc.isLoggedInfunc, ufunc.get_reset_password);
     app.post('/user_reset_password', gfunc.isLoggedInfunc, ufunc.post_reset_password, ufunc.get_reset_password);
     app.get('/user_update_equipment:id',gfunc.isLoggedInfunc, ufunc.get_update_this_equipment);
@@ -206,7 +209,7 @@ module.exports = function(app, passport) {
             //this is when login is successful
             req.logIn(user, function(err) {
                 if (err) return next(err); 
-                else return next()
+                else return next();
             });   
         })(req,res,next);
     }, afunc.home);
@@ -287,7 +290,7 @@ module.exports = function(app, passport) {
 // =========================== COMPANY USER FUNCTIONS ====================================== 
 // =======================================================================================
 
-	app.get('/company',function(req, res) {
+	app.get('/company_login',function(req, res) {
 		if(isLoggedIn(req,res)) return next();
 		else return res.render('./company_login.ejs', {msg :"Please login to continue"});
     }, cfunc.home);
@@ -357,4 +360,4 @@ var admin_access = function access(req,res,next){
 //     if(req.session.category==0 || req.session.category ==2) return next();
 //     return res.render("Profiles/dealer/error.ejs");
 // } 
-*/   
+ 

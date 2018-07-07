@@ -61,21 +61,19 @@ module.exports = {
         });
     },
 
-    change_status : function(req,res){ //TBD
-        connection.query("UPDATE ? SET status = ? WHERE sno = ?",[req.query.table, req.body.status, req.params.sno],function(err,rows){
+    change_status : function(req,res){ 
+        connection.query("UPDATE ? SET status = ? WHERE sno = ?",[req.body.table, req.body.status, req.params.sno],function(err,rows){
             if(err) throw err;
             else res.send("lo ho gaya......");
         });
     },
 
-    comment : function(req,res,next){ //TBD
-        connection.query("UPDATE ? SET comment = ? WHERE sno = ?", [req.query.table,req.body.comment,req.params.sno], function(err){
+    comment : function(req,res,next){ 
+        connection.query("UPDATE ? SET comment = ? WHERE sno = ?", [req.body.table,req.body.comment,req.params.sno], function(err){
             if(err) throw err;
             else return next();
         });
     },
-
-    
 
     feat_data : function(req,res,next){
         feat_data = [];
@@ -219,15 +217,7 @@ module.exports = {
     },
 
     remove_featured: function(req,res,next){
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; //January is 0!
-        var yyyy = today.getFullYear();
-        if(dd<10) dd = '0'+dd;
-        if(mm<10) mm = '0'+mm; 
-        today = dd + '/' + mm + '/' + yyyy;
-
-        connection.query("UPDATE featured SET display = 0, end_date =? WHERE equip_id = ?",[today,req.params.id],function(err){
+        connection.query("UPDATE featured SET display = 0, end_date =current_timestamp() WHERE equip_id = ?",[req.params.id],function(err){
             if(err) throw err;
             else next();
         });
@@ -239,19 +229,12 @@ module.exports = {
     },
 
     post_add_featured: function(req,res, next){
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; //January is 0!
-        var yyyy = today.getFullYear();
-        if(dd<10) dd = '0'+dd;
-        if(mm<10) mm = '0'+mm; 
-        today = dd + '/' + mm + '/' + yyyy;
-
+        
         connection.query('SELECT * FROM featured WHERE equip_id=? and display = 1',[req.params.id],function(err1,rows1){
             if(err1) throw err1;
             else if(rows1.length) return next();
             else{
-                connection.query("INSERT INTO featured (equip_id,display,start_date, views, end_date) VALUES (?,?,?,?,?)",[req.params.id,1,today,0, 0], function(err){
+                connection.query("INSERT INTO featured (equip_id,display,start_date, views, end_date) VALUES (?,?,current_timestamp(),?,?)",[req.params.id,1,0, 0], function(err){
                     if (err) throw err;
                     else return next();
                 });
@@ -333,8 +316,8 @@ module.exports = {
                                 var info = [];
                                 for(var i =0; i<rows.length; i++){
                                     info[i] = {
-                                        views : '',
-                                        requests: ''
+                                        views : 0,
+                                        requests: 0
                                     }
 
                                     for(var j = 0 ; j <rows1.length; j++){
@@ -343,7 +326,7 @@ module.exports = {
                                             break;
                                         }
                                     }
-                                    if(!info[i].views) info[i].views = 0;
+                                    //if(!info[i].views) info[i].views = 0;
                                     
                                     for(var j = 0 ; j <rows2.length; j++){
                                         if(rows[i].id == rows2[j].equip_id){
@@ -351,7 +334,7 @@ module.exports = {
                                             break;
                                         }
                                     }
-                                    if(!info[i].requests) info[i].requests = 0;
+                                    //if(!info[i].requests) info[i].requests = 0;
                                 } 
                                 req.session.title = "My Equipments"
                                 res.render("./admin_view_equipment.ejs", {title : req.session.title,datarows:rows, data:info, username:req.session.name});

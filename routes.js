@@ -170,7 +170,7 @@ module.exports = function(app, passport) {
     app.get('/user_save_search', gfunc.isLoggedInfunc, ufunc.save_search);    
     app.get('/user_request:id', gfunc.isLoggedInfunc, ufunc.request_this);
     app.get("/user_my_requests", gfunc.isLoggedInfunc, ufunc.my_requests1, ufunc.my_requests2, ufunc.my_requests3);
-    
+	app.post("/user_proposal_status", gfunc.isLoggedInfunc,ufunc.change_proposal_status);    
 
     app.get("/user_saved_searches", gfunc.isLoggedInfunc, ufunc.saved_searches);
 

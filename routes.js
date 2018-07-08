@@ -18,10 +18,11 @@ var fileUpload = require('express-fileupload');
 app.use(fileUpload());
 
 // import functions from other files.
-// var gfunc = require('./app/general_functions') //common functions
-// var afunc = require('./app/admin_functions'); //admin side functions
-// var ufunc = require('./app/user_functions'); 
-// var csv = require('./app/csv');
+var gfunc = require('./app/general_functions') //common functions
+var afunc = require('./app/admin_functions'); //admin side functions
+var ufunc = require('./app/user_functions'); 
+var csv = require('./app/csv');
+var cfunc = require('./app/company_functions');
 //var func = require('./app/functions')
 
 // ==========================================
@@ -151,7 +152,7 @@ module.exports = function(app, passport) {
     app.post('/user_signup', function(req, res, next){
         passport.authenticate('local-signup', function (err, user, info) {
             //this function is called when LocalStrategy returns done function with parameters
-            if(err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para:0);    
+            if(err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para:0});    
             //if username or password doesn't match
             if(!user) return res.render('./user_login.ejs', {msg:info.message,  login_para:0});
             if (req.body.password != req.body.retype_password) return res.render('./user_login.ejs',{msg:'passwords did not match', login_para:0});
@@ -179,7 +180,7 @@ module.exports = function(app, passport) {
     app.get('/user_update_equipment:id',gfunc.isLoggedInfunc, ufunc.get_update_this_equipment);
     app.post('/user_update_equipment:id', gfunc.isLoggedInfunc, ufunc.post_update_this_equipment, gfunc.view);
     app.get('/user_my_equipment', gfunc.isLoggedInfunc,ufunc.my_equipment);
-    app.get('/user_view_equipment', gfunc.isLoggedInfunc, ufunc.view_equipment);
+    //app.get('/user_view_equipment', gfunc.isLoggedInfunc, ufunc.view_equipment);
     app.get('/user_add_equipment',gfunc.isLoggedInfunc, ufunc.check_profile, ufunc.get_add_equipment);
     app.get('/user_add_equipment_category', gfunc.isLoggedInfunc, ufunc.get_add_equipment_category);
     app.get('/user_add_equipment_subcategory', gfunc.isLoggedInfunc, ufunc.get_add_equipment_subcategory);
@@ -187,7 +188,7 @@ module.exports = function(app, passport) {
     app.post('/user_add_equipment', gfunc.isLoggedInfunc, ufunc.post_add_equipment, ufunc.get_add_equipment);
     app.get('/user_update_profile',gfunc.isLoggedInfunc, ufunc.get_update_profile);
     app.post('/user_update_profile', gfunc.isLoggedInfunc, ufunc.post_update_profile);
-    app.get('/user_logout',gfunc.isLoggedInfunc, gfunc.logoutfunc, gfunc.home);
+    //app.get('/user_logout',gfunc.isLoggedInfunc, gfunc.logoutfunc, gfunc.home);
     
 
 // =======================================================================================
@@ -217,7 +218,7 @@ module.exports = function(app, passport) {
  // all are checking that the user is first logged in and then that he is of the right category that the request belong to.
     app.get('/admin', gfunc.isLoggedInfunc, admin_access, afunc.home);
     app.get('/admin_inquiry', gfunc.isLoggedInfunc, admin_access, afunc.inquiry);
-    app.get('/admin_resolved:sno', gfunc.isLoggedInfunc, admin_access, afunc.resolved, afunc.inquiry);
+    //app.get('/admin_resolved:sno', gfunc.isLoggedInfunc, admin_access, afunc.resolved, afunc.inquiry);
     app.post('/admin_comment:sno', gfunc.isLoggedInfunc, admin_access, afunc.comment, afunc.inquiry);
     app.get('/admin_featured', gfunc.isLoggedInfunc, admin_access, afunc.featured_equip, afunc.feat_data, afunc.featured);
     app.get('/admin_view_details:id', gfunc.isLoggedInfunc,admin_access, ufunc.request_this);

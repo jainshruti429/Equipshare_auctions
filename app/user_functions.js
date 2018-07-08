@@ -159,7 +159,7 @@ module.exports =  {
                 else {
                     str2 = "INSERT INTO compares VALUES ";
                     for(var i = 0 ; i <compare.length; i ++){
-                        str2 = str2 + "("+ compare[i] +","+ req.session.user",),";
+                        str2 = str2 + "("+ compare[i] +","+ req.session.user+"),";
                     }
                     str2 = str2.slice(0,-1);
                     connection.query(str2, function(err1){
@@ -208,7 +208,7 @@ module.exports =  {
             if(err) throw err;
             else next();
         });
-    }
+    },
 
     go_to_this_search : function(req,res,next){
         connection.query("SELECT subcategory, sort FROM save WHERE save_id = ?", [req.params.save_id], function(err,rows){
@@ -219,7 +219,7 @@ module.exports =  {
                 return next();
             }
         });
-    }
+    },
 
     //TBD
     request_this: function(req,res){
@@ -708,48 +708,34 @@ module.exports =  {
     },
 
     add_bid: function(req, res){
-        var id = req.session.user;
-        var category = req.session.category;
-        var next_bid=0;
-        selectquery = "SELECT * from all_equipment INNER JOIN auction ON all_equipment.auction = auction.id WHERE all_equipment.id = ?"
-        connection.query(selectquery,[data.equip_id], function(err,rows){
-            if(err) throw err;
-            else if(!rows.length){
-                res.send("Not Available for auction");
-                return;
-            }
-            else if( (rows[0].auction_para == 0) || (rows[0].auction_para == 4) || ((rows[0].auction_para == 1 || rows[0].auction_para == 3)  && category !== 2) || (rows[0].auction_para == 2 && category !== 1)){
-
-                res.send("You are not eligible for this auction");
-                return;
-            }
+        connection.query("SELECT current_bid, base_price FROM auction_equipment WHERE equip_id=? AND auction_id=?",[req.params.auction_id, req.params.equip_id],function(err1,rows1){
+            if(err1) throw err1;
+            else if(rows1.length){
+                    if(req.body.bid_amount > rows1[0].current_bid) return next(); // insert_bid
+                    else res.send("You need to bid higher than the current bid");
+                }
+            else return next();
+        });
+    },
+    
+    insert_bid: function(req,res){
+        var equip_id = req.params.equip_id;
+        var auction_id = req.params.auction_id;
+        var user_id = req.session.user;
+        var bid_amount = req.body.bid_amount;   
+        insertQuery = "INSERT INTO bids (equip_id, auction_id, user_id, bid_amount, time) values (?,?,?,?, current_timestamp())";
+        connection.query(insertQuery, [equip_id, auction_id, user_id, bid_amount], function(err1){
+            if(err1) throw err1;
             else{
-                next_bid=rows[0].next_bid;
-            }
-
-        
-            if(data.new_bid <= next_bid){
-                //message to flash that you must bid higher than mini bid
-                res.send({msg: "Please Bid higher"});
-            }
-            else {
-                next_bid = Number(data.new_bid) + 1000;
-                data.equip_id = Number(data.equip_id);        
-                insertQuery = "INSERT INTO bids (equip_id, auction_id, buyer_id, bid_price) values (?,?,?,?)";
-                connection.query(insertQuery, [data.equip_id, rows[0].auction, id, data.new_bid], function(err, req, fields){
+                updatequery = "UPDATE auction_equipment SET current_bid = ? WHERE equip_id = ? AND auction_id = ?";
+                connection.query(updatequery, [bid_amount, equip_id, auction_id], function(err){
                     if(err) throw err;
                     else{
-                        updatequery = "UPDATE all_equipment SET next_bid = ? where id = ?";
-                        connection.query(updatequery, [next_bid, data.equip_id], function(err,req){
-                            if(err) throw err;
-                            else{
-                            res.send({msg: "Your bid is recorded"});
-                            }
-                        });
+                    res.send({msg: "Your bid is recorded"});
                     }
                 });
             }
         });
     },
-
+    
 }

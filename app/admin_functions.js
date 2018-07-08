@@ -761,7 +761,47 @@ module.exports = {
                 }); 
             }
         });        
-    } 
+    },
+
+    
+    //---------- schedule auction---------------
+    //get - page render
+    //post_schedule_auction - insert into auctions render select_equipments,(data), no of s4elected = 0
+    //post_freeze auction - into into auction equip
+    //select_this_equipment - (ajax)
+    //deselect - (ajax)
+    //view_selected - page render with data id in session and data in all_equipment
+
+    //auctions - page render data from auctions, no of equipments, no of participants
+    //edit_auvction  - get 
+
+    //------------- ongoing auction------------
+    // get - select from auction_equipment + all_equipments + current bidder(from bids) 
+    // post_bid - from user fx (ajax)
+    //bid_log - data from bids // page
+    // view_bids - select from bids where (show 1st, 2nd, 3rd)
+
+    //------------- auction summary-----
+    // get - table - select from auctions
+    // this_summary - inner join all equipments, auction equip +  bids(highest bid + bidder) 
+    // view_bids - upar wala hi
+
+    //auction_requests - username, state, category, auction_name, #participants, #equipments change status
+    //post - change status
+
+    //get add equipment subcat
+    //post
+
+    //equip_requests - pending first //TBD
+
+    //add_new_admin
+
+    //users - name - category, #equip, state  
+    //owner_profile
+
+
+
+
 	//================================================================================
     //======================= ADMIN FUNCTIONS ========================================
     //================================================================================
@@ -907,14 +947,6 @@ module.exports = {
                 });
             }
         });
-    },
-
-    add_new_equipment_by_csv: function(req, res){
-        //
-        //
-        //
-        //
-        //
     },
 
     // add new auction of D->C andd C->C type

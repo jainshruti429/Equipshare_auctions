@@ -18,16 +18,21 @@ var fileUpload = require('express-fileupload');
 app.use(fileUpload());
 
 // import functions from other files.
-var gfunc = require('./app/general_functions') //common functions
-var afunc = require('./app/admin_functions'); //admin side functions
-var ufunc = require('./app/user_functions'); 
-var csv = require('./app/csv');
+// var gfunc = require('./app/general_functions') //common functions
+// var afunc = require('./app/admin_functions'); //admin side functions
+// var ufunc = require('./app/user_functions'); 
+// var csv = require('./app/csv');
 //var func = require('./app/functions')
 
 // ==========================================
 module.exports = function(app, passport) {
-
-    
+    app.get('/', function(req,res){
+        //connection.query("SELECT * FROM all_equipment WHERE id = 42", function(err,rows){
+          //  if(err) throw err;
+         res.render("user_equipmentDetail.ejs", {username:"",equip_data:[]}); 
+        })
+    };
+   
 
     // PROFILE SECTION =====================
     // app.get('/profile/:id', func.isLoggedInfunc, func.profilefunc); // issLoggedIn verifies that user is authenticated
@@ -128,7 +133,7 @@ module.exports = function(app, passport) {
     // app.get('/', function(req,res){
     //     res.sendFile(__dirname+'/views/something.html');  
     // });
-
+/*
     app.get('/', gfunc.home);
     app.get('/beta', gfunc.beta_home);
     app.get('/new', gfunc.new_home);
@@ -320,3 +325,4 @@ var dealer_user_access = function access(req,res,next){
     if(req.session.category==0 || req.session.category ==2) return next();
     return res.render("Profiles/dealer/error.ejs");
 }    
+*/

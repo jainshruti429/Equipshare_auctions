@@ -105,7 +105,7 @@ module.exports =  {
         var yyyy = today.getFullYear();
         if(dd<10) dd = '0'+dd;
         if(mm<10) mm = '0'+mm; 
-        today = dd + '/' + mm + '/' + yyyy;
+        today = yyyy + '-' + mm + '-' + dd;
         connection.query("INSERT INTO save (user_id, date,subcategory) VALUES (?,?,?)", [req.session.user, today,req.session.subcategory], function(err,rows){
             if(err) throw err;
             else return res.send("ho gaya");

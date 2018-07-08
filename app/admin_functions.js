@@ -35,11 +35,12 @@ module.exports = {
 //-----------------------------------generic website funtions -------------------------------------------
 
    //enquiry info to admin (admin_inquiry.ejs is to be designed)
+    // it can display enquiry as well as subscription list;
     inEmail : function(req, res){
-        connection.query("SELECT * FROM enquiry WHERE status = 0",function(err,rows){
+        connection.query("SELECT * FROM ? WHERE status = 0",[req.body.table],function(err,rows){
             if(err) throw err;
             else {
-                connection.query("SELECT * FROM enquiry WHERE status = 1",function(err1,rows1){
+                connection.query("SELECT * FROM ? WHERE status = 1",[req.body.table], function(err1,rows1){
                     if(err1) throw err1;
                     else res.render('./admin_inquiry.ejs',{current:rows , previous: rows1, username:req.session.name});
                 });
@@ -61,21 +62,101 @@ module.exports = {
         });
     },
 
-    change_status : function(req,res){ //TBD
-        connection.query("UPDATE ? SET status = ? WHERE sno = ?",[req.query.table, req.body.status, req.params.sno],function(err,rows){
+    change_status : function(req,res){ 
+        connection.query("UPDATE ? SET status = ? WHERE sno = ?",[req.body.table, req.body.status, req.params.sno],function(err,rows){
             if(err) throw err;
             else res.send("lo ho gaya......");
         });
     },
 
-    comment : function(req,res,next){ //TBD
+    comment : function(req,res,next){ 
         connection.query("UPDATE ? SET comment = ? WHERE sno = ?", [req.query.table,req.body.comment,req.params.sno], function(err){
             if(err) throw err;
             else return next();
         });
     },
+//--------------------------------------------------------------------------------------------------------------------
+    view_blog : function(req,res){
+     connection.query("SELECT * FROM blog WHERE status is null",function(err,rows){
+        if(err) throw err;
+        else{
+            connection.query("SELECT * FROM blog WHERE status is not null",function(err,rows1){
+                if(err) throw err;
+                else{
+                     res.render('/adm_all_blog.ejs',{current: rows, previous :rows1, username:req.session.name});
+                }
+            });
 
-    
+        }
+     });
+    },
+
+    featured_blog : function(req,res){
+     connection.query("SELECT * FROM blog INNER JOIN featured_blog ON featured_blog.id=blog.id",function(err,rows){
+        if(err) throw err ;
+        else{
+        res.render('/adm_feat_blog.ejs',{datarows:rows, username:req.session.name});
+        }
+     });
+    },
+    create_blog : function(req,res, next){
+       // var today = new Date();
+       //  var dd = today.getDate();
+       //  var mm = today.getMonth()+1; //January is 0!
+       //  var yyyy = today.getFullYear();
+       //  if(dd<10) dd = '0'+dd;
+       //  if(mm<10) mm = '0'+mm; 
+       //  today = yyyy + '-' + mm + '-' + dd;
+       connection.query("INSERT INTO blog (blog,start_date,photo) VALUES(?,current_timestamp(),?)",[req.body.blog,req.files.photo],function(err){
+        if (err) throw err;
+        else return next();
+       });
+    },
+    add_to_featured_blog : function(req,res,next){
+       // var today = new Date();
+       //  var dd = today.getDate();
+       //  var mm = today.getMonth()+1; //January is 0!
+       //  var yyyy = today.getFullYear();
+       //  if(dd<10) dd = '0'+dd;
+       //  if(mm<10) mm = '0'+mm; 
+       //  today = yyyy + '-' + mm + '-' + dd;
+        connection.query('SELECT * FROM featured_blog WHERE id=? and display = 1',[req.params.id],function(err1,rows1){
+            if(err1) throw err1;
+            else if(rows1.length) return next();
+            else{
+                connection.query("INSERT INTO featured_blog (id,display,start_date) VALUES (?,?,current_timestamp())",[req.params.id,1], function(err){
+                    if (err) throw err;
+                    else return next(); // this next will show the featured blogs to admin.
+                });
+            }
+        });
+
+
+    },
+remove_featured_blog: function(req,res,next){
+        // var today = new Date();
+        // var dd = today.getDate();
+        // var mm = today.getMonth()+1; //January is 0!
+        // var yyyy = today.getFullYear();
+        // if(dd<10) dd = '0'+dd;
+        // if(mm<10) mm = '0'+mm; 
+        // today = yyyy + '-' + mm + '-' + dd;
+
+        connection.query("UPDATE featured_blog SET display = 0, end_date =current_timestamp() WHERE id = ?",[req.params.id],function(err){
+            if(err) throw err;
+            else next();
+        });
+    },
+
+
+    // remove_blog : function(req,res){
+    //      connection.query("DELETE FROM blog WHERE id =?",[req.body.id],function(err){
+    //         if(err) throw err;
+    //         else{
+                
+    //         }
+    //      });
+    // },
 
     feat_data : function(req,res,next){
         feat_data = [];
@@ -219,15 +300,15 @@ module.exports = {
     },
 
     remove_featured: function(req,res,next){
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; //January is 0!
-        var yyyy = today.getFullYear();
-        if(dd<10) dd = '0'+dd;
-        if(mm<10) mm = '0'+mm; 
-        today = dd + '/' + mm + '/' + yyyy;
+        // var today = new Date();
+        // var dd = today.getDate();
+        // var mm = today.getMonth()+1; //January is 0!
+        // var yyyy = today.getFullYear();
+        // if(dd<10) dd = '0'+dd;
+        // if(mm<10) mm = '0'+mm; 
+        // today = yyyy + '-' + mm + '-' + dd;
 
-        connection.query("UPDATE featured SET display = 0, end_date =? WHERE equip_id = ?",[today,req.params.id],function(err){
+        connection.query("UPDATE featured SET display = 0, end_date =current_timestamp() WHERE equip_id = ?",[req.params.id],function(err){
             if(err) throw err;
             else next();
         });
@@ -239,19 +320,19 @@ module.exports = {
     },
 
     post_add_featured: function(req,res, next){
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; //January is 0!
-        var yyyy = today.getFullYear();
-        if(dd<10) dd = '0'+dd;
-        if(mm<10) mm = '0'+mm; 
-        today = dd + '/' + mm + '/' + yyyy;
+        // var today = new Date();
+        // var dd = today.getDate();
+        // var mm = today.getMonth()+1; //January is 0!
+        // var yyyy = today.getFullYear();
+        // if(dd<10) dd = '0'+dd;
+        // if(mm<10) mm = '0'+mm; 
+        // today = yyyy + '-' + mm + '-' + dd;
 
         connection.query('SELECT * FROM featured WHERE equip_id=? and display = 1',[req.params.id],function(err1,rows1){
             if(err1) throw err1;
             else if(rows1.length) return next();
             else{
-                connection.query("INSERT INTO featured (equip_id,display,start_date, views, end_date) VALUES (?,?,?,?,?)",[req.params.id,1,today,0, 0], function(err){
+                connection.query("INSERT INTO featured (equip_id,display,start_date, views, end_date) VALUES (?,?,current_timestamp(),?,?)",[req.params.id,1,0,0], function(err){
                     if (err) throw err;
                     else return next();
                 });

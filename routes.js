@@ -13,12 +13,12 @@ var app = express();
 var fileUpload = require('express-fileupload');
 // app.use(express.static(path.join(__dirname,'/docs')));
 // app.use(express.static(path.join(__dirname,'/images')));
-// app.use(express.static(path.join(__dirname, "/public")));
+app.use(express.static(path.join(__dirname, "/public")));
 // app.use(express.static(path.join(__dirname, "/")));
 app.use(fileUpload());
 
 // import functions from other files.
-// var gfunc = require('./app/general_functions') //common functions
+var gfunc = require('./app/general_functions') //common functions
 // var afunc = require('./app/admin_functions'); //admin side functions
 // var ufunc = require('./app/user_functions'); 
 // var csv = require('./app/csv');
@@ -28,7 +28,7 @@ app.use(fileUpload());
 module.exports = function(app, passport) {
 
     app.get('/', function(req,res){
-    	res.render("./try.ejs", {username:'', title:'', datarows:[]});
+    	res.render("./index.ejs", {username:'', title:'', datarows:[]});
     });
 }
     // PROFILE SECTION =====================

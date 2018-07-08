@@ -6,7 +6,7 @@
 module.exports = {
     'connection': {
       // local configs.
-        'host' : '192.168.0.9',
+        'host' : 'localhost',
         'user': 'root',
         'password': 'root@SQL1',
 			'database': 'eqsAuction'

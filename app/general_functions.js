@@ -47,145 +47,13 @@ var msg;
 
 module.exports = {
 
-    compare_now : function(req,res){
-        if(req.session.compare){
-            compare = req.session.compare
-            str = "SELECT * FROM equipment_type WHERE type_id IN (";
-            str1 = '';    
-            for(var i = 0; i <compare.length; i++){
-                str1 = str1 + compare[i] + ",";
-            }
-            str1 = str1.slice(0,-1);
-            str = str +str1+")";
-            connection.query(str, function(err,rows){
-                if(err) throw err;
-                else {
-                    //compare k log rakhna h na :P
-                    //connection.query();
-                    res.send(rows);} 
-            });
-        }
-        else res.send();
-    },
-
-    compare :function(req,res){
-        if(!req.session.compare) req.session.compare = []; 
-        compare = req.session.compare
-        if(compare.length>4) return res.send();
-        type_id = req.query.type_id;
-        for(var i = 0; i< compare.length; i++){
-            if(compare[i] == type_id){
-                compare.splice(i,1);
-                return res.send(compare);
-            }
-        }
-        compare.push(req.query.type_id);
-        req.session.compare = compare;
-        return res.send(compare);
-    },
-
-    home: function(req,res){
-        res.render("index.ejs");
-    },
-
-    new_home: function(req,res){
-                if(req.session) {
-                    username = req.session.name;
-                    if(req.session.msg) {
-                        msg = req.session.msg;
-                        req.session.msg = '';
-                    }
-                    else msg = '';    
-                }
-                else username = '';
-        res.render("index_new.ejs", {featured : index_featured, cat_rows:index_cat, subcat_rows: [], selected : '',isLoggedIn: isLoggedIn(req,res), username : username, msg : msg });
-    },
-
-    beta_home: function(req, res) {
-            var username;
-            var msg;
-                if(req.session) {
-                    username = req.session.name;
-                    if(req.session.msg) {
-                        msg = req.session.msg;
-                        req.session.msg = '';
-                    }
-                    else msg = '';    
-                }
-                else username = '';
-                                
-        if(index_cat.length){
-            connection.query("SELECT DISTINCT subcategory FROM equipment_type WHERE category = ?",[index_cat[0].category], function(err2, rows2){
-                if(err2) throw err2;
-                else res.render("./user_index.ejs", {featured : index_featured, cat_rows:index_cat, subcat_rows: rows2, isLoggedIn: isLoggedIn(req,res), selected : '', username : username, msg : msg});
-            });
-        }
-        else res.render("./user_index.ejs", {featured : index_featured, cat_rows:index_cat, subcat_rows: [], isLoggedIn: isLoggedIn(req,res), selected : '', username : username, msg : msg}); 
-    },
-
-    featured: function(req,res){
-        connection.query("SELECT views FROM featured WHERE equip_id = ?",[req.params.id],function(err,rows){
-            if(err) throw err;
-            else {
-                var views = rows[0].views + 1;
-                connection.query("UPDATE featured SET views = ? WHERE equip_id = ?",[views, req.params.id],function(err1,rows1){
-                    if(err1) throw err1;
-                    else{
-                        connection.query("SELECT * FROM all_equipment WHERE id = ?",[req.params.id], function(err2, rows2){
-                            if(err2) throw err2;
-                            else {
-                                request = 1;
-                                connection.query("SELECT * FROM equipment_type WHERE type_id = ?" ,[rows2[0].type_id], function(err4, rows4){
-                                    if(err4) throw err4;
-                                    else res.render('./user_view.ejs', {equip_data : rows2, featured:index_featured, tech_info : rows4[0], request:request, isLoggedIn : isLoggedIn(req,res), username: req.session.name});                            
-                                });
-                            }       
-                        });       
-                    }
-                });
-            }
-        });
-    },
-
     login : function(req,res){
         res.render('./user_login.ejs' , {msg : 'Enter the following details', login_para : 1, id:req.params.id,  isLoggedIn : isLoggedIn(req,res)});
     },
 
-    search_category : function(req,res){
-        var cat_selected = req.query.category;
-        var sql="SELECT DISTINCT subcategory FROM equipment_type WHERE category = ?";
-        connection.query(sql, [cat_selected], function(err,result){
-            if(err){res.end('error');}
-            else res.send(result);
-        });  
-    },
-
-    search: function(req,res){
-        url = req.url;
-        url = url.slice(0,-7);
-        req.session.subcategory = req.body.subcategory;
-        if(url){
-            query = "SELECT * FROM equipment_type WHERE subcategory = ?"
-            page = "./new_list.ejs";
-        }
-        else{
-            query = "SELECT * FROM all_equipment WHERE available = 1 AND subcategory = ?"
-            page = './user_view_equipment.ejs' ;
-        }
-        connection.query(query ,[req.body.subcategory],function(err,rows){
-            if(err) throw err;
-            else res.render(page , {datarows: rows,  isLoggedIn : isLoggedIn(req,res), username: req.session.name});  
-        });
-    },
+    
 //Insert enquiry into db
     email : function(req,res, next){
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; //January is 0!
-        var yyyy = today.getFullYear();
-        if(dd<10) dd = '0'+dd;
-        if(mm<10) mm = '0'+mm; 
-        today = dd + '/' + mm + '/' + yyyy;
         connection.query("SELECT id FROM account WHERE (mobile= ? ) OR (email= ?)",[req.body.mobile, req.body.email], function(err,rows){
             if(err) throw err;
 
@@ -194,7 +62,7 @@ module.exports = {
              if (rows.length)
                 uid=rows[0].id;
             
-                  connection.query("INSERT INTO enquiry (category, name, email, mobile, company, enquiry, date, status, userid) VALUES(?,?,?,?,?,?,?,?,?)", [req.body.category, req.body.name, req.body.email,req.body.mobile, req.body.company, req.body.enquiry, today, 0,uid], function(err){
+                  connection.query("INSERT INTO enquiry (category, name, email, mobile, company, enquiry, date, status, userid) VALUES(?,?,?,?,?,?,current_timestamp(),?,?)", [req.body.category, req.body.name, req.body.email,req.body.mobile, req.body.company, req.body.enquiry, 0,uid], function(err){
                     if(err) throw err;
                    else {
                   req.session.msg = "Your inquiry is recorded"
@@ -226,6 +94,7 @@ module.exports = {
         });
     },
 
+    //TBD
     view: function(req,res){
         url = req.url;
         id = req.params.id;
@@ -279,51 +148,6 @@ module.exports = {
 
 
 /*
-
-    //Fix wallet
-    walletfunc: function(req, res) {
-        var userid = req.session.user;
-        var category = req.session.category;
-        connection.query("SELECT * FROM account WHERE id = ?",[userid], function(err, rows){
-            wallet_data = {
-                wallet_balance : rows[0].wallet, // send balance info.
-                user: userid,
-                category : category
-            };
-            switch (category) {
-                case 1:
-                    res.send(wallet_data);
-                    break;
-                case 2:
-                    res.send(wallet_data);
-                    break;
-                case 3:
-                    res.send(wallet_data);
-            }
-	    });
-    },
-
-    dashboard: function(req, res){
-        var userid = req.session.user;
-        var category = req.session.category;
-        selectquery = "SELECT * FROM all_equipment where (dealer != ? AND ( ( (? = '1') AND (auction_para = '2' ) ) OR ( (? = '2') AND  ( (auction_para = '1') OR (auction_para = '3') ) ) ) ) ORDER BY (likes - (YEAR(CURDATE()) - year) + (bought_price/100000) ) DESC";
-        connection.query(selectquery, [userid, category, category], function(err, rows){
-            if(category == 1 || category == 2){
-                res.send({
-                    id : req.session.user,
-                    car_data : rows // get the user out of session and pass to template
-                });
-            }
-            else if(category == 3){
-                res.send({
-                    id : req.session.user,
-                    car_data : rows // get the user out of session and pass to template
-                });
-            }
-        });
-    },
-
-
     forgot: function(req, res){
         var userid = req.body.mobile;
         selectquery = "SELECT * from account where mobile = ?";
@@ -457,44 +281,6 @@ module.exports = {
         });
     },
 
-        add_to_likes: (req,res)=>{
-        insertQuery="INSERT IGNORE INTO likes (user_id, equip_id) VALUES (?,?)";
-        connection.query(insertQuery,[req.session.user, req.body.equip_id],(err,rows)=>{
-            if(err){
-                throw err;
-            }
-            else{
-                if(rows.affectedRows){
-                Query="UPDATE all_equipment SET likes=likes+1 WHERE id= ?"
-        connection.query(Query,[req.body.equip_id],(err,rows)=>{
-            if(err){
-                throw err;
-            }
-            else{
-                res.end();
-            }
-        });
-            }
-            res.end();
-        }
-        });
-        
-    },
-
-
-    my_likes: (req,res)=>{
-        selectQuery="SELECT * FROM all_equipment a, (select * from likes WHERE user_id = ?) b where a.id = b.equip_id";
-        connection.query(selectQuery,[req.session.user],(err,rows)=>{
-             if(err){
-                throw err;
-                   }
-             else{
-                 res.send(rows);
-                   } 
-        });
-    },
-
-
     search_suggestions : function(req,res){
         ab =req.body.key+"%";
         connection.query("SELECT * from std_equipment where model like ?",[ab],function(err, rows,) {
@@ -507,18 +293,6 @@ module.exports = {
                    data.push(rows[i].model);
                 }
                 res.end(JSON.stringify(data));
-            }
-        });
-    },
-
-
-    search : (req,res)=>{
-        selectquery="SELECT * FROM all_equipment WHERE name = ? ORDER BY likes DESC";
-        connection.query(selectquery,[req.body.name],(err,rows)=>{
-            if(err)
-                throw err;
-            else{
-                res.send(rows);
             }
         });
     },
@@ -539,30 +313,5 @@ module.exports = {
             }
         });
     },
-
-
-    next_upcoming_auction: function(type){
-        selectquery = "SELECT id from auction WHERE ( start_time > NOW() AND type = ?) ORDER BY start_time ASC";
-        connection.query(selectquery,[type], function(err,rows){
-            if(err) throw err;
-            else if(!rows.length){
-                return undefined;
-            }
-            else {
-                var auctionid = rows[0].id;
-                return auctionid;
-            }
-        });
-    },
-
-
-    pending_request: function(req, res){
-        selectquery = "SELECT * from all_equipment where auction_para = '4' and dealer = ?";
-        connection.query(selectquery, [req.session.user],function(err,rows){
-            if (err) throw err;
-            else res.send(rows);
-        });
-
-    }
 }
 */

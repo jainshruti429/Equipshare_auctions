@@ -45,14 +45,7 @@ module.exports = {
     },
 
     add_proposal: function(req,res){
-    	var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; //January is 0!
-        var yyyy = today.getFullYear();
-        if(dd<10) dd = '0'+dd;
-        if(mm<10) mm = '0'+mm; 
-        today = dd + '/' + mm + '/' + yyyy;
-
+    	
         var radicle = '';
 		connection.query("SELECT id FROM proposals ORDER BY id ASC", function(err,rows){
 	    	if(err) throw err;
@@ -66,7 +59,7 @@ module.exports = {
 		        doc.mv('docs/proposals/'+doc_name , function(err3){           
 		            if (err3) throw err3;
 		            else {
-		            	connection.query("INSERT INTO proposals (request_sno, doc_name,status,date) VALUES (?,?,?,?)",[ req.params.sno,doc_name,0,today],function(err1,rows1){
+		            	connection.query("INSERT INTO proposals (request_sno, doc_name,status,date) VALUES (?,?,?,current_timestamp())",[ req.params.sno,doc_name,0],function(err1,rows1){
 		            		if(err1) throw err1;
 		            		else res.send("something");
 		            	});

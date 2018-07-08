@@ -24,6 +24,17 @@ module.exports = {
     }   
 };
 
+//=================================USE THIS FOR OTHER COMPUTER===================================
+// module.exports = {
+//     'connection': {
+//       // local configs.
+//          'host' : '192.168.0.9',
+//          'user': 'piyush',
+//          'password': 'password',
+// 			   'database': 'eqsAuction'
+//     }   
+// };
+
 //=================================USE THIS FOR SERVER===================================
 // module.exports = {
 //     'connection': {

@@ -763,6 +763,26 @@ module.exports = {
         });        
     },
 
+     //show_auc.ejs is to be designed..
+     //this is to be called in routes
+    show_auction : function(req,res){
+        connection.query("SELECT * FROM auction", function(err,rows){
+            if(err) throw err;
+            else res.render('./show_auc.ejs',{datarows:rows, username:req.session.name});
+        });
+    },
+     //show_auc_req.ejs is to be designed
+    // to be  called by auction_id
+    show_auc_req :function(req,res){
+    	connection.query(" SELECT account.name, account.state FROM account INNER JOIN auction_requests ON auction_requests.user_id = account.id WHERE auction_id= ?",req.body.id, function(err,rows){
+    		if(err) throw err ;
+    		else{
+    			res.render("show_auc_req.ejs",{datarows:rows ,username:req.session.name});
+    		}
+    	});
+    }
+
+
     
     //---------- schedule auction---------------
     //get - page render
@@ -786,7 +806,7 @@ module.exports = {
     // this_summary - inner join all equipments, auction equip +  bids(highest bid + bidder) 
     // view_bids - upar wala hi
 
-    //auction_requests - username, state, category, auction_name, #participants, #equipments change status
+    //auction_requests - username, category, auction_name, #participants, #equipments, change status
     //post - change status
 
     //get add equipment subcat

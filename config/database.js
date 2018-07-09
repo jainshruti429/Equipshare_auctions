@@ -14,26 +14,26 @@
 // };
 
 //=================================USE THIS FOR OTHER COMPUTER===================================
-module.exports = {
-    'connection': {
-      // local configs.
-         'host' : '192.168.0.9',
-         'user': 'muskan',
-         'password': 'password',
-			   'database': 'eqsAuction'
-    }   
-};
-
-//=================================USE THIS FOR OTHER COMPUTER===================================
 // module.exports = {
 //     'connection': {
 //       // local configs.
 //          'host' : '192.168.0.9',
-//          'user': 'piyush',
+//          'user': 'muskan',
 //          'password': 'password',
 // 			   'database': 'eqsAuction'
 //     }   
 // };
+
+//=================================USE THIS FOR OTHER COMPUTER===================================
+module.exports = {
+    'connection': {
+      // local configs.
+         'host' : '192.168.0.10',
+         'user': 'piyush',
+         'password': 'password',
+			   'database': 'eqsAuction'
+    }   
+};
 
 //=================================USE THIS FOR SERVER===================================
 // module.exports = {

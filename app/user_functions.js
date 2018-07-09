@@ -173,6 +173,7 @@ module.exports =  {
         else res.send();
     },
 
+    //change and break into two functions
     compare :function(req,res){
         if(!req.session.compare) req.session.compare = []; 
         compare = req.session.compare

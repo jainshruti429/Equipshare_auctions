@@ -339,11 +339,10 @@ module.exports = function(app, passport) {
 //-------------------------------------------------------
 			// Admin = 0
 			// SA = 9
-			// Company Admin/User = 4
-			// Dealer Admin = 3
-			// Dealer User = 2
-			// User/Customer = 1
-			// Bank User = 5;
+			// Company = 4
+			// Dealer= 2
+			// User 1
+			// Bank/Financer = 5;
 			// Other = 6;
 //--------------------------------------------------------
 

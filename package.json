@@ -10,7 +10,10 @@
   "keywords": [
     "express"
   ],
-  "author": "Harshwardhan Mourya",
+  "author1": "Harshwardhan Mourya",
+  "author2": "Shruti Jain",
+  "author3": "Muskan Agrawal",
+  "author4" : "Piyush Agrawal",
   "license": "ISC",
   "devDependencies": {},
   "dependencies": {

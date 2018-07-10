@@ -17,20 +17,24 @@ var fileUpload = require('express-fileupload');
 app.use(fileUpload());
 
 // import functions from other files.
-var gfunc = require('./app/general_functions') //common functions
-var afunc = require('./app/admin_functions'); //admin side functions
-var ufunc = require('./app/user_functions'); 
-var csv = require('./app/csv');
-var cfunc = require('./app/company_functions');
+// var gfunc = require('./app/general_functions') //common functions
+// var afunc = require('./app/admin_functions'); //admin side functions
+// var ufunc = require('./app/user_functions'); 
+// var csv = require('./app/csv');
+// var cfunc = require('./app/company_functions');
 //var func = require('./app/functions')
 
 // ==========================================
 module.exports = function(app, passport) {
 
     app.get('/', function(req,res){
-        connection.query("SELECT * FROM all_equipment WHERE id = 42", function(err,rows){
+        connection.query("SELECT sno FROM promotion", function(err,rows){
             if(err) throw err;
+<<<<<<< HEAD
             else res.render("./blog_page.ejs", {username:'', title:'', equip_data : rows, request:0, tech_info:[] });
+=======
+            else res.send(rows);
+>>>>>>> deeebb77c5ef93dc69a1b1c6e2a71313c2e34ebb
         })
     });
 

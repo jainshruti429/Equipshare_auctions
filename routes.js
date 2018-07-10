@@ -27,32 +27,36 @@ app.use(fileUpload());
 // ==========================================
 module.exports = function(app, passport) {
 
-    app.get('/', function(req,res,next){
-        
-       req.body.category="equip";
-       req.body.subcategory="eee"; 
-
-        
-                return next();
-        
 
 
+    app.get('/', function(req,res){
+    	fields = ["name", "city"];
+    	user1 = {
+    		name : "abhinav",
+    		city : "ashoknagar" 
+    	};
+    	user2 = {
+    		name : "piyush",
+    		city : "indore1" 
+    	};
+    	user3 = {
+    		name : "muskan",
+    		city : "indore2" 
+    	};
+    	user4 = {
+    		name : "shruti",
+    		city : "indore3" 
+    	};
+    	users = [];
+    	users.push(user1);
+    	users.push(user2);
+    	users.push(user3);
+    	users.push(user4);
+        return res.render("index.ejs", {fields : fields, users:users});
 
-        
-    },
-    function(req, res){
-    update={
-        category: req.body.category,
-        subcategory:req.body.subcategory
-
-    }
-    connection.query("UPDATE equipment_master SET ? WHERE master_id=1",[update],function(err,rows){
-   if (err) throw err ;
-   else{
-    res.send(rows);
-   }
     });
-   });
+   };
+
 
 //     app.get('/', function(req,res){
 //     	res.render("./try.ejs", {username:'', title:'', datarows:[]});

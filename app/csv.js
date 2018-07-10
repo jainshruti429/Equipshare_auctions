@@ -65,7 +65,7 @@ equipment_csv : function(req,res, next){
 			if(err) throw err;
 			else {
 				var stream = fs.createReadStream(file.name);
-				owner = req.session.owner_id
+				owner = req.session.owner_id;
 				 
 				var csvStream = csv()
 				    .on("data", function(data){

@@ -10,6 +10,14 @@
           <p><a href="/new"> NEW </a></p>
           <p><a href = "/beta"> Beta </a></p>
 
+          <p>=====================================================================</p>
+
+          <%for(var i =0; i< users.length; i++){%>
+          	<%for(var j = 0 ; j < fields.length; j++){%>
+          		<p> <%=fields[j]%> = <%=users[i]%>.<%=fields[j]%> </p>
+          	<%}%>
+          <%}%>
+
 </div>
 </div>
 </body>

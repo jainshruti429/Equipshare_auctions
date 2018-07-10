@@ -452,7 +452,6 @@ module.exports = {
         });
     },
 
-    
     // get_add_new_admin: function(req,res){
     //  res.render('./Profiles/admin/add_new_admin.ejs', {msg: 'Enter the following details' , username:req.session.name});
     // },
@@ -763,10 +762,8 @@ module.exports = {
         });        
     },
 
-<<<<<<< HEAD
-=======
-     //show_auc.ejs is to be designed..
-     //this is to be called in routes
+    //show_auc.ejs is to be designed..
+    //this is to be called in routes
     show_auction : function(req,res){
         connection.query("SELECT * FROM auction", function(err,rows){
             if(err) throw err;
@@ -776,7 +773,7 @@ module.exports = {
      //show_auc_req.ejs is to be designed
     // to be  called by auction_id
     show_auc_req :function(req,res){
-    	connection.query(" SELECT account.name, account.state FROM account INNER JOIN auction_requests ON auction_requests.user_id = account.id WHERE auction_id= ?",req.body.id, function(err,rows){
+    	connection.query(" SELECT account.name, account.state, account.category, account.id FROM account INNER JOIN auction_requests ON auction_requests.user_id = account.id WHERE auction_id= ?",[req.params.auction_id], function(err,rows){
     		if(err) throw err ;
     		else{
     			res.render("show_auc_req.ejs",{datarows:rows ,username:req.session.name});
@@ -784,13 +781,11 @@ module.exports = {
     	});
     }
 
-
     
->>>>>>> c5518e4e0e081da0736b0a9ef0f70cf99bde8c14
     //---------- schedule auction---------------
     //get - page render
     get_schedule_auction: function(req,res){
-        res.render("", {username:req.session.user});
+        res.render("", {username:req.session.user, datarows:[]});
     },
 
     //check schedule (only one auction should be live at a time)
@@ -812,15 +807,24 @@ module.exports = {
         });
     },
 
+    //change according to update and add admin to auction requests by default - make another function
     //post_schedule_auction - insert into auctions render select_equipments,(data), no of selected = 0
     post_schedule_auction : function(req,res){
         connection.query("INSERT INTO auctions (name, start_date, end_date, max_no_equipment) VALUES (?,?,?,?)",[req.body.name, req.body.start_date, req.body.end_date, req.body.max_no_equipment],function(err){
             if(err) throw err;
             else {
-                req.session.selected_equip = [];
-                connection.query("SELECT * FROM all_equipment WHERE status = 2",function(err1,rows1){
-                    if(err1) throw err1;
-                    else  res.render("", {datarows:rows1, username:req.session.user, selected :req.session.selected_equip, max_no_equipment : req.body.max_no_equipment});
+                connection.query("SELECT equip_id FROM auction_equipment WHERE auction_id = ?",[rows[0].insertId], function(err2,rows2){
+                    if(err) throw(err);
+                    else{
+                        req.session.selected_equip = [];
+                        for(var i = 0; i < rows2.length;i++){
+                            req.session.selected_equip.push(rows2[i].equip_id);
+                        }
+                        connection.query("SELECT * FROM all_equipment WHERE status = 2",function(err1,rows1){
+                            if(err1) throw err1;
+                            else  res.render("", {datarows:rows1, username:req.session.user, selected :req.session.selected_equip, max_no_equipment : req.body.max_no_equipment});
+                        });
+                    }
                 });
             }
         });
@@ -843,25 +847,47 @@ module.exports = {
     },
 
     //post_freeze auction - into into auction equip
-    freeze_this_auction: function(req,res){
+    //divided into 2 because of async
+    freeze_this_auction1: function(req,res){
         selected_equip = req.session.selected_equip;
         auction_id = req.params.id;
-        str = selected_equip.stringify;
-        str = str.slice(1,-1);
-        connection.query("SELECT expected_price, id FROM all_equipment WHERE id IN (?)", [str], function(err1,rows1){
-            if(err1) throw err1;
-            else{
-                str = "INSERT INTO auction_equipment VALUES";
-                for(var i=0; i <selected_equip;i++){
-                    str = str + "("+auction_id+","+selected_equip[i]+","+rows1[i].expected_price+",0),";    
+        connection.query("SELECT equip_id FROM auction_equipment WHERE auction_id = ?",[auction_id], function(err,rows){
+            if(err) throw err;
+            else{ 
+                if(rows.length){
+                    for(var i=0;i<rows.length;i++){
+                        index = selected_equip.indexOf(rows[i].equip_id);
+                        selected_equip.splice(index,1);
+                        if(i == rows.length - 1){
+                            req.session.selected_equip = selected_equip;
+                            return next();
+                        }
+                    }
                 }
-                str = str.slice(0,-1);
-                connection.query(str, function(err){
-                    if(err) throw err;
-                    else res.send("done");// or send to equiplist of an auction :/
-                });
             }
         });
+    },
+
+    freeze_this_auction2 :function(req,res){
+        if(selected_equip.length){
+            str = selected_equip.stringify;
+            str = str.slice(1,-1);
+            connection.query("SELECT expected_price, id FROM all_equipment WHERE id IN (?)", [str], function(err1,rows1){
+                if(err1) throw err1;
+                else{
+                    str = "INSERT INTO auction_equipment VALUES";
+                    for(var i=0; i <selected_equip;i++){
+                        str = str + "("+auction_id+","+selected_equip[i]+","+rows1[i].expected_price+",0),";    
+                    }
+                    str = str.slice(0,-1);
+                    connection.query(str, function(err){
+                        if(err) throw err;
+                        else return res.send("done");// or send to equiplist of an auction :/
+                    });
+                }
+            });
+        }
+        else return res.send("done");// or send to equiplist of an auction :/          
     },
     
     //view_selected - page render with data id in session and data in all_equipment
@@ -870,39 +896,65 @@ module.exports = {
         str = str.slice(1,-1);
         connection.query("SELECT * FROM all_equipment WHERE id IN (?)", [str], function(err1,rows1){
             if(err1) throw err1;
-            else res.render("",{datarows:rows, username:req.session.name});
-         
+            else res.render("",{datarows:rows[0], username:req.session.name});
+        });       
     },
 
-    //auctions - page render data from auctions, no of equipments, no of participants
-    //edit_auvction  - get 
+    edit_this_auction: function(req,res){
+        connection.query("SELECT * FROM auctions WHERE auction_id = ?",[req.params.auction_id],function(err,rows){
+            if(err) throw err;
+            else res.render("auction_form.ejs",{datarows:rows username:req.session.name});
+            //schedule auction wala
+        });
+    }, 
 
-    //------------- ongoing auction------------
-    // get - select from auction_equipment + all_equipments + current bidder(from bids) 
+    //------------- live auction------------
+    // get - select from auction_equipment + all_equipments +highest bidder + #bids
+    get_live_auction: function(req,res){
+        connection.query("SELECT auction_id FROM auctions  WHERE auctions.start_date < current_timestamp() AND end_date > current_timestamp()", function(err,rows){
+            if(err) throw err;
+            else {
+                req.session.auction_id = rows[0].auction_id;
+                return next();
+            }
+        });
+    },
+    
+    this_auction : function(req,res){
+        connection.query("SELECT auctions.*, auction_equipment.* FROM auctions INNER JOIN auction_equipment ON auction_equipment.auction_id = auctions.auction_id WHERE auctions.auction_id = ?",[req.session.auction_id], function(err,rows){
+            if(err) throw err;
+            else {
+
+            }
+        });
+    },
+
     // post_bid - from user fx (ajax)
+    
     //bid_log - data from bids // page
+    bid_log: function(req,res){
+        connection.query("SELECT * FROM bids WHERE auction_id = ? ORDER BY DESC",[req.params.auction_id], function(err,rows){
+            res.render("",{datarows:rows, username:req.session.name});
+        });
+    },
+
     // view_bids - select from bids where (show 1st, 2nd, 3rd)
+    view_bids: function(req,res){
+        connection.query("SELECT * FROM bids WHERE auction_id = ? AND equip_id = ? ORDER BY DESC",[req.params.auction_id, req.params.equip_id], function(err,rows){
+            if(err) throw err;
+            else res.render("", {datarows:rows, username:req.session.name});
+        });
+    },
 
-    //------------- auction summary-----
-    // get - table - select from auctions
-    // this_summary - inner join all equipments, auction equip +  bids(highest bid + bidder) 
-    // view_bids - upar wala hi
+    //auction_summary - show auctoios - params m auction_id, fuction to convert it to session.auction_id, this_acution()
 
-    //piyush-------------------------------
-    //get_auction_requests - auction name,. start/end, #requests , <a>see_requests 
-    //get_this_auction_requests - username, category, auction_name, #participants, #equipments change status
-
-    //post - change status
-
-    //get add equipment subcat
+    //get add equipment master
     //post
 
     //equip_requests - pending first //TBD
 
-    //add_new_admin
-
-    //users - name - category, #equip, state  
-    //owner_profile
+    //users - name - category, #equip(count + innerjoin all_equipment(owner_id)), state from account table 
+    //user_profile - upar wala data + all.equipment.*, requested equipments(requests);
 
 
 

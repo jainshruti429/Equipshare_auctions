@@ -762,26 +762,32 @@ module.exports = {
         });        
     },
 
-    //show_auc.ejs is to be designed..
-    //this is to be called in routes
-    show_auction : function(req,res){
-        connection.query("SELECT * FROM auction", function(err,rows){
-            if(err) throw err;
-            else res.render('./show_auc.ejs',{datarows:rows, username:req.session.name});
-        });
+    show_auction : function(req,res){        
+         connection.query("SELECT auctions.auction_id, auctions.name, auctions.start_date, auctions.end_date, count(auction_equipment.auction_id) as no_of_equip FROM auctions LEFT JOIN auction_equipment ON auctions.auction_id = auction_equipment.auction_id GROUP BY auctions.auction_id", function(err,rows){
+            if (err) throw err ;
+            else{ 
+                connection.query("SELECT auctions.auction_id, count(auction_requests.auction_id) as participants  FROM auctions LEFT JOIN auction_requests ON auctions.auction_id = auction_requests.auction_id WHERE auction_requests.status = 1  GROUP BY auctions.auction_id",function(err1,rows1){
+                    if(err1) throw err1;
+                    else{
+                        res.render("./show_auc.ejs",{datarows : rows , no_of_participants : participants, username : req.session.name});
+                    }
+                });
+            }
+         });
     },
+
+
      //show_auc_req.ejs is to be designed
     // to be  called by auction_id
     show_auc_req :function(req,res){
     	connection.query(" SELECT account.name, account.state, account.category, account.id FROM account INNER JOIN auction_requests ON auction_requests.user_id = account.id WHERE auction_id= ?",[req.params.auction_id], function(err,rows){
     		if(err) throw err ;
     		else{
-    			res.render("show_auc_req.ejs",{datarows:rows ,username:req.session.name});
+    			res.render("./show_auc_req.ejs",{datarows:rows ,username:req.session.name});
     		}
     	});
-    }
+    },
 
-    
     //---------- schedule auction---------------
     //get - page render
     get_schedule_auction: function(req,res){

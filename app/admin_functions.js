@@ -25,6 +25,8 @@ var app = express();
 // var DAET = "20:00:00";
 
 // =========================================================
+var new_equip = [];
+var used_equip = [];
 
 module.exports = {
 
@@ -979,19 +981,44 @@ module.exports = {
     //get add equipment master
     //post
 
-    //equip_requests - pending first //TBD
+    //equip_requests - pending first
+    show_equipment_requests1: function(req,res){
+        new_equip = [];
+        used_equip = [];
+        interested = [];
+        connection.query("SELECT * FROM requests ORDER BY status",function(err,rows){
+            if(err) throw err;
+            else{
+                for(var i =0 ; i <rows.length; i ++){
+                    equip_id = rows[i].equip_id + '';
+                    if(rows[i].equip_id[0] == 't'){
+                        equip_id = equip_id.slice(1);
+                        new_equip.push(equip_id);
+                    }
+                    else used_equip.push(equip_id);
+                    if(rows[i].status ==2) interested.push(rows[i].sno)
+                    if(i == (rows.length-1)){
+                        req.session.new_equip = new_equip;
+                        req.session.used_equip = used_equip;
+                        return next();// user/my_requests2, my_requests3, my_requests4
+                    }
+                }
+            }
+        });
+    },
 
+    show_equipment_requests2: function(req,res){
+        res.render("./user_requested.ejs", {new_equip: req.session.new_equip, used_equip: req.session.used_equip, proposals:req.session.proposals, username:req.session.name});
+    },
     //users - name - category, #equip(count + innerjoin all_equipment(owner_id)), state from account table 
     //user_profile - upar wala data + all.equipment.*, requested equipments(requests);
 
-
-
+    //dealer auction 
 
 	//================================================================================
     //======================= ADMIN FUNCTIONS ========================================
     //================================================================================
 
-    //Handle POST request to add a new working location 
     /*
     // Show all the sub-Admin working under the particuler logged in admin.
     existing_user: function(req,res){

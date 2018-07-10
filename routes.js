@@ -28,7 +28,6 @@ app.use(fileUpload());
 module.exports = function(app, passport) {
 
     app.get('/', function(req,res){
-<<<<<<< HEAD
     	fields = ["name", "city"];
     	user1 = {
     		name : "abhinav",
@@ -52,16 +51,6 @@ module.exports = function(app, passport) {
     	users.push(user3);
     	users.push(user4);
         return res.render("index.ejs", {fields : fields, users:users});
-=======
-        connection.query("SELECT sno FROM promotion", function(err,rows){
-            if(err) throw err;
-<<<<<<< HEAD
-            else res.render("./blog_page.ejs", {username:'', title:'', equip_data : rows, request:0, tech_info:[] });
-=======
-            else res.send(rows);
->>>>>>> deeebb77c5ef93dc69a1b1c6e2a71313c2e34ebb
-        })
->>>>>>> 42032cec30b9b9c8bf0f00c90cf9adc863836096
     });
 
 

@@ -27,16 +27,32 @@ app.use(fileUpload());
 // ==========================================
 module.exports = function(app, passport) {
 
-    app.get('/', function(req,res){
-        connection.query("SELECT sno FROM promotion", function(err,rows){
-            if(err) throw err;
-<<<<<<< HEAD
-            else res.render("./blog_page.ejs", {username:'', title:'', equip_data : rows, request:0, tech_info:[] });
-=======
-            else res.send(rows);
->>>>>>> deeebb77c5ef93dc69a1b1c6e2a71313c2e34ebb
-        })
+    app.get('/', function(req,res,next){
+        
+       req.body.category="equip";
+       req.body.subcategory="eee"; 
+
+        
+                return next();
+        
+
+
+
+        
+    },
+    function(req, res){
+    update={
+        category: req.body.category,
+        subcategory:req.body.subcategory
+
+    }
+    connection.query("UPDATE equipment_master SET ? WHERE master_id=1",[update],function(err,rows){
+   if (err) throw err ;
+   else{
+    res.send(rows);
+   }
     });
+   });
 
 //     app.get('/', function(req,res){
 //     	res.render("./try.ejs", {username:'', title:'', datarows:[]});

@@ -761,19 +761,16 @@ module.exports = {
             }
         });        
     },
-<<<<<<< HEAD
+
       //show_auc.ejs is to be designed..
      //this is to be called in routes
-   
-=======
+
 
     //show_auc.ejs is to be designed..
     //this is to be called in routes
->>>>>>> deeebb77c5ef93dc69a1b1c6e2a71313c2e34ebb
+
     show_auction : function(req,res){
-         
-         
-         connection.query("SELECT auctions.auction_id, auctions.name, auctions.start_date, auctions.end_date, count(auction_equipment.auction_id) as no_of_equip FROM auctions LEFT JOIN auction_equipment ON auctions.auction_id = auction_equipment.auction_id GROUP BY auctions.auction_id", function(err,rows){
+       connection.query("SELECT auctions.auction_id, auctions.name, auctions.start_date, auctions.end_date, count(auction_equipment.auction_id) as no_of_equip FROM auctions LEFT JOIN auction_equipment ON auctions.auction_id = auction_equipment.auction_id GROUP BY auctions.auction_id", function(err,rows){
             if (err) throw err ;
             else{ 
                 connection.query("SELECT auctions.auction_id, count(auction_requests.auction_id) as participants  FROM auctions LEFT JOIN auction_requests ON auctions.auction_id = auction_requests.auction_id WHERE auction_requests.status = 1  GROUP BY auctions.auction_id",function(err1,rows1){
@@ -790,11 +787,8 @@ module.exports = {
      //show_auc_req.ejs is to be designed
     // to be  called by auction_id
     show_auc_req :function(req,res){
-<<<<<<< HEAD
-    	connection.query(" SELECT account.name, account.state FROM account INNER JOIN auction_requests ON auction_requests.user_id = account.id WHERE auction_id= ?",[req.params.id], function(err,rows){
-=======
-    	connection.query(" SELECT account.name, account.state, account.category, account.id FROM account INNER JOIN auction_requests ON auction_requests.user_id = account.id WHERE auction_id= ?",[req.params.auction_id], function(err,rows){
->>>>>>> deeebb77c5ef93dc69a1b1c6e2a71313c2e34ebb
+         	connection.query(" SELECT account.name, account.state, account.category, account.id FROM account INNER JOIN auction_requests ON auction_requests.user_id = account.id WHERE auction_id= ?",[req.params.auction_id], function(err,rows){
+
     		if(err) throw err ;
     		else{
     			res.render("./show_auc_req.ejs",{datarows:rows ,username:req.session.name});
@@ -804,10 +798,10 @@ module.exports = {
 
 
     
-<<<<<<< HEAD
 
-=======
->>>>>>> deeebb77c5ef93dc69a1b1c6e2a71313c2e34ebb
+
+
+
     //---------- schedule auction---------------
     //get - page render
     get_schedule_auction: function(req,res){
@@ -932,6 +926,7 @@ module.exports = {
             else res.render("auction_form.ejs",{datarows:rows username:req.session.name});
             //schedule auction wala
         });
+
     }, 
 
     //------------- live auction------------
@@ -971,6 +966,112 @@ module.exports = {
             else res.render("", {datarows:rows, username:req.session.name});
         });
     },
+
+   add_master : function(req,res){
+    connection.query("SELECT * from equipment_master WHERE subcategory=?",[req.body.subcategory],function(err,rows){
+        if (err) throw err ;
+        else{
+            if(rows.length)
+            {
+                return res.send("subcategory already existed");
+            }
+            else{
+            connection.query("INSERT INTO equipment_master (category,subcategory,engine,speed,mixer_tank_capacity,4WD,2WD,max_digging_depth,bucket_volumetric_capacity,shovel_volumetric_capactiy,operating_weight,single_drum,double_drum,volumetric_output,roller_width,roller_dia,body_size,blade_length,concrete_pressure,mobile,stationary,max_lift,stablizer,boomarm_length,horizontal_deliver,vertical_deliver,blade_width,max_paving_width,current,fuel_consumption,other1,other2,other3,other4) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[req.body.category,req.body.subcategory,req.body.engine,req.body.speed,req.body.mixer_tank_capacity,req.body.4WD,req.body.2WD,req.body.max_digging_depth,req.body.bucket_volumetric_capacity,req.body.shovel_volumetric_capactiy,req.body.operating_weight,req.body.single_drum,req.body.double_drum,req.body.volumetric_output,req.body.roller_width,req.body.roller_dia,req.body.body_size,req.body.blade_length,req.body.concrete_pressure,req.body.mobile,req.body.stationary,req.body.max_lift,req.body.stablizer,req.body.boomarm_length,req.body.horizontal_deliver,req.body.vertical_deliver,req.body.blade_width,req.body.max_paving_width,req.body.current,req.body.fuel_consumption,req.body.other1,req.body.other2,req.body.other3,req.body.other4],function(err1){
+                if (err1) throw err1;
+                else{
+                return res.send("data successfully added");
+                    }
+            });
+            }
+        }
+    });
+   },
+   show_master : function(req,res){
+     connection.query("SELECT master_id,category,subcategory FROM equipment_master",function(err,res){
+        if (err) throw err ;
+        else
+        {
+            res.render('./show_master.ejs',{datarows:rows, username : req.session.name});
+        }
+     });
+   },
+   get_update_master : function(req,res){
+    connection.query("SELECT * from equipment_master WHERE master_id=?",[req.params.id],function(err,rows){
+        if(err) throw err ;
+        else {
+            res.render('./get_update_master.ejs',{datarows : rows, username : req.session.name});
+        }
+    });
+   },
+   //next will show_master....
+   post_update_master : function(req,res,next){
+    update={
+        category: req.body.category,
+        subcategory:req.body.subcategory,
+        engine : req.body.engine,
+        speed : req.body.speed,
+        mixer_tank_capacity : req.body.mixer_tank_capacity,
+        4WD : req.body. 4WD,
+        2WD : req.body.2WD, 
+        max_digging_depth : req.body.max_digging_depth, 
+        bucket_volumetric_capacity : req.body.bucket_volumetric_capacity,
+        shovel_volumetric_capactiy : req.body.shovel_volumetric_capactiy,
+        operating_weight : req.body.operating_weight,
+        single_drum : req.body.single_drum,
+        double_drum : req.body.double_drum,
+        volumetric_output : req.body.volumetric_output,
+        roller_width : req.body.roller_width,
+        roller_dia : req.body.roller_dia,
+        body_size : req.body.body_size,
+        blade_length : req.body.blade_length,
+        concrete_pressure : req.body.concrete_pressure,
+        mobile : req.body.mobile,
+        stationary : req.body.stationary,
+        max_lift : req.body.max_lift,
+        stablizer : req.body.stablizer,
+        boomarm_length : req.body.boomarm_length,
+        horizontal_deliver : req.body.horizontal_deliver,
+        vertical_deliver : req.body.vertical_deliver,
+        blade_width : req.body.blade_width,
+        max_paving_width : req.body.max_paving_width,
+        current : req.body.current,
+        fuel_consumption : req.body.fuel_consumption,
+        other1 : req.body.other1,
+        other2 : req.body.other2,
+        other3 : req.body.other3,
+        other4 : req.body.other4,
+
+    }
+    connection.query("UPDATE equipment_master SET ? WHERE master_id=?",[update,req.params.id],function(err){
+               if(err) throw err ;
+               else{
+                return next();
+               }
+    });
+   },
+
+    show_user : function(req,res){
+        connection.query("SELECT account.id, account.name, account.category, account.state, count(all_equipment.owner_id)as no_of_equip FROM account INNER JOIN all_equipment ON account.id=all_equipment.id WHERE account.id=?",[req.params.id],function(err,rows){
+            if(err)throw err ;
+            else{
+                res.render("./show_user.ejs",{datarows:rows, username :req.session.name});
+            }
+        });
+    },
+ 
+    show_user_profile1 : function (req,res){
+        
+        connection.query("SELECT account.*, all_equipment.id, all_equipment.brand, all_equipment.model, all_equipment.category, all_equipment.subcategory,all_equipment.status FROM account INNER JOIN all_equipment ON account.id=all_equipment.id WHERE account.id=?",[req.params.id],function(err,rows){
+            if (err)throw err;
+            else{req.session.show_users=rows; 
+                req.session.user_id= req.params.user_id;
+                return next();// ufunc.my_requests1->my_requests2->myrequests3->show_user_profile2
+            }
+        });
+    },
+    show_user_profile2 : function(req,res){
+        res.render('./show_user_profile',{datarows : req.session.show_users, new_equip:req.session.new_equip, used_equip:req.session.used_equip});
+    }
 
     //auction_summary - show auctoios - params m auction_id, fuction to convert it to session.auction_id, this_acution()
 

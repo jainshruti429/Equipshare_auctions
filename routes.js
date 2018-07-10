@@ -30,7 +30,7 @@ module.exports = function(app, passport) {
     app.get('/', function(req,res){
         connection.query("SELECT * FROM all_equipment WHERE id = 42", function(err,rows){
             if(err) throw err;
-            else res.render("./index.ejs", {username:'', title:'', equip_data : rows, request:0, tech_info:[] });
+            else res.render("./blog_page.ejs", {username:'', title:'', equip_data : rows, request:0, tech_info:[] });
         })
     });
 

@@ -143,9 +143,14 @@ module.exports = {
                 obj = {
                     name : "Views | Requests | Compares";
                 };
-                for(var i = 0 ; i < rows.length ; i++){
-                    
+                var y = "";
+                for(var i = 0 ; i < datarows.length ; i++){
+                    y = JSON.stringify(datarows[i]);
+                    y = y.slice(0,-1);
+                    y = y + ',"'+obj.name+'":"'+rows[i].no_views+" | "+rows[i].no_requests+" | "+rows[i].no_compares+'"}';
+                    datarows[i] = JSON.parse(y);
                 }
+                req.datarows = datarows;
                 return next();
             }
         });

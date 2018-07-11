@@ -27,41 +27,18 @@ app.use(fileUpload());
 // ==========================================
 module.exports = function(app, passport) {
 
+	// app.get('/', function(req,res){
+	// 		connection.query("SELECT start_date FROM auctions", function(err,rows,fields){
+	// 		if(err) throw err;
+	// 		else {
+	// 			var x = (String)(rows[1].start_date);
+	// 			x = x.slice(0,-18);
+	// 			rows[1].start_date = x
+	// 			res.render("index.ejs", {fields:fields, users:rows});	
+	// 		}
+	// 	});
+	// });
 
-
-    app.get('/', function(req,res){
-    	fields = ["name", "city"];
-    	user1 = {
-    		name : "abhinav",
-    		city : "ashoknagar" 
-    	};
-    	user2 = {
-    		name : "piyush",
-    		city : "indore1" 
-    	};
-    	user3 = {
-    		name : "muskan",
-    		city : "indore2" 
-    	};
-    	user4 = {
-    		name : "shruti",
-    		city : "indore3" 
-    	};
-    	users = [];
-    	users.push(user1);
-    	users.push(user2);
-    	users.push(user3);
-    	users.push(user4);
-        return res.render("index.ejs", {fields : fields, users:users});
-
-    });
-   };
-
-
-//     app.get('/', function(req,res){
-//     	res.render("./try.ejs", {username:'', title:'', datarows:[]});
-//     });
-// }
     // PROFILE SECTION =====================
     // app.get('/profile/:id', func.isLoggedInfunc, func.profilefunc); // issLoggedIn verifies that user is authenticated
 
@@ -138,26 +115,22 @@ module.exports = function(app, passport) {
     // app.post('/add_new_bid', func.isLoggedInfunc,dealer_user_access, func.add_new_bid);
 
 // =======================================================================================
-// =========================== WITHOUT AUTHORISATION FUNCTIONS ====================================== 
+// =========================== COMMON FUNCTIONS ====================================== 
 // =======================================================================================
 
     //these functions do not require user to be logged in
     //HOME PAGE of website.... 
-
-    // app.get('/', gfunc.home);
-    // app.get('/beta', gfunc.beta_home);
-    // app.get('/new', gfunc.new_home);
-/*    
-    app.post('/view:id', gfunc.view);
-    app.get('/view:id', gfunc.view);
-    // app.post('/email', gfunc.email, gfunc.home);
+    app.get('/logout',gfunc.isLoggedInfunc, gfunc.logoutfunc);
     
     
 // =======================================================================================
 // =========================== USER FUNCTIONS ================================================== 
 // =======================================================================================
     //TBD .... url depends on front end linking
-    app.get('/', gfunc.login);
+    app.get('/', function(req,res){
+    	res.render('split_screen.ejs');
+    });
+    app.get('/buy_sell', gfunc.login);
     
     app.post('/user_login', function(req, res, next){
             //call the local-login in ../config/passport.js
@@ -193,15 +166,19 @@ module.exports = function(app, passport) {
     });
 
  // all are checking that the user is first logged in and then that he is of the right category that the request belong to.
-    app.post('/user_featured:id',ufunc.featured);
-    app.get('/user_search_category', ufunc.search_category);
-    app.post('/user_search',ufunc.search);
-    app.get('/user_compare',ufunc.compare );
-    app.get('/user_compare_now', ufunc.compare_now);
+    //app.post('/user_featured:id',ufunc.featured);
+    app.get('/user_search_category', gfunc.isLoggedInfunc,ufunc.search_category);
+    app.post('/user_search',gfunc.isLoggedInfunc,ufunc.search);
+    app.get('/view:id',gfunc.isLoggedInfunc, gfunc.view);
+    app.get("/user_my_requests", gfunc.isLoggedInfunc, ufunc.my_requests0,ufunc.my_requests1, ufunc.my_requests2, ufunc.my_requests3, ufunc.my_requests4, ufunc.my_requests5);
+    app.get('/user_my_equipment', gfunc.isLoggedInfunc,ufunc.my_equipment,gfunc.equip_data, );
+    
+
+    app.get('/user_compare',gfunc.isLoggedInfunc,ufunc.compare );
+    app.get('/user_compare_now', gfunc.isLoggedInfunc,ufunc.compare_now);
     app.get('/user_save_search', gfunc.isLoggedInfunc, ufunc.save_search);    
     app.get('/user_request:id', gfunc.isLoggedInfunc, ufunc.request_this);
-    app.get("/user_my_requests", gfunc.isLoggedInfunc, ufunc.my_requests1, ufunc.my_requests2, ufunc.my_requests3);
-	app.post("/user_proposal_status", gfunc.isLoggedInfunc,ufunc.change_proposal_status);    
+    app.post("/user_proposal_status", gfunc.isLoggedInfunc,ufunc.change_proposal_status);    
 
     app.get("/user_saved_searches", gfunc.isLoggedInfunc, ufunc.saved_searches);
 
@@ -209,7 +186,6 @@ module.exports = function(app, passport) {
     app.post('/user_reset_password', gfunc.isLoggedInfunc, ufunc.post_reset_password, ufunc.get_reset_password);
     app.get('/user_update_equipment:id',gfunc.isLoggedInfunc, ufunc.get_update_this_equipment);
     app.post('/user_update_equipment:id', gfunc.isLoggedInfunc, ufunc.post_update_this_equipment, gfunc.view);
-    app.get('/user_my_equipment', gfunc.isLoggedInfunc,ufunc.my_equipment);
     //app.get('/user_view_equipment', gfunc.isLoggedInfunc, ufunc.view_equipment);
     app.get('/user_add_equipment',gfunc.isLoggedInfunc, ufunc.check_profile, ufunc.get_add_equipment);
     app.get('/user_add_equipment_category', gfunc.isLoggedInfunc, ufunc.get_add_equipment_category);
@@ -218,7 +194,7 @@ module.exports = function(app, passport) {
     app.post('/user_add_equipment', gfunc.isLoggedInfunc, ufunc.post_add_equipment, ufunc.get_add_equipment);
     app.get('/user_update_profile',gfunc.isLoggedInfunc, ufunc.get_update_profile);
     app.post('/user_update_profile', gfunc.isLoggedInfunc, ufunc.post_update_profile);
-    //app.get('/user_logout',gfunc.isLoggedInfunc, gfunc.logoutfunc, gfunc.home);
+    
     
 
 // =======================================================================================
@@ -356,7 +332,7 @@ module.exports = function(app, passport) {
 // =======================================================================================
 	//see deals (approved by admin) 
     //add proposal
-    */
+    
 
 };
 
@@ -365,7 +341,7 @@ module.exports = function(app, passport) {
 			// SA = 9
 			// Company = 4
 			// Dealer= 2
-			// User 1
+			// User =1
 			// Bank/Financer = 5;
 			// Other = 6;
 //--------------------------------------------------------

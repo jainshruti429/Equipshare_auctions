@@ -14,8 +14,9 @@
 
           <%for(var i =0; i< users.length; i++){%>
           	<%for(var j = 0 ; j < fields.length; j++){%>
-          		<p> <%=fields[j]%> = <%=users[i]%>.<%=fields[j]%> </p>
+          		<p> <%=fields[j].name%> = <%=users[i][fields[j].name]%> </p>
           	<%}%>
+            <p>========================================</p>
           <%}%>
 
 </div>

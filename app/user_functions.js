@@ -118,11 +118,11 @@ module.exports =  {
     //-------------------------------------------------------------------     
     search: function(req,res){
         var subcategory, sort;
-        if(req.session.subcategory){
-            subcategory = req.session.subcategory;
-            sort = req.session.sort;
-            req.session.subcategory = "";
-            req.session.sort = "";
+        if(req.subcategory){
+            subcategory = req.subcategory;
+            sort = req.sort;
+            req.subcategory = "";
+            req.sort = "";
         }
         else {
             subcategory = req.body.subcategory;
@@ -138,8 +138,8 @@ module.exports =  {
     },
 
     compare_now : function(req,res){
-        if(req.session.compare){
-            compare = req.session.compare
+        if(req.compare){
+            compare = req.compare
             str = "SELECT * FROM equipment_type WHERE type_id IN (";
             str1 = '';    
             for(var i = 0; i <compare.length; i++){
@@ -167,8 +167,8 @@ module.exports =  {
 
     //change and break into two functions
     compare :function(req,res){
-        if(!req.session.compare) req.session.compare = []; 
-        compare = req.session.compare
+        if(!req.compare) req.compare = []; 
+        compare = req.compare
         if(compare.length>4) return res.send(); //send a msg or something
         id = req.query.id;
         for(var i = 0; i< compare.length; i++){
@@ -178,7 +178,7 @@ module.exports =  {
             }
         }
         compare.push(req.query.id);
-        req.session.compare = compare;
+        req.compare = compare;
         return res.send(compare);
     },
 
@@ -208,8 +208,8 @@ module.exports =  {
         connection.query("SELECT subcategory, sort FROM save WHERE save_id = ?", [req.params.save_id], function(err,rows){
             if(err) throw err;
             else{
-                req.session.subcategory = rows[0].subcategory;
-                req.session.sort = rows[0].sort;
+                req.subcategory = rows[0].subcategory;
+                req.sort = rows[0].sort;
                 return next();
             }
         });
@@ -265,7 +265,7 @@ module.exports =  {
     //          4 = rejected     
     //-------------------------------------------------------------------     
     my_requests0:function(req,res,next){
-        req.session.user_id = req.session.user;
+        req.user_id = req.session.user;
         return next();
     },
 
@@ -273,7 +273,7 @@ module.exports =  {
         new_equip = [];
         used_equip = [];
         interested = [];
-        connection.query("SELECT * FROM requests WHERE applicant_id = ?",[req.session.user_id],function(err,rows){
+        connection.query("SELECT * FROM requests WHERE applicant_id = ?",[req.user_id],function(err,rows){
             if(err) throw err;
             else {
                 for(var i =0 ; i <rows.length; i ++){
@@ -285,9 +285,9 @@ module.exports =  {
                     else used_equip.push(equip_id);
                     if(rows[i].status ==2) interested.push(rows[i].sno)
                     if(i == (rows.length-1)) {
-                        req.session.new_equip = new_equip;
-                        req.session.used_equip = used_equip;
-                        req.session.interested = interested;
+                        req.new_equip = new_equip;
+                        req.used_equip = used_equip;
+                        req.interested = interested;
                         return next();}
                 }              
             }
@@ -296,8 +296,8 @@ module.exports =  {
 
     //sort new equipments
     my_requests2 : function(req,res,next){
-        if(req.session.new_equip.length){
-            new_equip = req.session.new_equip;
+        if(req.new_equip.length){
+            new_equip = req.new_equip;
             str = "SELECT subcategory, brand, model FROM equipment_type WHERE type_id IN (";
             for(var i = 0; i <new_equip.length; i++){
                 equip_id = new_equip[i].slice(1);
@@ -308,7 +308,7 @@ module.exports =  {
             connection.query(str, function(err2,rows2){
                 if(err2) throw err2;
                 else {
-                    req.session.new_equip = rows2;
+                    req.new_equip = rows2;
                     return next();
                 }
             });
@@ -318,8 +318,8 @@ module.exports =  {
 
     //sort old equipments
     my_requests3 : function(req,res,next){
-        if(req.session.used_equip.length){
-            used_equip = req.session.used_equip;
+        if(req.used_equip.length){
+            used_equip = req.used_equip;
             str = "SELECT subcategory, brand, model FROM all_equipment WHERE id IN (";
             for(var i = 0; i <used_equip.length; i++){
                 str = str + used_equip[i] + ",";
@@ -329,7 +329,7 @@ module.exports =  {
             connection.query(str, function(err3,rows3){
                 if(err3) throw err3;
                 else {
-                    req.session.used_equip = rows3;
+                    req.used_equip = rows3;
                     return next();
                 }
             });
@@ -344,8 +344,8 @@ module.exports =  {
     //-------------------------------------------------------------------     
     //proposals
     my_requests4 : function(req,res){
-        if(req.session.interested.length){
-            interested = req.session.interested
+        if(req.interested.length){
+            interested = req.interested
             str = "SELECT * FROM proposals WHERE request_sno IN (";
             for(var i = 0; i <interested.length; i++){
                 str = str + interested[i] + ",";
@@ -355,19 +355,19 @@ module.exports =  {
             connection.query(str, function(err3,rows3){
                 if(err3) throw err3;
                 else{
-                    req.session.proposals = rows3;
+                    req.proposals = rows3;
                     return next();
                 }          
             });
         }
         else{
-            req.session.proposals = [];
+            req.proposals = [];
             return next();
         } 
     },
 
     my_requests5: function(req,res){
-        res.render("./user_requested.ejs", {new_equip: req.session.new_equip, used_equip: req.session.used_equip, proposals:req.session.proposals, username:req.session.name});
+        res.render("./user_requested.ejs", {new_equip: req.new_equip, used_equip: req.used_equip, proposals:req.proposals, username:req.session.name});
     },
 
     change_proposal_status: function(req,res){

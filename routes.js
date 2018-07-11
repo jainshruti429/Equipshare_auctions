@@ -188,7 +188,7 @@ module.exports = function(app, passport) {
     app.get('/user_my_equipment', gfunc.isLoggedInfunc,ufunc.my_equipment,gfunc.equip_data, );
     app.get('/user_add_equipment',gfunc.isLoggedInfunc, ufunc.check_profile, ufunc.get_add_equipment);
 
-    app.get('/user_compare',gfunc.isLoggedInfunc,ufunc.compare );
+    app.get('/user_compare',gfunc.isLoggedInfunc,ufunc.compare);
     app.get('/user_compare_now', gfunc.isLoggedInfunc,ufunc.compare_now);
     app.get('/user_save_search', gfunc.isLoggedInfunc, ufunc.save_search);    
     app.get('/user_request:id', gfunc.isLoggedInfunc, ufunc.request_this);

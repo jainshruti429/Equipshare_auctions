@@ -25,8 +25,8 @@ var app = express();
 // var DAET = "20:00:00";
 
 // =========================================================
-var new_equip = [];
-var used_equip = [];
+
+
 
 module.exports = {
 
@@ -253,8 +253,8 @@ module.exports = {
     },    
 
     view_equipment: function(req , res){
-        req.session.title = "Available Equipments";
-        res.render("./admin_view_equipment.ejs", { title : req.session.title, datarows:datarows, data:data, username:req.session.name});
+        req.title = "Available Equipments";
+        res.render("./admin_view_equipment.ejs", { title : req.title, datarows:datarows, data:data, username:req.session.name});
     },
 
     view_all_equipments: function(req , res){
@@ -293,8 +293,8 @@ module.exports = {
                                     }
                                     if(!info[i].requests) info[i].requests = 0;
                                 }
-                                req.session.title = "All Equipments"; 
-                                res.render("./admin_view_equipment.ejs", {title : req.session.title,datarows:rows, data:info, username:req.session.name});
+                                req.title = "All Equipments"; 
+                                res.render("./admin_view_equipment.ejs", {title : req.title,datarows:rows, data:info, username:req.session.name});
                             }
                         });
                     }
@@ -450,13 +450,13 @@ module.exports = {
     },
     
     get_equipment_type_csv : function(req,res){
-        req.session.title = "Equipment Type";
-        res.render("admin_upload_csv.ejs", {what:req.session.title, username : req.session.name, img_name : 'type_csv_format.png'});
+        req.title = "Equipment Type";
+        res.render("admin_upload_csv.ejs", {what:req.title, username : req.session.name, img_name : 'type_csv_format.png'});
     },
 
     get_equipment_csv : function(req,res){
-        req.session.title = " New Equipment";
-        res.render("admin_upload_csv.ejs", {what:req.session.title, username : req.session.name, img_name: 'equipment_csv_format.png'});
+        req.title = " New Equipment";
+        res.render("admin_upload_csv.ejs", {what:req.title, username : req.session.name, img_name: 'equipment_csv_format.png'});
     },
 
     get_add_equipment_type : function(req,res){
@@ -586,7 +586,7 @@ module.exports = {
         connection.query("SELECT id FROM account WHERE mobile = ?", [req.body.mobile], function(err,rows){
             if(err) throw err;
             else if(rows.length){ 
-                req.session.owner_id = rows[0].id;
+                req.owner_id = rows[0].id;
                 return next();
             }
             else res.render("./admin_add_equipment_user.ejs", {username: req.session.name}); 
@@ -651,7 +651,7 @@ module.exports = {
             else { 
          
                 name.type_id = rows[0].type_id; 
-                connection.query("SELECT name, city, state FROM account WHERE id = ?", [req.session.owner_id], function(err,rows){
+                connection.query("SELECT name, city, state FROM account WHERE id = ?", [req.owner_id], function(err,rows){
                     if (err) throw err;
                     else {
                         name.city = rows[0].city;
@@ -713,7 +713,7 @@ module.exports = {
                 connection.query(insertQuery, [name.uploaded_by,photo_name[1],photo_name[2],photo_name[3],photo_name[4],doc_name[1],doc_name[2],doc_name[3],doc_name[4],doc_name[5],doc_name[6],name.type_id, name.state, name.available, name.category,name.brand, name.model, name.expected_price, name.year, name.colour, name.city, name.subcategory, name.description,name.km,name.owner_id],function (err4, resulti){
                     if (err4) throw err4;
                     else {
-                        req.session.msg = "Your equipment is added successfully...";
+                        req.msg = "Your equipment is added successfully...";
                         return next();
                     }
                 });
@@ -809,13 +809,13 @@ module.exports = {
         connection.query("SELECT equip_id FROM auction_equipment WHERE auction_id = ?",[rows[0].insertId], function(err2,rows2){
             if(err) throw(err);
             else{
-                req.session.selected_equip = [];
+                req.selected_equip = [];
                 for(var i = 0; i < rows2.length;i++){
                     req.session.selected_equip.push(rows2[i].equip_id);
                 }
                 connection.query("SELECT * FROM all_equipment WHERE status = 2",function(err1,rows1){
                     if(err1) throw err1;
-                    else  res.render("", {datarows:rows1, username:req.session.user, selected :req.session.selected_equip, max_no_equipment : req.body.max_no_equipment});
+                    else  res.render("", {datarows:rows1, username:req.session.user, selected : req.selected_equip, max_no_equipment : req.body.max_no_equipment});
                 });
             }
         });
@@ -823,24 +823,24 @@ module.exports = {
 
     //select_this_equipment - (ajax)
     select_this_equipment: function(req,res){
-        if(req.session.selected_equip.length<req.body.max_no_equipment){
-            req.session.selected_equip.push(req.params.equip_id);
-            res.send("Equipment added to auction", req.session.selected_equip);
+        if(req.selected_equip.length<req.body.max_no_equipment){
+            req.selected_equip.push(req.params.equip_id);
+            res.send("Equipment added to auction", req.selected_equip);
         }
-        else res.send("You have reached limit for your auction", req.session.selected_equip);
+        else res.send("You have reached limit for your auction", req.selected_equip);
     },
 
     //deselect - (ajax)
     deselect: function(req,res){
-        index = req.session.selected_equip.indexOf(req.params.equip_id);
-        req.session.selected_equip.splice(index,1);
-        res.send("Equipment is removed from this auction", req.session.selected_equip);
+        index = req.selected_equip.indexOf(req.params.equip_id);
+        req.selected_equip.splice(index,1);
+        res.send("Equipment is removed from this auction", req.selected_equip);
     },
 
     //post_freeze auction - insert into auction equip
     //divided into 2 because of async
     freeze_this_auction1: function(req,res){
-        selected_equip = req.session.selected_equip;
+        selected_equip = req.selected_equip;
         auction_id = req.params.id;
         connection.query("SELECT equip_id FROM auction_equipment WHERE auction_id = ?",[auction_id], function(err,rows){
             if(err) throw err;
@@ -850,7 +850,7 @@ module.exports = {
                         index = selected_equip.indexOf(rows[i].equip_id);
                         selected_equip.splice(index,1);
                         if(i == rows.length - 1){
-                            req.session.selected_equip = selected_equip;
+                            req.selected_equip = selected_equip;
                             return next();
                         }
                     }
@@ -906,17 +906,17 @@ module.exports = {
         connection.query("SELECT auction_id FROM auctions  WHERE auctions.start_date < current_timestamp() AND end_date > current_timestamp()", function(err,rows){
             if(err) throw err;
             else {
-                req.session.auction_id = rows[0].auction_id;
+                req.auction_id = rows[0].auction_id;
                 return next();
             }
         });
     },
     
     this_auction : function(req,res){
-        connection.query("SELECT * FROM auctions WHERE auction_id = ?",[req.session.auction_id],function(err1,rows1){
+        connection.query("SELECT * FROM auctions WHERE auction_id = ?",[req.auction_id],function(err1,rows1){
             if(err1) throw err1;
             else{
-                connection.query("SELECT all_equipment.category, all_equipment.subcategory, all_equipment.brand, all_equipment.model, auction_equipment.* FROM all_equipment INNER JOIN auction_equipment ON auction_equipment.equip_id = all_equipment.id  WHERE auction_equipment.auction_id = ?",[req.session.auction_id], function(err,rows){
+                connection.query("SELECT all_equipment.category, all_equipment.subcategory, all_equipment.brand, all_equipment.model, auction_equipment.* FROM all_equipment INNER JOIN auction_equipment ON auction_equipment.equip_id = all_equipment.id  WHERE auction_equipment.auction_id = ?",[req.auction_id], function(err,rows){
                     if(err) throw err;
                     else {
                         connection.query("SELECT MAX(bids.bid_amount), bids.user_id FROM bids INNER JOIN auction_equipment ON auction_equipment.equip_id = bids.equip_id WHERE bids.auction_id = ? GROUP BY bids.user_id", function(err2,rows2){
@@ -1043,20 +1043,20 @@ module.exports = {
         
         connection.query("SELECT account.*, all_equipment.id, all_equipment.brand, all_equipment.model, all_equipment.category, all_equipment.subcategory,all_equipment.status FROM account INNER JOIN all_equipment ON account.id=all_equipment.id WHERE account.id=?",[req.params.id],function(err,rows){
             if (err)throw err;
-            else{req.session.show_users=rows; 
-                req.session.user_id= req.params.user_id;
+            else{req.show_users=rows; 
+                req.user_id= req.params.user_id;
                 return next();// ufunc.my_requests1->my_requests2->myrequests3->show_user_profile2
             }
         });
     },
     
     show_user_profile2 : function(req,res){
-        res.render('./show_user_profile',{datarows : req.session.show_users, new_equip:req.session.new_equip, used_equip:req.session.used_equip});
+        res.render('./show_user_profile',{datarows : req.show_users, new_equip:req.new_equip, used_equip:req.used_equip});
     },
 
     //auction_summary - show auctoios - params m auction_id, fuction to convert it to session.auction_id, this_acution()
     auction_summary:function(req,rows, next){
-        req.session.auction_id = req.params.auction_id;
+        req.auction_id = req.params.auction_id;
         return next();
     },
 
@@ -1080,8 +1080,8 @@ module.exports = {
                     else used_equip.push(equip_id);
                     if(rows[i].status ==2) interested.push(rows[i].sno)
                     if(i == (rows.length-1)){
-                        req.session.new_equip = new_equip;
-                        req.session.used_equip = used_equip;
+                        req.new_equip = new_equip;
+                        req.used_equip = used_equip;
                         return next();// user/my_requests2, my_requests3, my_requests4
                     }
                 }
@@ -1090,7 +1090,7 @@ module.exports = {
     },
 
     show_equipment_requests2: function(req,res){
-        res.render("./user_requested.ejs", {new_equip: req.session.new_equip, used_equip: req.session.used_equip, proposals:req.session.proposals, username:req.session.name});
+        res.render("./user_requested.ejs", {new_equip: req.new_equip, used_equip: req.used_equip, proposals:req.proposals, username:req.session.name});
     },
     //users - name - category, #equip(count + innerjoin all_equipment(owner_id)), state from account table 
     //user_profile - upar wala data + all.equipment.*, requested equipments(requests);

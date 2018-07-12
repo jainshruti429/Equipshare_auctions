@@ -15,15 +15,19 @@ module.exports = {
 };
 
 //=================================USE THIS FOR OTHER COMPUTER===================================
-// module.exports = {
-//     'connection': {
-//       // local configs.
-//          'host' : '192.168.0.9',
-//          'user': 'muskan',
-//          'password': 'password',
-// 			   'database': 'eqsAuction'
-//     }   
-// };
+
+module.exports = {
+    'connection': {
+      // local configs.
+         'host' : '192.168.0.8',
+         'user': 'muskan',
+         'password': 'password',
+			   'database': 'eqsAuction'
+    }   
+};
+
+
+
 
 //=================================USE THIS FOR OTHER COMPUTER===================================
 // module.exports = {

@@ -28,7 +28,7 @@ app.use(fileUpload());
 module.exports = function(app, passport) {
 
 	// app.get('/', function(req,res){
-	// 		connection.query("SELECT * FROM auctions", function(err,rows,fields){
+	// 		connection.query("SELECT start_date AS 'Date Searched' FROM auctions", function(err,rows,fields){
 	// 		if(err) throw err;
 	// 		else {
 	// 			var y = "";
@@ -37,9 +37,9 @@ module.exports = function(app, passport) {
  //                };
  //                var my = [2,3,4,5,6,7,8];
  //                fields.push(obj);
-	// 			// var x = (String)(rows[1].start_date);
-	// 			// x = x.slice(0,-18);
-	// 			// rows[1].start_date = x;
+	// 			var x = (String)(rows[1]["Date Searched"]);
+	// 			x = x.slice(0,-18);//remove sec and GMT etc
+	// 			rows[1]["Date Searched"] = x;
 	// 			for(var i =0; i <rows.length; i++){
 	// 				y = JSON.stringify(rows[i]);
 	// 				y = y.slice(0,-1);
@@ -187,6 +187,9 @@ module.exports = function(app, passport) {
     app.get("/user_my_requests", gfunc.isLoggedInfunc, ufunc.my_requests0,ufunc.my_requests1, ufunc.my_requests2, ufunc.my_requests3, ufunc.my_requests4, ufunc.my_requests5);
     app.get('/user_my_equipment', gfunc.isLoggedInfunc,ufunc.my_equipment,gfunc.equip_data, );
     app.get('/user_add_equipment',gfunc.isLoggedInfunc, ufunc.check_profile, ufunc.get_add_equipment);
+    app.get("/user_saved_searches", gfunc.isLoggedInfunc, ufunc.saved_searches);
+    //Auction
+    app.get("/user_upcoming_auctions",gfunc.isLoggedInfunc,);
 
     app.get('/user_compare',gfunc.isLoggedInfunc,ufunc.compare);
     app.get('/user_compare_now', gfunc.isLoggedInfunc,ufunc.compare_now);
@@ -194,8 +197,7 @@ module.exports = function(app, passport) {
     app.get('/user_request:id', gfunc.isLoggedInfunc, ufunc.request_this);
     app.post("/user_proposal_status", gfunc.isLoggedInfunc,ufunc.change_proposal_status);    
 
-    app.get("/user_saved_searches", gfunc.isLoggedInfunc, ufunc.saved_searches);
-
+    
     app.get('/user_reset_password', gfunc.isLoggedInfunc, ufunc.get_reset_password);
     app.post('/user_reset_password', gfunc.isLoggedInfunc, ufunc.post_reset_password, ufunc.get_reset_password);
     app.get('/user_update_equipment:id',gfunc.isLoggedInfunc, ufunc.get_update_this_equipment);
@@ -335,16 +337,16 @@ module.exports = function(app, passport) {
 
     
 	
-	//see views
-	//see saved searches
-	//see requests/leads
-	//add proposal
+// 	see views
+// 	see saved searches
+// 	see requests/leads
+// 	add proposal
 
 // =======================================================================================
 // =========================== BANK USER FUNCTIONS ====================================== 
 // =======================================================================================
-	//see deals (approved by admin) 
-    //add proposal
+// 	see deals (approved by admin) 
+//     add proposal
     
 
 };

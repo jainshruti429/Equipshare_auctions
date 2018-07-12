@@ -91,7 +91,10 @@ module.exports = function(app, passport) {
     //       for(var i = 0;i<featured ;i++){
     //           feat_data.push(data);
     //       }
-    //     //res.render("./user_equipmentDetail.ejs",{username:'',request:1,equip,prev_featured:prev_featured,featured:featured, feat_data : feat_data,cat_rows:[2] ,user_data:[] });
+
+    //     //res.render("./user_equipmentDetail.ejs",{username:'',request:1,equip,prev_featured:prev_featured,featured:featured, feat_data : feat_data,cat_rows:[2] ,user_data:[] })
+    //     res.render("./user_dashboard.ejs",{username:'',prev_featured:prev_featured,featured:featured, feat_data : feat_data,cat_rows:[2] });
+
     // });
  
             
@@ -109,7 +112,7 @@ module.exports = function(app, passport) {
 // }
 
 	// app.get('/', function(req,res){
-	// 		connection.query("SELECT * FROM auctions", function(err,rows,fields){
+	// 		connection.query("SELECT start_date AS 'Date Searched' FROM auctions", function(err,rows,fields){
 	// 		if(err) throw err;
 	// 		else {
 	// 			var y = "";
@@ -118,9 +121,9 @@ module.exports = function(app, passport) {
  //                };
  //                var my = [2,3,4,5,6,7,8];
  //                fields.push(obj);
-	// 			// var x = (String)(rows[1].start_date);
-	// 			// x = x.slice(0,-18);
-	// 			// rows[1].start_date = x;
+	// 			var x = (String)(rows[1]["Date Searched"]);
+	// 			x = x.slice(0,-18);//remove sec and GMT etc
+	// 			rows[1]["Date Searched"] = x;
 	// 			for(var i =0; i <rows.length; i++){
 	// 				y = JSON.stringify(rows[i]);
 	// 				y = y.slice(0,-1);
@@ -259,7 +262,7 @@ module.exports = function(app, passport) {
 //         })(req,res,next);
 //     });
 
-//  // all are checking that the user is first logged in and then that he is of the right category that the request belong to.
+  // all are checking that the user is first logged in and then that he is of the right category that the request belong to.
 //     //links from dashboard
 //     app.get('/user_search_category', gfunc.isLoggedInfunc,ufunc.search_category);
 //     app.post('/user_search',gfunc.isLoggedInfunc,ufunc.search);
@@ -289,6 +292,43 @@ module.exports = function(app, passport) {
 //     app.post('/user_add_equipment', gfunc.isLoggedInfunc, ufunc.post_add_equipment, ufunc.get_add_equipment);
 //     app.get('/user_update_profile',gfunc.isLoggedInfunc, ufunc.get_update_profile);
 //     app.post('/user_update_profile', gfunc.isLoggedInfunc, ufunc.post_update_profile);
+
+ // all are checking that the user is first logged in and then that he is of the right category that the request belong to.
+    //links from dashboard
+    app.get('/user_search_category', gfunc.isLoggedInfunc,ufunc.search_category);
+    app.post('/user_search',gfunc.isLoggedInfunc,ufunc.search);
+    app.get('/view:id',gfunc.isLoggedInfunc, gfunc.view);
+    //links from side_nav_bar
+    //Equipments
+    app.get("/user_my_requests", gfunc.isLoggedInfunc, ufunc.my_requests0,ufunc.my_requests1, ufunc.my_requests2, ufunc.my_requests3, ufunc.my_requests4, ufunc.my_requests5);
+    app.get('/user_my_equipment', gfunc.isLoggedInfunc,ufunc.my_equipment1,gfunc.equip_data,ufunc.my_equipment2 );
+    app.get('/user_add_equipment',gfunc.isLoggedInfunc, ufunc.check_profile, ufunc.get_add_equipment);
+    app.get("/user_saved_searches", gfunc.isLoggedInfunc, ufunc.saved_searches);
+    //Auction
+    app.get("/user_upcoming_auctions",gfunc.isLoggedInfunc,ufunc.upcoming_auctions);
+    app.get("/live_auction", gfunc.isLoggedInfunc, ufunc.live_auction,ufunc.upcoming_auctions);
+    app.get("/auction_results", gfunc.isLoggedInfunc, admin_functions.show_auctions);
+    //app.get("/this_auction_result:id", gfunc.isLoggedInfunc,);
+
+    app.get('/user_compare',gfunc.isLoggedInfunc,ufunc.compare);
+    app.get('/user_compare_now', gfunc.isLoggedInfunc,ufunc.compare_now);
+    app.get('/user_save_search', gfunc.isLoggedInfunc, ufunc.save_search);    
+    app.get('/user_request:id', gfunc.isLoggedInfunc, ufunc.request_this);
+    app.post("/user_proposal_status", gfunc.isLoggedInfunc,ufunc.change_proposal_status);    
+
+    
+    app.get('/user_reset_password', gfunc.isLoggedInfunc, ufunc.get_reset_password);
+    app.post('/user_reset_password', gfunc.isLoggedInfunc, ufunc.post_reset_password, ufunc.get_reset_password);
+    app.get('/user_update_equipment:id',gfunc.isLoggedInfunc, ufunc.get_update_this_equipment);
+    app.post('/user_update_equipment:id', gfunc.isLoggedInfunc, ufunc.post_update_this_equipment, gfunc.view);
+    //app.get('/user_view_equipment', gfunc.isLoggedInfunc, ufunc.view_equipment);
+    app.get('/user_add_equipment_category', gfunc.isLoggedInfunc, ufunc.get_add_equipment_category);
+    app.get('/user_add_equipment_subcategory', gfunc.isLoggedInfunc, ufunc.get_add_equipment_subcategory);
+    app.get('/user_add_equipment_brand', gfunc.isLoggedInfunc, ufunc.get_add_equipment_brand);
+    app.post('/user_add_equipment', gfunc.isLoggedInfunc, ufunc.post_add_equipment, ufunc.get_add_equipment);
+    app.get('/user_update_profile',gfunc.isLoggedInfunc, ufunc.get_update_profile);
+    app.post('/user_update_profile', gfunc.isLoggedInfunc, ufunc.post_update_profile);
+
     
     
 
@@ -417,6 +457,7 @@ module.exports = function(app, passport) {
 
     
 	
+
 // 	//see views
 // 	//see saved searches
 // 	//see requests/leads
@@ -427,6 +468,17 @@ module.exports = function(app, passport) {
 // // =======================================================================================
 // 	//see deals (approved by admin) 
 //     //add proposal
+
+// 	see views
+// 	see saved searches
+// 	see requests/leads
+// 	add proposal
+
+// =======================================================================================
+// =========================== BANK USER FUNCTIONS ====================================== 
+// =======================================================================================
+// 	see deals (approved by admin) 
+//     add proposal
     
 
 // };

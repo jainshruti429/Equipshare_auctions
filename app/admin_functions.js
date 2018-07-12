@@ -731,14 +731,21 @@ module.exports = {
       //show_auc.ejs is to be designed..
      //this is to be called in routes
     show_auction : function(req,res){        
-         connection.query("SELECT auctions.auction_id, auctions.name, auctions.start_date, auctions.end_date, count(auction_equipment.auction_id) as no_of_equip FROM auctions LEFT JOIN auction_equipment ON auctions.auction_id = auction_equipment.auction_id GROUP BY auctions.auction_id", function(err,rows){
-
-            if (err) throw err ;
+         connection.query("SELECT auctions.name AS 'Auction Name', auctions.start_date AS 'Start Date/time', auctions.end_date AS 'End Date/time', count(auction_equipment.auction_id) as 'No of equipments', auctions.auction_id AS id FROM auctions LEFT JOIN auction_equipment ON auctions.auction_id = auction_equipment.auction_id WHERE auctions.end_date < current_timestamp() GROUP BY auctions.auction_id ORDER BY auctions.auction_id", function(err1,rows1, fields){
+            if (err1) throw err1 ;
             else{ 
-                connection.query("SELECT auctions.auction_id, count(auction_requests.auction_id) as participants  FROM auctions LEFT JOIN auction_requests ON auctions.auction_id = auction_requests.auction_id WHERE auction_requests.status = 1  GROUP BY auctions.auction_id",function(err1,rows1){
-                    if(err1) throw err1;
+                connection.query("SELECT auctions.auction_id, count(case auction_requests.auction_id when 1 then 1 else null end) as participants FROM auctions LEFT JOIN auction_requests ON auctions.auction_id = auction_requests.auction_id GROUP BY auctions.auction_id ORDER BY auctions.auction_id",function(err2,rows2){
+                    if(err2) throw err2;
                     else{
-                        res.render("./show_auc.ejs",{datarows : rows , no_of_participants : participants, username : req.session.name});
+                        obj = {name:"Participants"};
+                        fields.push(obj);
+                        for(var i = 0 ; i<rows1.length; i++ ){
+                            y = JSON.stringify(rows1[i]);
+                            y = y.slice(0,-1);
+                            y = y + ',"Participants":"'+rows2[i][participants]+'"}';
+                            rows1[i] = JSON.parse(y);
+                        }
+                        res.render("./table.ejs",{datarows : rows , fields:fields , title:"Auctions" username : req.session.name});
                     }
                 });
             }
@@ -914,7 +921,7 @@ module.exports = {
     },
     
     this_auction : function(req,res){
-        connection.query("SELECT * FROM auctions WHERE auction_id = ?",[req.auction_id],function(err1,rows1){
+        connection.query("SELECT * FROM auctions WHERE auction_id = ?",[req.params.auction_id],function(err1,rows1){
             if(err1) throw err1;
             else{
                 connection.query("SELECT all_equipment.category, all_equipment.subcategory, all_equipment.brand, all_equipment.model, auction_equipment.*, count(bids.equip_id) FROM all_equipment LEFT JOIN auction_equipment ON all_equipment.id=auction_equipment.equip_id LEFT JOIN bids ON all_equipment.id = bids.equip_id WHERE auction_equipment.auction_id = ? AND bids.auction_id = ? GROUP BY all_equipment.id ORDER BY all_equipment.id",[req.auction_id, req.auction_id], function(err,rows){

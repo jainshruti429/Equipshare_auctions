@@ -729,10 +729,10 @@ module.exports =  {
                     var z = (String)(rows[i]["End Time"];
                     z = z.slice(15,-15);//remove sec and GMT etc
                     rows[0]["End Time"] = z;
-                    connection.query(" SELECT all_equipment.photo1, all_equipment.owner_id, all_equipment.subcategory, all_equipment.brand, all_equipment.model, auction_equipment.current_bid, auction_equipment.base_price, auction_equipment.equip_id, count(bids.equip_id) as no_bids FROM auction_equipment LEFT JOIN all_equipment ON all_equipment.id=auction_equipment.equip_id LEFT JOIN bids ON auction_equipment.equip_id = bids.equip_id WHERE auction_equipment.auction_id = ? GROUP BY auction_equipment.equip_id, auction_equipment.current_bid, auction_equipment.base_price ORDER BY auction_equipment.equip_id;",[rows[0].id,rows[0].id],function(err1,rows1){
+                    connection.query("SELECT all_equipment.photo1, all_equipment.owner_id, all_equipment.subcategory, all_equipment.brand, all_equipment.model, auction_equipment.current_bid, auction_equipment.base_price, auction_equipment.equip_id, count(bids.equip_id) as bids FROM auction_equipment LEFT JOIN all_equipment ON all_equipment.id=auction_equipment.equip_id LEFT JOIN bids ON auction_equipment.equip_id = bids.equip_id WHERE auction_equipment.auction_id = ? GROUP BY auction_equipment.equip_id, auction_equipment.current_bid, auction_equipment.base_price ORDER BY auction_equipment.equip_id;",[rows[0].id,rows[0].id],function(err1,rows1){
                         if(err1) throw err1;
                         else {
-                            connection.query("SELECT auction_equipment.equip_id, MAX(bids.bid_amount) as 'Last Bid' FROM auction_equipment LEFT JOIN bids ON auction_equipment.equip_id = bids.equip_id WHERE auction_equipment.auction_id = ? AND bids.user_id = ? ORDER BY auction_equipment.equip_id",[rows[0].id, rows[0].id, req.session.user], function(err2,rows2){
+                            connection.query("SELECT equip_id, MAX(bid_amount) as 'Last Bid' FROM bids WHERE auction_id = ? AND bids.user_id = ? GROUP BY equip_id",[rows[0].id, req.session.user], function(err2,rows2){
                                  if(err2) throw err2;
                                  else {//bids wali query
                                     var user_id = req.session.user;
@@ -741,14 +741,22 @@ module.exports =  {
                                     var others = [];
                                     var y;
                                     for(var i = 0 ; i < rows1.length; i++){
-                                         y = JSON.stringify(rows1[i]);
-                                         y = y.slice(0,-1);
-                                         y = y + ',"'+no_bids+'":"'+rows2[i].no_bids+'"}';
-                                         rows1[i] = JSON.parse(y);
                                         if(rows1[i].owner_id == user_id) my_equipment.push(rows1[i]);
-                                        else if(rows)
+                                        else{
+                                            for(var j = 0 ; j < rows2.length ; j ++){
+                                                if(rows1[i].equip_id == rows2[j].equip_id){
+                                                    y = JSON.stringify(rows1[i]);
+                                                    y = y.slice(0,-1);
+                                                    y = y + ',"Last Bid":"'+rows2[j]["Last Bid"]+'"}';
+                                                    rows1[i] = JSON.parse(y);
+                                                    my_bids.push(rows1[i]);
+                                                    break;
+                                                }
+                                                else if(j == (rows2.length -1)) others.push(rows1[i]);
+                                            } 
+                                        }
                                     }
-                                    res.render("./user_live_auction.ejs",{auction_info:rows, auction_fields :fields,  });
+                                    res.render("./user_live_auction.ejs",{auction:rows, auction_fields :fields, my_equipment:my_equipment, my_bids:my_bids, others:others, username:req.session.name});
                                 }
                             });
                         }

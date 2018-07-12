@@ -265,7 +265,9 @@ module.exports = function(app, passport) {
     //Auction
     app.get("/user_upcoming_auctions",gfunc.isLoggedInfunc,ufunc.upcoming_auctions);
     app.get("/live_auction", gfunc.isLoggedInfunc, ufunc.live_auction,ufunc.upcoming_auctions);
-    
+    app.get("/auction_results", gfunc.isLoggedInfunc, admin_functions.show_auctions);
+    //app.get("/this_auction_result:id", gfunc.isLoggedInfunc,);
+
     app.get('/user_compare',gfunc.isLoggedInfunc,ufunc.compare);
     app.get('/user_compare_now', gfunc.isLoggedInfunc,ufunc.compare_now);
     app.get('/user_save_search', gfunc.isLoggedInfunc, ufunc.save_search);    

@@ -38,17 +38,18 @@ module.exports = {
 //-----------------------------------generic website funtions -------------------------------------------
 
    //enquiry info to admin (admin_inquiry.ejs is to be designed)
-    inEmail : function(req, res){
-        connection.query("SELECT * FROM enquiry WHERE status = 0",function(err,rows){
-            if(err) throw err;
-            else {
-                connection.query("SELECT * FROM enquiry WHERE status = 1",function(err1,rows1){
-                    if(err1) throw err1;
-                    else res.render('./admin_inquiry.ejs',{current:rows , previous: rows1, username:req.session.name});
-                });
-            }
-        });
-    },
+   
+    // inEmail : function(req, res){
+    //     connection.query("SELECT * FROM enquiry WHERE status = 0",function(err, rows, fields){
+    //         if(err) throw err;
+    //         else {
+    //             connection.query("SELECT * FROM enquiry WHERE status = 1",function(err1,rows1){
+    //                 if(err1) throw err1;
+    //                 else res.render('./admin_inquiry.ejs',{current:rows , previous: rows1, username:req.session.name});
+    //             });
+    //         }
+    //     });
+    // },
 //-----------------------------------generic website function ends here-------------------------------
     saved_searches : function(req,res){
         connection.query("SELECT * FROM save", function(err,rows){
@@ -1064,7 +1065,7 @@ module.exports = {
     //post
 
     //equip_requests - pending first
-    show_equipment_requests1: function(req,res){
+    show_equipment_requests1: function(req,res,next){
         new_equip = [];
         used_equip = [];
         interested = [];

@@ -172,7 +172,7 @@ module.exports = {
             else{
                 for(var i = 0; i<rows.length; i++){
                     if(rows[i].display) featured.push(rows[i]);
-                    else prev_featured[k] = rows[i];
+                    else {prev_featured.push(rows[i]);
                 }
                 str = "SELECT name, address1, address2, address3, city, state, zipcode, mobile FROM account WHERE id IN (";
                 for(var i = 0; i <featured.length; i++){

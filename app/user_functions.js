@@ -182,10 +182,18 @@ module.exports =  {
         return res.send(compare);
     },
 
-    saved_searches : function(req,res){
-        connection.query("SELECT * FROM save WHERE user_id = ? ORDER BY display" , [req.session.user],function(err,rows){
+    saved_searches : function(req,res, fields){
+        connection.query('SELECT date AS "Date/Time Of Search", sort AS Type,subcategory AS Subcategory,save_id AS id FROM save WHERE user_id = ? AND display = 1 ORDER BY date DESC' , [req.session.user],function(err,rows,fields){
             if(err) throw err;
-            else res.render("./user_saved_searches.ejs", {datarows:rows});
+            else {
+                var x = "";
+                for(var i = 0 ;i<rows.length;i++){
+                    x = (String)(rows[i]["Date/Time Of Search"];
+                    x = x.slice(0,-18);//remove sec and GMT etc
+                    rows[i]["Date/Time Of Search"] = x;
+                }
+                res.render("./table.ejs", {datarows:rows, fields:fields, username:req.session.name, title:"Saved Searches"});
+            }
         });
     },
 
@@ -547,7 +555,7 @@ module.exports =  {
         else msg = 'Please enter the following details';
         connection.query("SELECT DISTINCT subcategory FROM equipment_type WHERE category = ?",[cat_rows[0].category], function(err1, subcat_rows){
             if (err1) throw err1;
-            else res.render('./user_add_equipment.ejs', {msg : msg, cat_rows:cat_rows, isLoggedIn : isLoggedIn(req,res), username: req.session.name});                             
+            else res.render('./user_add_equipment.ejs', {msg : msg, cat_rows:cat_rows, username: req.session.name});                             
         });
     },
 
@@ -685,7 +693,7 @@ module.exports =  {
     //===========================AUCTION API'S==================================================
 
     upcoming_auctions : function(req,res){
-        connection.query("SELECT * FROM auctions WHERE start_date > current_timestamp()", function(err,rows){
+        connection.query("SELECT name AS 'Auction Name',  FROM auctions WHERE start_date > current_timestamp()", function(err,rows){
             if(err) throw err;
             else res.send("ho gaya");
         });

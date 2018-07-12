@@ -103,7 +103,7 @@
                                                         Dashboard
                                                         <small>
                                                             <i class="ace-icon fa fa-angle-double-right"></i>
-                                                            Equipment Detail
+                                                            Equipment List
                                                         </small>
                                                     </h1>
                                                 </div><!-- /.page-header -->
@@ -111,433 +111,243 @@
                                         
 			<!-- End banner Area -->	
             <!--filter here-->
+            <div class="custom-machine-type">
+                    <div class="container">
+                      <div class="row machine-type">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style="margin-left:43%!important;margin-bottom:2%!important;">
+          <li class="nav-item">
+            <a class="nav-link active custom-pill-header" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Buy</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link custom-pill-header sell_custom_btn_index" href="/user_add_equipment">Sell</a>
+          </li>
          
-			<!-- end contact Area -->		
-            
-                    <!--slider here-->
-                    <div class="equip-slider">
+        </ul>
+                               <div class="tab-content custom-pill-para" id="pills-tabContent">
+          <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+               <form action="/search" method="post">
+              <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                  <!--<form action="/search" method="post">-->
+                  <div class="form-group">
+              <label for="sel1" class="machine-select">Machine Category</label>
+                          <select class = "form-control" name="category"  onchange="if(this.value!= 0) { find_subcategory(this.value);}">
+                                       <option value="">Select Category</option>	
+                                        <% for(var i = 0;i< cat_rows.length; i++){ %> 
+                                        <option value="<%=cat_rows[i].category%>"><%=cat_rows[i].category%> </option>
+                                        <%}%>
+                                    </select>      
+                            </div>
+                  </div>
+                  
+                 
+                  <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                         <div class="row">
-                        <div class="container">
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-  <div id="myCarousel" class="carousel slide" data-ride="carousel">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-      </ol>
-  
-      <!-- Wrapper for slides -->
-      <div class="carousel-inner">
-        <div class="item active">
-          <img src="equipment.jpg"  style="width:100%;">
-        </div>
-  
-        <div class="item">
-          <img src="equipment.jpg"  style="width:100%;">
-        </div>
-      
-        <div class="item">
-          <img src="equipment.jpg"  style="width:100%;">
-        </div>
-      </div>
-  
-      <!-- Left and right controls -->
-      <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="right carousel-control" href="#myCarousel" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div>
-    </div>
-  
-  
-                    
-                    
-                <!--end col 6 here---->
-
-                <div >
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <div class="header-name">
-                <h3><!--%=equip_data[0].subcategory%-->Backhoes</h3>    
+                          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                  <div class="form-group">
+                      <label for="sel1" class="machine-select">Machine Sub - Category</label>
+                           <select id ='subcat' class = "form-control" name="subcategory"  list="subcat"  autocomplete="off"  required ></select> 
+                  </div>
+                          </div>
+                          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                              <!--button type="submit" class="btn btn-success custom-upper-btn" >Add Equipment</button-->
+              <input type="submit" class="btn btn-success custom-upper-btn" value="SEARCH">
+                            </div>
+                          </div>
+        
                         </div>
-                    <div class="custom-equip-detail" style="margin-top:10px;">
+                     <!-- </form> -->
+                        
+                  </div>
+                      
+              </div>
+              </form>
+                                  </div>
+          
+                                   </div>
+                                   
+                                  
+                                   
+        </div>   
+                                
+                                
+                            </div>
+                        </div>
+                        </div>
+         
+            <!-- end contact Area -->
+            <!-- upper section-->
+            <section class="jumbotron " style="height:250px;">
+                <div class="container">
                     <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                          <span class="fa fa-star custom-checked"></span>
-  <span class="fa fa-star custom-checked"></span>
-  <span class="fa fa-star custom-checked"></span>
-  <span class="fa fa-star custom-checked"></span>
-  <span class="fa fa-star"></span><br>
+                            <div>
+                             <div class=" col-lg-push-1 col-md-push-1 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                             <a class="btn btn-primary btn-lg" href="#">Save Search</a>
                              </div>
-                         </div>
-                        
-                        
-                        <div class="row custom-row-border">
-                        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-                            <p class="price-para-custom">$&nbsp;<!--%=equip_data[0].expected_price%-->1000</p> 
                             </div>
-                            
-                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                            <%if(request){%>
-                            <a href="/user_request<%=equip_data[0].id%>">
-                            <input type="submit" class="btn btn-primary custom-buy-btn" value ="BUY NOW"></a>
-                            <%} 
-                            else{%>
-                            <a href="/user_update_equipment<%=equip_data[0].id%>">
-                            <input type="submit" class="btn btn-primary custom-buy-btn" value ="UPDATE"></a>
-                            <%}%>
-                            </div>
-                            
-                        </div>
-                        
-                           <p style="padding-top:10px;"><%=equip_data[0].description%></p>
-
-                       
-                        
-                       <div class="row custom-second-row">
-                        <div class="  col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
-                            <h4 class="text-center" style="padding-top:10px;">Brand</h4>
-                        <p class="text-center"><%=equip_data[0].brand%></p>
-                        </div>
-                        <div class="  col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
-                       <h4 class="text-center" style="padding-top:10px;">Model</h4>
-                        <p class="text-center"><%=equip_data[0].model%></p>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
-                        <h4 class="text-center" style="padding-top:10px;">Year</h4>
-                        <p class="text-center"><%=equip_data[0].year%></p>
-                        </div>
-                        
-                        </div>
-                        
-                        
-                        
-                        <div class="row custom-second-row">
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
-                            <h4 class="text-center" style="padding-top:10px;">Colour</h4>
-                        <p class="text-center"><%=equip_data[0].colour%></p>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
-                       <h4 class="text-center" style="padding-top:10px;">Km / Hour</h4>
-                        <p class="text-center"><%=equip_data[0].km%></p>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
-                        <h4 class="text-center" style="padding-top:10px;">Type</h4>
-                        <p class="text-center"><%=equip_data[0].category%></p>
-                        </div>
-                        </div>
-                        
-                         <div class="row custom-second-row">
-                        <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
-                            <h4 class="text-center" style="padding-top:10px;">City</h4>
-                        <p class="text-center"><%=equip_data[0].city%></p>
-                        </div>
-                        <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
-                       <h4 class="text-center" style="padding-top:10px;">State</h4>
-                        <p class="text-center"><%=equip_data[0].state%></p>
-                        </div>
-                        </div>
-                        
-                    </div>
+                            <div>
+                                <!-- end col 2here-->
+                               <div class="col-lg-push-2 col-md-push-2  col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                               <div class="table-responsive">
+                               <table class="table table-hover table-bordered ">
+                                   <tbody>
+                                       <tr  style="height:100px;width:200px;margin-left:100px;">
+                                         <td><img src= "/equipment4.jpg" alt="select search" style="height:100px ;width:100%"></td>
+                                         <td><img src="/equipment2.jpg" alt="select search" style="height:100px ;width:100%"></td>  
+                                         <td><img src="/equipment4.jpg" alt="select search" style="height:100px ;width:100%"></td>  
+                                         <td><img src="/equipment3.jpg" alt="select search" style="height:100px ;width:100%"></td>    
+                                        
+                                        </tr>
+                                   </tbody>
+                               </table> 
+                               </div>
+                               
+                               </div>
+                                  <!--end col 4 here-->
+                                   <div class=" col-lg-push-2 col-md-push-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                        <a class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Compare Now</a>
+                                   </div>
+                                  <!--end col2 here-->
+                                  <div class="col-lg-push-2 col-md-push-2  col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                       
+                                   <div class="dropdown">
+                                   <button data-toggle="dropdown" class="btn btn-lg btn-primary dropdown-toggle"  >Sort &nbsp;&nbsp;&nbsp; <span class="caret"></span>
+                                   </button> 
+                                   <ul class="dropdown-menu">
+                                       <li class="dropdown-header"><strong>By Price</strong></li>
+                                       <li><a href="#">High to Low</a></li>
+                                       <li><a href="#">Low to High</a></li>
+                                   </ul>
+                                   </div>
+                                  </div> 
+                                  <!--end col 4 here-->   
+                               </div>
+                             </div>
+            </section>
+              <!--upper section ends-->
+              <!--popup here--->
+              <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
                     
-                </div>
-                
-                
-                </div>
-            </div>
-                </div>
+                      <!-- Modal content--->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="model-body" >
+                              <table class="table table-bordered table-responsive table-hover">
+                                  <tr>
+                                      <td>Selected Item </td>
+                                      <td><img src= "/equipment4.jpg" alt="select search" style="height:100px ;width:100%"></td>
+                                      <td><img src= "/equipment4.jpg" alt="select search" style="height:100px ;width:100%"></td>
+                                      <td><img src= "/equipment4.jpg" alt="select search" style="height:100px ;width:100%"></td>
+                                      <td><img src= "/equipment4.jpg" alt="select search" style="height:100px ;width:100%"></td>
+                                      <td><img src= "/equipment4.jpg" alt="select search" style="height:100px ;width:100%"></td>
+                                  </tr>
+                                  <tr>
+                                      <td>Point1</td>
+                                      <td>Point1</td>
+                                      <td>Point1</td>
+                                      <td>Point1</td>
+                                      <td>Point1</td>
+                                  </tr>
+                              </table>
+                              <div class="form-group">
+                                 <button class="btn btn-primary">BID NOW</button>
+                              </div>
+                          
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                  <!--popup ends here-->
+            <!--image list here--> 
+            <div class="album py-5 bg-light">
+            <div class="container">
+
+                <div class="row">
+      
+                  <div class="col-md-4">
+                    <div class="card border-secondary mb-4 box-shadow" style="width:30rem ;">
+                      <img class="card-img-top"  alt="Equipment name" style="height: 225px; width: 100%; display: block;" src= "/equipment2.jpg"  data-holder-rendered="true">
+                      <div class="card-body text-secondary">
+                        <h2 class="card-title">Blackhoes &nbsp&nbsp&nbsp <span class="text-primary">$1000</span> </h2>
+                        <div class="d-flex justify-content-between align-items-center">
+                          
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <p class="machine-type-custom text-center"><strong>Brand <br> </strong>TATA</p>
+                                </div>
+                                
+                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <p class="machine-type-custom text-center"><strong>Model <br> </strong>T89H</p>
+                                </div>
                                 </div>
                             
-                                
-            
-            <!--END SIDEBAR PRODUCT SLIDER HERE-->
-            
-            <!---   PRODUCT DESCRIPTION ACCORDION-->
-            <div class="custom-accordian">
-            <div class="container">
-            <div class="row">
-              
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-  <!--<li class="nav-item">
-    <a class="nav-link active custom-pill-header" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Description</a>
-  </li>-->
-  <li class="nav-item">
-    <a class="nav-link active custom-pill-header show" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="true">Technical Information</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link custom-pill-header" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Documents</a>
-  </li>
-</ul>
-<hr class="custom-hr-detail">   
-                    
-                        <div class="tab-content custom-pill-para" id="pills-tabContent">
-  <div class="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-  						<%if(tech_info.mapping_unit){%>
-                            <div class="row custom-second-row">
-                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width:20%">
-                        			<h4>Mapping Unit <span style="padding-left:30px">:</span> </h4>
-                        		</div>
+                            <button type="button" class="btn btn-primary">View Details</button>
+                             </div>
+                      </div>
+                    </div>
+                  </div>
+      
+                  <div class="col-md-4">
+                      <div class="card border-secondary mb-4 "  style="width:30rem ;">
+                        <img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="/equipment3.jpg"  alt="Equipment name">
+                        <div class="card-body text-secondary">
+                          <h2 class="card-title">Blackhoes &nbsp &nbsp&nbsp<span class="text-primary">$1000</span></h2>
+                          <div class="d-flex justify-content-between align-items-center">
+                            <div class="para">
+                              <div class="row">
+                                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                  <p class="machine-type-custom text-center"><strong>Brand <br> </strong>TATA</p>
+                                  </div>
+                                  
+                                   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                  <p class="machine-type-custom text-center"><strong>Model <br> </strong>T89H</p>
+                                  </div>
+                                  </div>
+                              </div>
+                              <button type="button" class="btn btn-primary">View Details</button>
+                               </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="col-md-4">
+                        <div class="card border-secondary mb-4 box-shadow"  style="width:30rem ;">
+                          <img class="card-img-top"  alt="Equipment name" style="height: 225px; width: 100%; display: block;" src="/equipment2.jpg" data-holder-rendered="true">
+                          <div class="card-body text-secondary">
+                            <h2 class="card-title">Blackhoes &nbsp&nbsp&nbsp<span class="text-primary">$1000</span></h2>
+                            <div class="d-flex justify-content-between align-items-center">
+                              <div class="para">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <p class="machine-type-custom text-center"><strong>Brand <br> </strong>TATA</p>
+                                    </div>
+                                    
+                                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <p class="machine-type-custom text-center"><strong>Model <br> </strong>T89H</p>
+                                    </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary">View Details</button>
+                                 </div>
+                          </div>
+                        </div>
+                      </div>
+                     
+                   
+                 </div>
+              </div>
+            </div>                   
 
-                        		<div class="col-lg-9 col-md-9 col-sm-6 col-xs-6">
-                        			<p><%=tech_info.mapping_unit%></p>
-                        		</div>
-                        	</div>
-                        <%}%>
-
-  						<%if(tech_info.max_dig_depth){%>
-                            <div class="row custom-second-row">
-                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width:20%">
-                        			<h4>Max Dig Depth <span style="padding-left:30px">:</span> </h4>
-                        		</div>
-
-                        		<div class="col-lg-9 col-md-9 col-sm-6 col-xs-6">
-                        			<p><%=tech_info.max_dig_depth%></p>
-                        		</div>
-                        	</div>
-                        <%}%>
-
-  						<%if(tech_info.blade_capacity){%>
-                            <div class="row custom-second-row">
-                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width:20%">
-                        			<h4>Blade Capacity <span style="padding-left:30px">:</span> </h4>
-                        		</div>
-
-                        		<div class="col-lg-9 col-md-9 col-sm-6 col-xs-6">
-                        			<p><%=tech_info.blade_capacity%></p>
-                        		</div>
-                        	</div>
-                        <%}%>
-
-  						<%if(tech_info.showel_capacity){%>
-                            <div class="row custom-second-row">
-                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width:20%">
-                        			<h4>Showel Capacity <span style="padding-left:30px">:</span> </h4>
-                        		</div>
-
-                        		<div class="col-lg-9 col-md-9 col-sm-6 col-xs-6">
-                        			<p><%=tech_info.showel_capacity%></p>
-                        		</div>
-                        	</div>
-                        <%}%>
-
-  						<%if(tech_info.engine_power){%>
-                            <div class="row custom-second-row">
-                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width:20%">
-                        			<h4>engine_power <span style="padding-left:30px">:</span> </h4>
-                        		</div>
-
-                        		<div class="col-lg-9 col-md-9 col-sm-6 col-xs-6">
-                        			<p><%=tech_info.mapping_unit%></p>
-                        		</div>
-                        	</div>
-                        <%}%>
-
-  						<%if(tech_info.mapping_unit){%>
-                            <div class="row custom-second-row">
-                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width: 20%">
-                        			<h4>Mapping Unit <span style="padding-left:30px">:</span> </h4>
-                        		</div>
-
-                        		<div class="col-lg-9 col-md-9 col-sm-6 col-xs-6">
-                        			<p><%=tech_info.mapping_unit%></p>
-                        		</div>
-                        	</div>
-                        <%}%>
-
-  						<%if(tech_info.mapping_unit){%>
-                            <div class="row custom-second-row">
-                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width: 20%">
-                        			<h4>Mapping Unit <span style="padding-left:30px">:</span> </h4>
-                        		</div>
-
-                        		<div class="col-lg-9 col-md-9 col-sm-6 col-xs-6">
-                        			<p><%=tech_info.mapping_unit%></p>
-                        		</div>
-                        	</div>
-                        <%}%>
-
-  						<%if(tech_info.mapping_unit){%>
-                            <div class="row custom-second-row">
-                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width: 20%">
-                        			<h4>Mapping Unit <span style="padding-left:30px">:</span> </h4>
-                        		</div>
-
-                        		<div class="col-lg-9 col-md-9 col-sm-6 col-xs-6">
-                        			<p><%=tech_info.mapping_unit%></p>
-                        		</div>
-                        	</div>
-                        <%}%>
-
-  						<%if(tech_info.mapping_unit){%>
-                            <div class="row custom-second-row">
-                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width: 20%">
-                        			<h4>Mapping Unit <span style="padding-left:30px">:</span> </h4>
-                        		</div>
-
-                        		<div class="col-lg-9 col-md-9 col-sm-6 col-xs-6">
-                        			<p><%=tech_info.mapping_unit%></p>
-                        		</div>
-                        	</div>
-                        <%}%>
-
-  						
-							
-                            
-    </div>
-    
-  <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                             <ol type="I" style="list-style:upper-roman;padding-left:30px;" class="custom-detail-ol">
-          <%if(equip_data[0].doc_invoice){%>
-          <li><a href="docs/<%=equip_data[0].doc_invoice%>">&nbsp;&nbsp;&nbsp;Invoice</a></li>
-          <%}%>
-          <%if(equip_data[0].doc_insurance){%>
-          <li><a href="docs/<%=equip_data[0].doc_insurance%>">&nbsp;&nbsp;&nbsp;Insurance</a></li>
-          <%}%>
-          <%if(equip_data[0].doc_rc){%>
-          <li><a href="docs/<%=equip_data[0].doc_rc%>">&nbsp;&nbsp;&nbsp;RC</a></li>
-          <%}%>
-          <%if(equip_data[0].doc_poc){%>
-          <li><a href="docs/<%=equip_data[0].doc_poc%>">&nbsp;&nbsp;&nbsp;POC</a></li>
-          <%}%>
-          <%if(equip_data[0].doc_fitness){%>
-          <li><a href="docs/<%=equip_data[0].doc_fitness%>">&nbsp;&nbsp;&nbsp;fitness</a></li>
-          <%}%>
-          <%if(equip_data[0].doc_roadtax){%>
-          <li><a href="docs/<%=equip_data[0].doc_roadtax%>">&nbsp;&nbsp;&nbsp;roadtax</a></li>
-          <%}%>
-          <%if(tech_info.doc1){%>
-          <li><a href="docs/<%=tech_info.doc1%>">&nbsp;&nbsp;&nbsp;Brochure</a></li>
-          <%}%>
-          <%if(tech_info.doc2){%>
-          <li><a href="docs/<%=tech_info.doc2%>">&nbsp;&nbsp;&nbsp;Technical Doccument</a></li>
-          <%}%>
-          
-      </ol>
-                            </div>
-</div>
-                
-                </div>
-                <br><br><br>
-                <!--MODAL POPUP-->
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px;">
-               <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  Launch demo modal
-</button>-->
-                    
-                    <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-   <div class="modal-body">
-        <!--ODY HERE-->
-     <nav>
-  <div class="nav nav-tabs custom-signin-nav-tabs" id="nav-tab" role="tablist">
-    <a class="nav-item nav-link active custom-modal-signin" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Sign In</a>
-    <a class="nav-item nav-link custom-modal-signin" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Sign Up</a>
-  </div>
-</nav>
-<div class="tab-content" id="nav-tabContent">
-  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-    <form class="cd-form">
-					<p class="fieldset">
-						<label class="image-replace cd-email" for="signin-email">E-mail</label>
-						<input class="full-width has-padding has-border" id="signin-email" type="email" placeholder="E-mail">
-						<span class="cd-error-message">Error message here!</span>
-					</p>
-
-					<p class="fieldset">
-						<label class="image-replace cd-password" for="signin-password">Password</label>
-						<input class="full-width has-padding has-border" id="signin-password" type="password"  placeholder="Password">
-						<a href="#0" class="hide-password">Hide</a>
-						<span class="cd-error-message">Error message here!</span>
-					</p>
-
-					<p class="fieldset">
-						<input type="checkbox" id="remember-me" checked>
-						<label for="remember-me">Remember me</label>
-					</p>
-
-					<p class="fieldset">
-						<input class="full-width" type="submit" value="Login" style="font-size:25px;">
-					</p>
-				</form>
-				
-    
-    
-    </div>
-  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-    	<form class="cd-form">
-					<p class="fieldset">
-						<label class="image-replace cd-username" for="signup-username">Username</label>
-						<input class="full-width has-padding has-border" id="signup-username" type="text" placeholder="Username">
-						<span class="cd-error-message">Error message here!</span>
-					</p>
-
-					<p class="fieldset">
-						<label class="image-replace cd-email" for="signup-email">E-mail</label>
-						<input class="full-width has-padding has-border" id="signup-email" type="email" placeholder="E-mail">
-						<span class="cd-error-message">Error message here!</span>
-					</p>
-
-					<p class="fieldset">
-						<label class="image-replace cd-password" for="signup-password">Password</label>
-						<input class="full-width has-padding has-border" id="signup-password" type="password"  placeholder="Password">
-						<a href="#0" class="hide-password">Hide</a>
-						<span class="cd-error-message">Error message here!</span>
-					</p>
-                    
-
-					<p class="fieldset">
-						<input type="checkbox" id="accept-terms">
-						<label for="accept-terms">I agree to the <a href="#0">Terms</a></label>
-					</p>
-
-					<p class="fieldset">
-						<input class="full-width has-padding" type="submit" value="Create account" style="font-size:25px;">
-					</p>
-				</form>
-
-    
-    </div>
-  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">333333</div>
-</div>
-       
-       <!--END BODY HERE-->
-      </div>
-     <!- <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>--->
-    </div>
-  </div>
-</div>
-                    
-                    
-                    
-                    
-                    
-                
-                </div>
-                <!--END MODAL POPUP-->
-                
-                
-                
-                
-                </div>
-            </div>
-           
-            </div>
+  					
             
             <!--END PRODUCT DESCRIPTION ACCORDION-->
             
@@ -584,14 +394,27 @@
 			<script src="js/main.js"></script>   
            
            <!--custom slider js-->
-                <!-- Syntax Highlighter -->
-  <script type="text/javascript" src="js/custom-slider/shCore.js"></script>
-  <script type="text/javascript" src="js/custom-slider/shBrushXml.js"></script>
-  <script type="text/javascript" src="js/custom-slider/shBrushJScript.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+        
+                <!-- Syntax Highlighter -->
+           <script type="text/javascript" src="js/custom-slider/shCore.js"></script>
+           <script type="text/javascript" src="js/custom-slider/shBrushXml.js"></script>
+             <script type="text/javascript" src="js/custom-slider/shBrushJScript.js"></script>
+              <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
              <script defer src="js/custom-slider/jquery.flexslider.js"></script>
+             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+             <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+             <script src="../../assets/js/vendor/popper.min.js"></script>
+             <script src="../../dist/js/bootstrap.min.js"></script>
+             <script src="../../assets/js/vendor/holder.min.js"></script>
+       
+             <svg xmlns="http://www.w3.org/2000/svg" width="208" height="226" viewBox="0 0 208 226" preserveAspectRatio="none" style="display: none; visibility: hidden; position: absolute; top: -100%; left: -100%;"><defs><style type="text/css"></style></defs><text x="0" y="11" style="font-weight:bold;font-size:11pt;font-family:Arial, Helvetica, Open Sans, sans-serif">Thumbnail</text></svg>
+       
 
   <script type="text/javascript">
     $(function(){

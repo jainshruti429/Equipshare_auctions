@@ -13,7 +13,7 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan'); // to log everything
 var fileUpload = require('express-fileupload');
 var path = require('path');
-var configDB = require('./config/database.js'); // including database config
+//var configDB = require('./config/database.js'); // including database config
 //var html = require('html');
 //==============================================================
 

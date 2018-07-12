@@ -6,12 +6,31 @@
 // module.exports = {
 //     'connection': {
 //       // local configs.
+<<<<<<< HEAD
+=======
+
+>>>>>>> 59c57461a16a3577e6ef3d1e0d2ccbdcad652301
 //         'host' : 'localhost',
 //         'user': 'root',
 //         'password': 'root@SQL1',
 // 			'database': 'eqsAuction'
+<<<<<<< HEAD
+=======
+
+>>>>>>> 59c57461a16a3577e6ef3d1e0d2ccbdcad652301
 //     }   
 // };
+
+//=================================USE THIS FOR OTHER COMPUTER===================================
+module.exports = {
+    'connection': {
+      // local configs.
+         'host' : '192.168.0.9',
+         'user': 'muskan',
+         'password': 'password',
+			   'database': 'eqsAuction'
+    }   
+};
 
 //=================================USE THIS FOR OTHER COMPUTER===================================
 // module.exports = {

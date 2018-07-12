@@ -138,8 +138,8 @@ module.exports =  {
     },
 
     compare_now : function(req,res){
-        if(req.compare){
-            compare = req.compare
+        if(req.session.compare){
+            compare = req.session.compare
             str = "SELECT * FROM equipment_type WHERE type_id IN (";
             str1 = '';    
             for(var i = 0; i <compare.length; i++){
@@ -167,8 +167,8 @@ module.exports =  {
 
     //change and break into two functions
     compare :function(req,res){
-        if(!req.compare) req.compare = []; 
-        compare = req.compare
+        if(!req.session.compare) req.session.compare = []; 
+        compare = req.session.compare
         if(compare.length>4) return res.send(); //send a msg or something
         id = req.query.id;
         for(var i = 0; i< compare.length; i++){
@@ -178,7 +178,7 @@ module.exports =  {
             }
         }
         compare.push(req.query.id);
-        req.compare = compare;
+        req.session.compare = compare;
         return res.send(compare);
     },
 

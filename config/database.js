@@ -2,7 +2,7 @@
 
 // configs to connect to the database
 
-//=================================USE THIS FOR ADMIN COMPUTER===================================
+//=================================USE THIS FOR OTHER COMPUTER===================================
 module.exports = {
     'connection': {
       // local configs.

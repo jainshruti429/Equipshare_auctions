@@ -917,12 +917,14 @@ module.exports = {
         connection.query("SELECT * FROM auctions WHERE auction_id = ?",[req.auction_id],function(err1,rows1){
             if(err1) throw err1;
             else{
-                connection.query("SELECT all_equipment.category, all_equipment.subcategory, all_equipment.brand, all_equipment.model, auction_equipment.* FROM all_equipment INNER JOIN auction_equipment ON auction_equipment.equip_id = all_equipment.id  WHERE auction_equipment.auction_id = ?",[req.auction_id], function(err,rows){
+                connection.query("SELECT all_equipment.category, all_equipment.subcategory, all_equipment.brand, all_equipment.model, auction_equipment.*, count(bids.equip_id) FROM all_equipment LEFT JOIN auction_equipment ON all_equipment.id=auction_equipment.equip_id LEFT JOIN bids ON all_equipment.id = bids.equip_id WHERE auction_equipment.auction_id = ? AND bids.auction_id = ? GROUP BY all_equipment.id ORDER BY all_equipment.id",[req.auction_id, req.auction_id], function(err,rows){
                     if(err) throw err;
                     else {
-                        connection.query("SELECT MAX(bids.bid_amount), bids.user_id FROM bids INNER JOIN auction_equipment ON auction_equipment.equip_id = bids.equip_id WHERE bids.auction_id = ? GROUP BY bids.user_id", function(err2,rows2){
+                        connection.query("SELECT MAX(bids.bid_amount), bids.user_id FROM bids LEFT JOIN auction_equipment ON auction_equipment.equip_id = bids.equip_id WHERE bids.auction_id = ? AND auction_equipment.auction_id = ? GROUP BY auction_equipment.equip_id ORDER BY auction_equipment.equip_id", [req.auction_id,req.auction_id], function(err2,rows2){
                             if(err2) throw err2;
-                            else res.render("", {auction :rows1, equip :rows, bidder:rows2});
+                            else {
+                                
+                                res.render("", {auction :rows1, equip :rows, bidder:rows2});}
                         }); 
                     }
                 });  
@@ -934,7 +936,7 @@ module.exports = {
     
     //bid_log - data from bids // page
     bid_log: function(req,res){
-        connection.query("SELECT * FROM bids WHERE auction_id = ? ORDER BY DESC",[req.params.auction_id], function(err,rows){
+        connection.query("SELECT * FROM bids WHERE auction_id = ? ORDER BY bid_amount DESC",[req.params.auction_id], function(err,rows){
             res.render("",{datarows:rows, username:req.session.name});
         });
     },

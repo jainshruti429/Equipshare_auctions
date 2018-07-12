@@ -34,65 +34,65 @@ featured = [];
 module.exports = function(app, passport) {
 
 
-    app.get('/', function(req,res, next){
-            featured = [];
-            prev_featured = [];
-            feat_details = [];
-            str1 = "SELECT featured.equip_id,featured.views, featured.start_date, featured.end_date, featured.display,all_equipment.photo1, all_equipment.expected_price, all_equipment.subcategory, all_equipment.brand, all_equipment.model, all_equipment.owner_id FROM all_equipment INNER JOIN featured ON featured.equip_id = all_equipment.id";
-            connection.query(str1, function(err,rows){
-                if(err) throw err;
-                else{
-                    for(var i = 0; i<rows.length; i++){
-                        if(rows[i].display) featured.push(rows[i]);
-                        else prev_featured.push(rows[i]);
-                    }
-                    str = "SELECT name, address1, address2, address3, city, state, zipcode, mobile FROM account WHERE id IN (";
-                    for(var i = 0; i <featured.length; i++){
-                        str = str + featured[i].owner_id + ",";
-                    }
-                    str = str.slice(0,-1);
-                    str = str +")";
-                    connection.query(str, function(err2,rows2){
-                        if(err2) throw err2;
-                        else{
-                            if(rows2.length == featured.length) feat_details = rows2;
-                            else if(rows2.length == 1){
-                                 for(var i = 0 ; i < 3 ; i++){
-                                    feat_details[i] = rows2[0];
-                                }
-                            } 
-                            else{
-                                if(featured[0].owner_id == featured[1].owner_id){
-                                    feat_details[0] = rows2[0];
-                                    feat_details[1] = rows2[0];
-                                    feat_details[2] = rows2[1];
-                                }
-                                if(featured[1].owner_id == featured[2].owner_id){
-                                    feat_details[0] = rows2[0];
-                                    feat_details[1] = rows2[1];
-                                    feat_details[2] = rows2[1];   
-                                }
-                                if(featured[0].owner_id == featured[2].owner_id){
-                                    feat_details[0] = rows2[0];
-                                    feat_details[1] = rows2[1];
-                                    feat_details[2] = rows2[0];   
-                                }
-                            }
-                            return next();
-                        }
-                    });
-                }
-            });
-        },
-      function(req,res){
-          feat_data = [];
-          data = {views:0,
-            requests:7};
-          for(var i = 0;i<featured ;i++){
-              feat_data.push(data);
-          }
-        res.render("./user_dashboard.ejs",{username:'',prev_featured:prev_featured,featured:featured, feat_data : feat_data,cat_rows:[2] });
-    });
+    // app.get('/', function(req,res, next){
+    //         featured = [];
+    //         prev_featured = [];
+    //         feat_details = [];
+    //         str1 = "SELECT featured.equip_id,featured.views, featured.start_date, featured.end_date, featured.display,all_equipment.photo1, all_equipment.expected_price, all_equipment.subcategory, all_equipment.brand, all_equipment.model, all_equipment.owner_id FROM all_equipment INNER JOIN featured ON featured.equip_id = all_equipment.id";
+    //         connection.query(str1, function(err,rows){
+    //             if(err) throw err;
+    //             else{
+    //                 for(var i = 0; i<rows.length; i++){
+    //                     if(rows[i].display) featured.push(rows[i]);
+    //                     else prev_featured.push(rows[i]);
+    //                 }
+    //                 str = "SELECT name, address1, address2, address3, city, state, zipcode, mobile FROM account WHERE id IN (";
+    //                 for(var i = 0; i <featured.length; i++){
+    //                     str = str + featured[i].owner_id + ",";
+    //                 }
+    //                 str = str.slice(0,-1);
+    //                 str = str +")";
+    //                 connection.query(str, function(err2,rows2){
+    //                     if(err2) throw err2;
+    //                     else{
+    //                         if(rows2.length == featured.length) feat_details = rows2;
+    //                         else if(rows2.length == 1){
+    //                              for(var i = 0 ; i < 3 ; i++){
+    //                                 feat_details[i] = rows2[0];
+    //                             }
+    //                         } 
+    //                         else{
+    //                             if(featured[0].owner_id == featured[1].owner_id){
+    //                                 feat_details[0] = rows2[0];
+    //                                 feat_details[1] = rows2[0];
+    //                                 feat_details[2] = rows2[1];
+    //                             }
+    //                             if(featured[1].owner_id == featured[2].owner_id){
+    //                                 feat_details[0] = rows2[0];
+    //                                 feat_details[1] = rows2[1];
+    //                                 feat_details[2] = rows2[1];   
+    //                             }
+    //                             if(featured[0].owner_id == featured[2].owner_id){
+    //                                 feat_details[0] = rows2[0];
+    //                                 feat_details[1] = rows2[1];
+    //                                 feat_details[2] = rows2[0];   
+    //                             }
+    //                         }
+    //                         return next();
+    //                     }
+    //                 });
+    //             }
+    //         });
+    //     },
+    //   function(req,res){
+    //       feat_data = [];
+    //       data = {views:0,
+    //         requests:7};
+    //       for(var i = 0;i<featured ;i++){
+    //           feat_data.push(data);
+    //       }
+    //     res.render("./user_dashboard.ejs",{username:'',prev_featured:prev_featured,featured:featured, feat_data : feat_data,cat_rows:[2] });
+    // });
  
             
 //     app.get('/', function(req,res){
@@ -259,12 +259,13 @@ module.exports = function(app, passport) {
     //links from side_nav_bar
     //Equipments
     app.get("/user_my_requests", gfunc.isLoggedInfunc, ufunc.my_requests0,ufunc.my_requests1, ufunc.my_requests2, ufunc.my_requests3, ufunc.my_requests4, ufunc.my_requests5);
-    app.get('/user_my_equipment', gfunc.isLoggedInfunc,ufunc.my_equipment,gfunc.equip_data, );
+    app.get('/user_my_equipment', gfunc.isLoggedInfunc,ufunc.my_equipment1,gfunc.equip_data,ufunc.my_equipment2 );
     app.get('/user_add_equipment',gfunc.isLoggedInfunc, ufunc.check_profile, ufunc.get_add_equipment);
     app.get("/user_saved_searches", gfunc.isLoggedInfunc, ufunc.saved_searches);
     //Auction
-    app.get("/user_upcoming_auctions",gfunc.isLoggedInfunc,);
-
+    app.get("/user_upcoming_auctions",gfunc.isLoggedInfunc,ufunc.upcoming_auctions);
+    app.get("/live_auction", gfunc.isLoggedInfunc, ufunc.live_auction,ufunc.upcoming_auctions);
+    
     app.get('/user_compare',gfunc.isLoggedInfunc,ufunc.compare);
     app.get('/user_compare_now', gfunc.isLoggedInfunc,ufunc.compare_now);
     app.get('/user_save_search', gfunc.isLoggedInfunc, ufunc.save_search);    

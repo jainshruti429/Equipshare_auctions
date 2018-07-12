@@ -693,47 +693,68 @@ module.exports =  {
     //===========================AUCTION API'S==================================================
 
     upcoming_auctions : function(req,res){
-        connection.query("SELECT name AS 'Auction Name',  FROM auctions WHERE start_date > current_timestamp()", function(err,rows){
+        connection.query("SELECT auctions.name AS 'Auction Name',auctions.start_date AS 'Start Date/Time',auctions.end_date AS 'End Date/Time',auction_requests.status AS 'Status',auctions.auction_id AS id FROM auctions LEFT JOIN auction_requests ON auctions.auction_id = auction_requests.auction_id WHERE auction_requests.user_id = ? auctions.start_date > current_timestamp()",[req.session.user], function(err,rows, fields){
             if(err) throw err;
-            else res.send("ho gaya");
+            else {
+                var x = "";
+                var y = "";
+                for(var i = 0 ;i<rows.length;i++){
+                    x = (String)(rows[i]["Start Date/Time"];
+                    x = x.slice(0,-15);//remove sec and GMT etc
+                    rows[i]["Start Date/Time"] = x;
+                    y = (String)(rows[i]["End Date/Time"];
+                    y = y.slice(0,-15);//remove sec and GMT etc
+                    rows[i]["End Date/Time"] = y;
+                }
+                res.render("./table.ejs", {datarows:rows, fields:fields, username:req.session.name, title:"Upcoming Auctions"});
+            }
         });
     },
 
-    my_auction_requests : function(req,res){
-        connection.query("SELECT auctions.auction_id, auctions.name, auctions.start_date, auctions.end_date, auction_requests.request_status FROM auctions INNER JOIN auction_requests ON auction_requests.auction_id = auctions.auction_id WHERE auction_requests.user_id = ? ORDER BY start_date DESC", [req.session.user],function(err,rows){
-            if(err) throw err;
-            else res.send("lo ho gaya");
-        });
-    },
+    // my_auction_requests : function(req,res){
+    //     connection.query("SELECT auctions.auction_id, auctions.name, auctions.start_date, auctions.end_date, auction_requests.request_status AS 'Your Request' FROM auctions INNER JOIN auction_requests ON auction_requests.auction_id = auctions.auction_id WHERE auction_requests.user_id = ? ORDER BY start_date DESC", [req.session.user],function(err,rows){
+    //         if(err) throw err;
+    //         else res.send("lo ho gaya");
+    //     });
+    // },
 
-    ongoing_auction : function(req,res){
-        connection.query("SELECT auctions.auction_id, auction.name, auctions.start_date, auctions.end_date, auction_requests.request_status FROM auctions INNER JOIN auction_requests ON auction_requests.auction_id = auctions.auction_id WHERE auctions.start_date < current_timestamp AND auctions.end_date > current_timestamp AND auction_requests.user_id = ?",[req.session.user], function(err, rows){
+    live_auction : function(req,res){
+        connection.query("SELECT auctions.name AS 'Auction Name',auctions.start_date AS 'Start Time',auctions.end_date AS 'End Time',auction_requests.status AS 'Status',auctions.auction_id AS id FROM auctions LEFT JOIN auction_requests ON auction_requests.auction_id = auctions.auction_id WHERE auctions.start_date < current_timestamp AND auctions.end_date > current_timestamp AND auction_requests.user_id = ?",[req.session.user], function(err, rows,fields){
             if(err) throw err;
             else if(rows.length){
-                if(rows[0].request_status){
-                    connection.query("SELECT all_equipment.id, all_equipment.brand, all_equipment.model, auction_equipment.current_bid, auction_equipment.base_price FROM all_equipment INNER JOIN auction_equipment ON auction_equipment.equip_id = all_equipment.id WHERE auction_equipment.auction_id = ?",[rows[0].auction_id],function(err1,rows1){
+                if(rows[0]["Status"]){
+                    var x = (String)(rows[0]["Start Time"];
+                    x = x.slice(15,-15);//remove sec and GMT etc
+                    rows[0]["Start Time"] = x;
+                    var z = (String)(rows[i]["End Time"];
+                    z = z.slice(15,-15);//remove sec and GMT etc
+                    rows[0]["End Time"] = z;
+                    connection.query("SELECT all_equipment.photo1,all_equipment.owner_id, all_equipment.id AS equip_id, all_equipment.subcategory, all_equipment.brand, all_equipment.model, auction_equipment.current_bid, auction_equipment.base_price, count(bids.equip_id) as no_bids FROM all_equipment LEFT JOIN auction_equipment ON all_equipment.id=auction_equipment.equip_id LEFT JOIN bids ON all_equipment.id = bids.equip_id WHERE auction_equipment.auction_id = ? AND bids.auction_id = ? GROUP BY all_equipment.id ORDER BY all_equipment.id",[rows[0].id,rows[0].id],function(err1,rows1){
                         if(err1) throw err1;
                         else {
-                            connection.query("SELECT equip_id, count(equip_id) as no_bids FROM bids WHERE auction_id = ?",[rows[0].auction_id], function(err2,rows2){
-                                if(err2) throw err2;
-                                else {
-                                    var no_bids = [];
-                                    for(var i =0; i<rows1.length; i++){
-                                        no_bids[i] = 0;
-
-                                        for(var j = 0 ; j <rows2.length; j++){
-                                            if(rows1[i].id == rows2[j].equip_id){
-                                                no_bids[i] = rows1[j].no_bids;
-                                                break;
-                                            }
-                                        }
+                            // connection.query("SELECT all_equipment.id, count(bids.equip_id) as no_bids FROM all_equipment LEFT JOIN bids ON all_equipment.id = bids.equip_id WHERE auction_id = ? GROUP BY all_equipment.id ORDER BY all_equipment.id",[rows[0].id], function(err2,rows2){
+                            //     if(err2) throw err2;
+                            //     else {//bids wali query
+                                    var user_id = req.session.user;
+                                    var my_equipment = [];
+                                    var my_bids = [];
+                                    var others = [];
+                                    var y;
+                                    for(var i = 0 ; i < rows1.length; i++){
+                                         y = JSON.stringify(rows1[i]);
+                                         y = y.slice(0,-1);
+                                         y = y + ',"'+no_bids+'":"'+rows2[i].no_bids+'"}';
+                                         rows1[i] = JSON.parse(y);
+                                        if(rows1[i].owner_id == user_id) my_equipment.push(rows1[i]);
+                                        else if()
                                     }
-                                    res.send(rows1, no_bids);
+                                    res.render("./user_live_auction.ejs",{auction_info:rows, auction_fields :fields,  });
                                 }
                             });
                         }
                     });
                 }
+                else next();// not permited to view auction
             }
             else next();//upcoming auctions
         });

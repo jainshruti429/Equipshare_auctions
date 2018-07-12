@@ -32,24 +32,12 @@ var user_access = function access(req,res){
     else return 0;
 } 
 
-var isLoggedIn = function(req, res) {  
-        var x ;
-        if (req.isAuthenticated()) x=1;
-        else x = 0;
-        return x;
-    };
-
-
-var index_featured = [];
-connection.query("SELECT all_equipment.photo1, all_equipment.expected_price, all_equipment.subcategory,all_equipment.category, all_equipment.brand, all_equipment.model, all_equipment.id FROM all_equipment INNER JOIN featured ON featured.equip_id = all_equipment.id WHERE featured.display = 1",function(errf,featured){
-    if(errf) throw errf;
-    else index_featured = featured;
-});
-
-var msg;
-var new_equip = [];
-var used_equip = [];
-var interested = [];
+// var isLoggedIn = function(req, res) {  
+//         var x ;
+//         if (req.isAuthenticated()) x=1;
+//         else x = 0;
+//         return x;
+//     };
 
 module.exports =  {
    
@@ -74,48 +62,52 @@ module.exports =  {
 
     home: function(req, res) {  
         connection.query("SELECT DISTINCT category FROM equipment_type", function(errc,crows){
-            if(errc) {
-                console.log(errc);
-                throw errc;
-            }
+            if(errc) throw errc;
             else {
-                connection.query("SELECT DISTINCT subcategory FROM equipment_type WHERE category = ?",[index_cat[0].category], function(err2, rows2){
+                connection.query("SELECT DISTINCT subcategory FROM equipment_type WHERE category = ?",[crows[0].category], function(err2, rows2){
                     if(err2) throw err2;
-                    else res.render("./user_index.ejs", {featured : index_featured, cat_rows:index_cat, subcat_rows: rows2, isLoggedIn: isLoggedIn(req,res), selected : '', username : username, msg : msg});
-                });
+                    else {
+                        connection.query("SELECT all_equipment.photo1, all_equipment.expected_price, all_equipment.subcategory,all_equipment.category, all_equipment.brand, all_equipment.model, all_equipment.id FROM all_equipment INNER JOIN featured ON featured.equip_id = all_equipment.id WHERE featured.display = 1",function(errf,featured){
+                            if(errf) throw errf;
+                            else res.render("./user_index.ejs", {featured :featured, cat_rows:crows, subcat_rows: rows2, selected : '', username : req.session.name});
+                                    
+
+                                  });
+                            }
+                    });
             }
         });
     },        
        
-    featured: function(req,res){
-        connection.query("SELECT views FROM featured WHERE equip_id = ?",[req.params.id],function(err,rows){
-            if(err) throw err;
-            else {
-                var views = rows[0].views + 1;
-                connection.query("UPDATE featured SET views = ? WHERE equip_id = ?",[views, req.params.id],function(err1,rows1){
-                    if(err1) throw err1;
-                    else{
-                        connection.query("SELECT * FROM all_equipment WHERE id = ?",[req.params.id], function(err2, rows2){
-                            if(err2) throw err2;
-                            else {
-                                request = 1;
-                                connection.query("SELECT * FROM equipment_type WHERE type_id = ?" ,[rows2[0].type_id], function(err4, rows4){
-                                    if(err4) throw err4;
-                                    else res.render('./user_view.ejs', {equip_data : rows2, featured:index_featured, tech_info : rows4[0], request:request, isLoggedIn : isLoggedIn(req,res), username: req.session.name});                            
-                                });
-                            }       
-                        });       
-                    }
-                });
-            }
-        });
-    },
+    // featured: function(req,res){
+    //     connection.query("SELECT views FROM featured WHERE equip_id = ?",[req.params.id],function(err,rows){
+    //         if(err) throw err;
+    //         else {
+    //             var views = rows[0].views + 1;
+    //             connection.query("UPDATE featured SET views = ? WHERE equip_id = ?",[views, req.params.id],function(err1,rows1){
+    //                 if(err1) throw err1;
+    //                 else{
+    //                     connection.query("SELECT * FROM all_equipment WHERE id = ?",[req.params.id], function(err2, rows2){
+    //                         if(err2) throw err2;
+    //                         else {
+    //                             request = 1;
+    //                             connection.query("SELECT * FROM equipment_type WHERE type_id = ?" ,[rows2[0].type_id], function(err4, rows4){
+    //                                 if(err4) throw err4;
+    //                                 else res.render('./user_view.ejs', {equip_data : rows2, featured:index_featured, tech_info : rows4[0], request:request, isLoggedIn : isLoggedIn(req,res), username: req.session.name});                            
+    //                             });
+    //                         }       
+    //                     });       
+    //                 }
+    //             });
+    //         }
+    //     });
+    // },
 
     search_category : function(req,res){
         var cat_selected = req.query.category;
         var sql="SELECT DISTINCT subcategory FROM equipment_type WHERE category = ?";
         connection.query(sql, [cat_selected], function(err,result){
-            if(err){res.end('error');}
+            if(err) throw err;
             else res.send(result);
         });  
     },
@@ -126,28 +118,28 @@ module.exports =  {
     //-------------------------------------------------------------------     
     search: function(req,res){
         var subcategory, sort;
-        if(req.session.subcategory){
-            subcategory = req.session.subcategory;
-            sort = req.session.sort;
-            req.session.subcategory = "";
-            req.session.sort = "";
+        if(req.subcategory){
+            subcategory = req.subcategory;
+            sort = req.sort;
+            req.subcategory = "";
+            req.sort = "";
         }
         else {
             subcategory = req.body.subcategory;
             sort = req.body.sort;
         }
-        var query = [];
+        var query = '';
         if(sort == "new") query = "SELECT * FROM equipment_type WHERE subcategory = ?"
         else query = "SELECT * FROM all_equipment WHERE available = 1 AND subcategory = ?"
         connection.query(query ,[subcategory],function(err,rows){
             if(err) throw err;
-            else res.render(page , {datarows: rows,  isLoggedIn : isLoggedIn(req,res), username: req.session.name});  
+            else res.render("" , {datarows: rows, username: req.session.name});  
         });
     },
 
     compare_now : function(req,res){
-        if(req.session.compare){
-            compare = req.session.compare
+        if(req.compare){
+            compare = req.compare
             str = "SELECT * FROM equipment_type WHERE type_id IN (";
             str1 = '';    
             for(var i = 0; i <compare.length; i++){
@@ -173,9 +165,10 @@ module.exports =  {
         else res.send();
     },
 
+    //change and break into two functions
     compare :function(req,res){
-        if(!req.session.compare) req.session.compare = []; 
-        compare = req.session.compare
+        if(!req.compare) req.compare = []; 
+        compare = req.compare
         if(compare.length>4) return res.send(); //send a msg or something
         id = req.query.id;
         for(var i = 0; i< compare.length; i++){
@@ -185,7 +178,7 @@ module.exports =  {
             }
         }
         compare.push(req.query.id);
-        req.session.compare = compare;
+        req.compare = compare;
         return res.send(compare);
     },
 
@@ -215,8 +208,8 @@ module.exports =  {
         connection.query("SELECT subcategory, sort FROM save WHERE save_id = ?", [req.params.save_id], function(err,rows){
             if(err) throw err;
             else{
-                req.session.subcategory = rows[0].subcategory;
-                req.session.sort = rows[0].sort;
+                req.subcategory = rows[0].subcategory;
+                req.sort = rows[0].sort;
                 return next();
             }
         });
@@ -271,11 +264,16 @@ module.exports =  {
     //          3 = sold
     //          4 = rejected     
     //-------------------------------------------------------------------     
+    my_requests0:function(req,res,next){
+        req.user_id = req.session.user;
+        return next();
+    },
+
     my_requests1 : function(req,res, next){
         new_equip = [];
         used_equip = [];
         interested = [];
-        connection.query("SELECT equip_id, sno, status FROM requests WHERE applicant_id = ?",[req.session.user],function(err,rows){
+        connection.query("SELECT * FROM requests WHERE applicant_id = ?",[req.user_id],function(err,rows){
             if(err) throw err;
             else {
                 for(var i =0 ; i <rows.length; i ++){
@@ -286,7 +284,11 @@ module.exports =  {
                     }
                     else used_equip.push(equip_id);
                     if(rows[i].status ==2) interested.push(rows[i].sno)
-                    if(i == (rows.length-1)) return next();
+                    if(i == (rows.length-1)) {
+                        req.new_equip = new_equip;
+                        req.used_equip = used_equip;
+                        req.interested = interested;
+                        return next();}
                 }              
             }
         });
@@ -294,7 +296,8 @@ module.exports =  {
 
     //sort new equipments
     my_requests2 : function(req,res,next){
-        if(new_equip.length){
+        if(req.new_equip.length){
+            new_equip = req.new_equip;
             str = "SELECT subcategory, brand, model FROM equipment_type WHERE type_id IN (";
             for(var i = 0; i <new_equip.length; i++){
                 equip_id = new_equip[i].slice(1);
@@ -305,7 +308,7 @@ module.exports =  {
             connection.query(str, function(err2,rows2){
                 if(err2) throw err2;
                 else {
-                    new_equip = rows2;
+                    req.new_equip = rows2;
                     return next();
                 }
             });
@@ -315,7 +318,8 @@ module.exports =  {
 
     //sort old equipments
     my_requests3 : function(req,res,next){
-        if(used_equip.length){
+        if(req.used_equip.length){
+            used_equip = req.used_equip;
             str = "SELECT subcategory, brand, model FROM all_equipment WHERE id IN (";
             for(var i = 0; i <used_equip.length; i++){
                 str = str + used_equip[i] + ",";
@@ -325,7 +329,7 @@ module.exports =  {
             connection.query(str, function(err3,rows3){
                 if(err3) throw err3;
                 else {
-                    used_equip = rows3;
+                    req.used_equip = rows3;
                     return next();
                 }
             });
@@ -340,7 +344,8 @@ module.exports =  {
     //-------------------------------------------------------------------     
     //proposals
     my_requests4 : function(req,res){
-        if(interested.length){
+        if(req.interested.length){
+            interested = req.interested
             str = "SELECT * FROM proposals WHERE request_sno IN (";
             for(var i = 0; i <interested.length; i++){
                 str = str + interested[i] + ",";
@@ -349,10 +354,20 @@ module.exports =  {
             str = str +") ORDER BY proposals.status";
             connection.query(str, function(err3,rows3){
                 if(err3) throw err3;
-                else res.render("./user_requested.ejs", {new_equip: new_equip, used_equip: used_equip, proposals:rows3, username:req.session.name});          
+                else{
+                    req.proposals = rows3;
+                    return next();
+                }          
             });
         }
-        else res.render("./user_requested.ejs", {new_equip: new_equip, used_equip: used_equip, proposals:rows3, username:req.session.name});          
+        else{
+            req.proposals = [];
+            return next();
+        } 
+    },
+
+    my_requests5: function(req,res){
+        res.render("./user_requested.ejs", {new_equip: req.new_equip, used_equip: req.used_equip, proposals:req.proposals, username:req.session.name});
     },
 
     change_proposal_status: function(req,res){
@@ -405,7 +420,7 @@ module.exports =  {
     get_update_profile:  function(req, res){
         connection.query("SELECT * FROM account WHERE id = ?" ,[req.session.user],function(err,rows){
             if (err) throw err ;
-            else res.render('./user_update_profile.ejs' , {msg : '' , user_data : rows[0], isLoggedIn:isLoggedIn(req,res), username: req.session.name});
+            else res.render('./user_update_profile.ejs' , {msg : '' , user_data : rows[0], username: req.session.name});
         });
     },
 
@@ -502,11 +517,19 @@ module.exports =  {
 
     },
    
-    my_equipment: function(req , res){
-        connection.query("SELECT * FROM all_equipment WHERE owner_id = ?" ,[req.session.user],function(err,rows){
+    my_equipment1: function(req , res, next){
+        connection.query("SELECT id, category AS Category, subcategory AS Subcategory, brand AS Brand, model AS Model, status AS Status FROM all_equipment WHERE owner_id = ? ORDER BY id" ,[req.session.user],function(err,rows, fields){
             if (err) throw err ; 
-            else res.render('./user_view_equipment.ejs' , {datarows: rows, isLoggedIn : isLoggedIn(req,res), username: req.session.name});
+            else {
+                req.datarows = rows;
+                req.fields = fields;
+                return next();
+            }
         });
+    },
+
+    my_equipment2: function(req,res){
+        res.render("./table.ejs", {datarows:req.datarows, username:req.session.name});
     },
 
     // view_equipment:  function(req , res){

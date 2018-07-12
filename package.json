@@ -10,7 +10,10 @@
   "keywords": [
     "express"
   ],
-  "author": "Harshwardhan Mourya",
+  "author1": "Harshwardhan Mourya",
+  "author2": "Shruti Jain",
+  "author3": "Muskan Agrawal",
+  "author4": "Piyush Agrawal",
   "license": "ISC",
   "devDependencies": {},
   "dependencies": {
@@ -38,6 +41,7 @@
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "port": "^0.8.1",
-    "socket.io": "^2.0.4"
+    "socket.io": "^2.0.4",
+    "trim": "0.0.1"
   }
 }

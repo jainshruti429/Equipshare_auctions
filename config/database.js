@@ -6,10 +6,12 @@
 // module.exports = {
 //     'connection': {
 //       // local configs.
-//         'host' : '192.168.0.9',
+
+//         'host' : 'localhost',
 //         'user': 'root',
 //         'password': 'root@SQL1',
 // 			'database': 'eqsAuction'
+
 //     }   
 // };
 
@@ -17,7 +19,7 @@
 module.exports = {
     'connection': {
       // local configs.
-         'host' : '192.168.0.5',
+         'host' : '192.168.0.9',
          'user': 'muskan',
          'password': 'password',
 			   'database': 'eqsAuction'
@@ -28,7 +30,7 @@ module.exports = {
 // module.exports = {
 //     'connection': {
 //       // local configs.
-//          'host' : '192.168.0.9',
+//          'host' : '192.168.0.7',
 //          'user': 'piyush',
 //          'password': 'password',
 // 			   'database': 'eqsAuction'

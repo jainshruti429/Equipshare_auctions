@@ -26,6 +26,8 @@ var app = express();
 
 // =========================================================
 
+
+
 module.exports = {
 
 //================================================================================
@@ -251,8 +253,8 @@ module.exports = {
     },    
 
     view_equipment: function(req , res){
-        req.session.title = "Available Equipments";
-        res.render("./admin_view_equipment.ejs", { title : req.session.title, datarows:datarows, data:data, username:req.session.name});
+        req.title = "Available Equipments";
+        res.render("./admin_view_equipment.ejs", { title : req.title, datarows:datarows, data:data, username:req.session.name});
     },
 
     view_all_equipments: function(req , res){
@@ -291,8 +293,8 @@ module.exports = {
                                     }
                                     if(!info[i].requests) info[i].requests = 0;
                                 }
-                                req.session.title = "All Equipments"; 
-                                res.render("./admin_view_equipment.ejs", {title : req.session.title,datarows:rows, data:info, username:req.session.name});
+                                req.title = "All Equipments"; 
+                                res.render("./admin_view_equipment.ejs", {title : req.title,datarows:rows, data:info, username:req.session.name});
                             }
                         });
                     }
@@ -302,48 +304,10 @@ module.exports = {
     },
 
     my_equipment: function(req , res){
-        str4 = "SELECT all_equipment.id,all_equipment.available, all_equipment.category, all_equipment.subcategory, all_equipment.brand, all_equipment.model,all_equipment.expected_price,account.name, account.address1, account.address2, account.address3, account.city, account.state, account.zipcode, account.email, account.mobile FROM account INNER JOIN all_equipment ON all_equipment.owner_id = account.id WHERE all_equipment.owner_id = ? OR all_equipment.uploaded_by = 1"
+        str4 = "SELECT all_equipment.id,all_equipment.available, all_equipment.category, all_equipment.subcategory, all_equipment.brand, all_equipment.model,all_equipment.expected_price,account.name, account.address1, account.address2, account.address3, account.city, account.state, account.zipcode, account.email, account.mobile FROM account INNER JOIN all_equipment ON all_equipment.owner_id = account.id WHERE all_equipment.uploaded_by = 1"
         connection.query(str4, [req.session.user] , function(err, rows){
             if (err) throw err;
-            else{
-                var str4 = "SELECT views.equip_id, count(views.equip_id) as no_views FROM views INNER JOIN all_equipment ON all_equipment.id = views.equip_id WHERE all_equipment.available = 0 GROUP BY views.equip_id";
-                connection.query(str4, function(err1,rows1){
-                    if(err1) throw err1;
-                    else{
-                        str4 = "SELECT requests.equip_id, count(requests.equip_id) as no_requests FROM requests INNER JOIN all_equipment ON all_equipment.id = requests.equip_id WHERE all_equipment.available = 0 GROUP BY requests.equip_id";
-                        connection.query(str4, function(err2,rows2){
-                            if(err2) throw err2;
-                            else{
-                                var info = [];
-                                for(var i =0; i<rows.length; i++){
-                                    info[i] = {
-                                        views : 0,
-                                        requests: 0
-                                    }
-
-                                    for(var j = 0 ; j <rows1.length; j++){
-                                        if(rows[i].id == rows1[j].equip_id){
-                                            info[i].views = rows1[j].no_views;
-                                            break;
-                                        }
-                                    }
-                                    //if(!info[i].views) info[i].views = 0;
-                                    
-                                    for(var j = 0 ; j <rows2.length; j++){
-                                        if(rows[i].id == rows2[j].equip_id){
-                                            info[i].requests = rows2[j].no_requests;
-                                            break;
-                                        }
-                                    }
-                                    //if(!info[i].requests) info[i].requests = 0;
-                                } 
-                                req.session.title = "My Equipments"
-                                res.render("./admin_view_equipment.ejs", {title : req.session.title,datarows:rows, data:info, username:req.session.name});
-                            }
-                        });
-                    }
-                });
-            }
+            else return next();
         });
     },
 
@@ -452,7 +416,6 @@ module.exports = {
         });
     },
 
-    
     // get_add_new_admin: function(req,res){
     //  res.render('./Profiles/admin/add_new_admin.ejs', {msg: 'Enter the following details' , username:req.session.name});
     // },
@@ -487,13 +450,13 @@ module.exports = {
     },
     
     get_equipment_type_csv : function(req,res){
-        req.session.title = "Equipment Type";
-        res.render("admin_upload_csv.ejs", {what:req.session.title, username : req.session.name, img_name : 'type_csv_format.png'});
+        req.title = "Equipment Type";
+        res.render("admin_upload_csv.ejs", {what:req.title, username : req.session.name, img_name : 'type_csv_format.png'});
     },
 
     get_equipment_csv : function(req,res){
-        req.session.title = " New Equipment";
-        res.render("admin_upload_csv.ejs", {what:req.session.title, username : req.session.name, img_name: 'equipment_csv_format.png'});
+        req.title = " New Equipment";
+        res.render("admin_upload_csv.ejs", {what:req.title, username : req.session.name, img_name: 'equipment_csv_format.png'});
     },
 
     get_add_equipment_type : function(req,res){
@@ -623,7 +586,7 @@ module.exports = {
         connection.query("SELECT id FROM account WHERE mobile = ?", [req.body.mobile], function(err,rows){
             if(err) throw err;
             else if(rows.length){ 
-                req.session.owner_id = rows[0].id;
+                req.owner_id = rows[0].id;
                 return next();
             }
             else res.render("./admin_add_equipment_user.ejs", {username: req.session.name}); 
@@ -688,7 +651,7 @@ module.exports = {
             else { 
          
                 name.type_id = rows[0].type_id; 
-                connection.query("SELECT name, city, state FROM account WHERE id = ?", [req.session.owner_id], function(err,rows){
+                connection.query("SELECT name, city, state FROM account WHERE id = ?", [req.owner_id], function(err,rows){
                     if (err) throw err;
                     else {
                         name.city = rows[0].city;
@@ -750,7 +713,7 @@ module.exports = {
                 connection.query(insertQuery, [name.uploaded_by,photo_name[1],photo_name[2],photo_name[3],photo_name[4],doc_name[1],doc_name[2],doc_name[3],doc_name[4],doc_name[5],doc_name[6],name.type_id, name.state, name.available, name.category,name.brand, name.model, name.expected_price, name.year, name.colour, name.city, name.subcategory, name.description,name.km,name.owner_id],function (err4, resulti){
                     if (err4) throw err4;
                     else {
-                        req.session.msg = "Your equipment is added successfully...";
+                        req.msg = "Your equipment is added successfully...";
                         return next();
                     }
                 });
@@ -761,54 +724,384 @@ module.exports = {
                 }); 
             }
         });        
-    } 
+    },
+
+
+      //show_auc.ejs is to be designed..
+     //this is to be called in routes
+    show_auction : function(req,res){        
+         connection.query("SELECT auctions.auction_id, auctions.name, auctions.start_date, auctions.end_date, count(auction_equipment.auction_id) as no_of_equip FROM auctions LEFT JOIN auction_equipment ON auctions.auction_id = auction_equipment.auction_id GROUP BY auctions.auction_id", function(err,rows){
+
+            if (err) throw err ;
+            else{ 
+                connection.query("SELECT auctions.auction_id, count(auction_requests.auction_id) as participants  FROM auctions LEFT JOIN auction_requests ON auctions.auction_id = auction_requests.auction_id WHERE auction_requests.status = 1  GROUP BY auctions.auction_id",function(err1,rows1){
+                    if(err1) throw err1;
+                    else{
+                        res.render("./show_auc.ejs",{datarows : rows , no_of_participants : participants, username : req.session.name});
+                    }
+                });
+            }
+         });
+    },
+
+
+     //show_auc_req.ejs is to be designed
+    // to be  called by auction_id
+    show_auc_req :function(req,res){
+    	connection.query(" SELECT account.name, account.state, account.category, account.id FROM account INNER JOIN auction_requests ON auction_requests.user_id = account.id WHERE auction_id= ?",[req.params.auction_id], function(err,rows){
+
+    		if(err) throw err ;
+    		else{
+    			res.render("./show_auc_req.ejs",{datarows:rows ,username:req.session.name});
+    		}
+    	});
+    },
+
+
+    
+
+
+
+
+    //---------- schedule auction---------------
+    //get - page render
+    get_schedule_auction: function(req,res){
+        res.render("", {username:req.session.user, datarows:[]});
+    },
+
+    //check schedule (only one auction should be live at a time)
+    check_schedule_auction: function(req,res){
+        start_date = req.body.start_date; 
+        end_date = req.body.end_date;
+        connection.query("SELECT * FROM auctions", function(err,rows){
+            if(err) throw err;
+            else if(rows.length){
+                for(i = 0 ; i<rows.length; i++){
+                    if(start_date<rows[i].end_date){
+                        if(end_date>rows[i].start_date) continue;
+                        else res.send(rows[i]);
+                    }
+                    else if(i == rows.length) return next();
+                }
+            }
+            else next();
+        });
+    },
+
+   //changed according to update and add admin to auction requests by default - make another function 
+    post_schedule_auction1: function(req,res){
+        if(req.params.auction_id){
+            connection.query("UPDATE auctions SET name = ? , start_date = ? , end_date = ?, max_no_equipment = ?",[req.body.name, req.body.start_date, req.body.end_date, req.body.max_no_equipment],function(err){
+                if(err) throw err;
+                else return next();
+            });
+        }
+        else{
+            connection.query("INSERT INTO auctions (name, start_date, end_date, max_no_equipment) VALUES (?,?,?,?)",[req.body.name, req.body.start_date, req.body.end_date, req.body.max_no_equipment],function(err){
+                if(err) throw err;
+                else return next();
+            });
+        }
+    },
+    
+    //post_schedule_auction - insert into auctions render select_equipments,(data), no of selected = 0
+    post_schedule_auction2 : function(req,res){    
+        connection.query("SELECT equip_id FROM auction_equipment WHERE auction_id = ?",[rows[0].insertId], function(err2,rows2){
+            if(err) throw(err);
+            else{
+                req.selected_equip = [];
+                for(var i = 0; i < rows2.length;i++){
+                    req.session.selected_equip.push(rows2[i].equip_id);
+                }
+                connection.query("SELECT * FROM all_equipment WHERE status = 2",function(err1,rows1){
+                    if(err1) throw err1;
+                    else  res.render("", {datarows:rows1, username:req.session.user, selected : req.selected_equip, max_no_equipment : req.body.max_no_equipment});
+                });
+            }
+        });
+    },
+
+    //select_this_equipment - (ajax)
+    select_this_equipment: function(req,res){
+        if(req.selected_equip.length<req.body.max_no_equipment){
+            req.selected_equip.push(req.params.equip_id);
+            res.send("Equipment added to auction", req.selected_equip);
+        }
+        else res.send("You have reached limit for your auction", req.selected_equip);
+    },
+
+    //deselect - (ajax)
+    deselect: function(req,res){
+        index = req.selected_equip.indexOf(req.params.equip_id);
+        req.selected_equip.splice(index,1);
+        res.send("Equipment is removed from this auction", req.selected_equip);
+    },
+
+    //post_freeze auction - insert into auction equip
+    //divided into 2 because of async
+    freeze_this_auction1: function(req,res){
+        selected_equip = req.selected_equip;
+        auction_id = req.params.id;
+        connection.query("SELECT equip_id FROM auction_equipment WHERE auction_id = ?",[auction_id], function(err,rows){
+            if(err) throw err;
+            else{ 
+                if(rows.length){
+                    for(var i=0;i<rows.length;i++){
+                        index = selected_equip.indexOf(rows[i].equip_id);
+                        selected_equip.splice(index,1);
+                        if(i == rows.length - 1){
+                            req.selected_equip = selected_equip;
+                            return next();
+                        }
+                    }
+                }
+            }
+        });
+    },
+
+    freeze_this_auction2 :function(req,res){
+        if(selected_equip.length){
+            str = selected_equip.stringify;
+            str = str.slice(1,-1);
+            connection.query("SELECT expected_price, id FROM all_equipment WHERE id IN (?)", [str], function(err1,rows1){
+                if(err1) throw err1;
+                else{
+                    str = "INSERT INTO auction_equipment VALUES";
+                    for(var i=0; i <selected_equip;i++){
+                        str = str + "("+auction_id+","+selected_equip[i]+","+rows1[i].expected_price+",0),";    
+                    }
+                    str = str.slice(0,-1);
+                    connection.query(str, function(err){
+                        if(err) throw err;
+                        else return res.send("done");// or send to equiplist of an auction :/
+                    });
+                }
+            });
+        }
+        else return res.send("done");// or send to equiplist of an auction :/          
+    },
+    
+    //view_selected - page render with data id in session and data in all_equipment
+    view_selected:function(req,res){
+        str = selected_equip.stringify;
+        str = str.slice(1,-1);
+        connection.query("SELECT * FROM all_equipment WHERE id IN (?)", [str], function(err1,rows1){
+            if(err1) throw err1;
+            else res.render("",{datarows:rows[0], username:req.session.name});
+        });       
+    },
+
+    edit_this_auction: function(req,res){
+        connection.query("SELECT * FROM auctions WHERE auction_id = ?",[req.params.auction_id],function(err,rows){
+            if(err) throw err;
+            else res.render("auction_form.ejs",{datarows:rows, username:req.session.name});
+            //schedule auction wala
+        });
+
+    }, 
+
+    //------------- live auction------------
+    // get - select from auction_equipment + all_equipments +highest bidder + #bids
+    get_live_auction: function(req,res, next){
+        connection.query("SELECT auction_id FROM auctions  WHERE auctions.start_date < current_timestamp() AND end_date > current_timestamp()", function(err,rows){
+            if(err) throw err;
+            else {
+                req.auction_id = rows[0].auction_id;
+                return next();
+            }
+        });
+    },
+    
+    this_auction : function(req,res){
+        connection.query("SELECT * FROM auctions WHERE auction_id = ?",[req.auction_id],function(err1,rows1){
+            if(err1) throw err1;
+            else{
+                connection.query("SELECT all_equipment.category, all_equipment.subcategory, all_equipment.brand, all_equipment.model, auction_equipment.* FROM all_equipment INNER JOIN auction_equipment ON auction_equipment.equip_id = all_equipment.id  WHERE auction_equipment.auction_id = ?",[req.auction_id], function(err,rows){
+                    if(err) throw err;
+                    else {
+                        connection.query("SELECT MAX(bids.bid_amount), bids.user_id FROM bids INNER JOIN auction_equipment ON auction_equipment.equip_id = bids.equip_id WHERE bids.auction_id = ? GROUP BY bids.user_id", function(err2,rows2){
+                            if(err2) throw err2;
+                            else res.render("", {auction :rows1, equip :rows, bidder:rows2});
+                        }); 
+                    }
+                });  
+            }  
+        }); 
+    },
+
+    // post_bid - from user fx (ajax)
+    
+    //bid_log - data from bids // page
+    bid_log: function(req,res){
+        connection.query("SELECT * FROM bids WHERE auction_id = ? ORDER BY DESC",[req.params.auction_id], function(err,rows){
+            res.render("",{datarows:rows, username:req.session.name});
+        });
+    },
+
+    // view_bids - select from bids where (show 1st, 2nd, 3rd)
+    view_bids: function(req,res){
+        connection.query("SELECT * FROM bids WHERE auction_id = ? AND equip_id = ? ORDER BY DESC",[req.params.auction_id, req.params.equip_id], function(err,rows){
+            if(err) throw err;
+            else res.render("", {datarows:rows, username:req.session.name});
+        });
+    },
+
+   add_master : function(req,res){
+    connection.query("SELECT * from equipment_master WHERE subcategory=?",[req.body.subcategory],function(err,rows){
+        if (err) throw err ;
+        else{
+            if(rows.length)
+            {
+                return res.send("subcategory already existed");
+            }
+            else{
+            connection.query("INSERT INTO equipment_master (category,subcategory,engine,speed,mixer_tank_capacity,four_wheel_drive,two_wheel_drive,max_digging_depth,bucket_volumetric_capacity,shovel_volumetric_capactiy,operating_weight,single_drum,double_drum,volumetric_output,roller_width,roller_dia,body_size,blade_length,concrete_pressure,mobile,stationary,max_lift,stablizer,boomarm_length,horizontal_deliver,vertical_deliver,blade_width,max_paving_width,current,fuel_consumption,other1,other2,other3,other4) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[req.body.category,req.body.subcategory,req.body.engine,req.body.speed,req.body.mixer_tank_capacity,req.body.four_wheel_drive,req.body.two_wheel_drive,req.body.max_digging_depth,req.body.bucket_volumetric_capacity,req.body.shovel_volumetric_capactiy,req.body.operating_weight,req.body.single_drum,req.body.double_drum,req.body.volumetric_output,req.body.roller_width,req.body.roller_dia,req.body.body_size,req.body.blade_length,req.body.concrete_pressure,req.body.mobile,req.body.stationary,req.body.max_lift,req.body.stablizer,req.body.boomarm_length,req.body.horizontal_deliver,req.body.vertical_deliver,req.body.blade_width,req.body.max_paving_width,req.body.current,req.body.fuel_consumption,req.body.other1,req.body.other2,req.body.other3,req.body.other4],function(err1){
+                if (err1) throw err1;
+                else{
+                return res.send("data successfully added");
+                    }
+            });
+            }
+        }
+    });
+   },
+   show_master : function(req,res){
+     connection.query("SELECT master_id,category,subcategory FROM equipment_master",function(err,res){
+        if (err) throw err ;
+        else
+        {
+            res.render('./show_master.ejs',{datarows:rows, username : req.session.name});
+        }
+     });
+   },
+   get_update_master : function(req,res){
+    connection.query("SELECT * from equipment_master WHERE master_id=?",[req.params.id],function(err,rows){
+        if(err) throw err ;
+        else {
+            res.render('./get_update_master.ejs',{datarows : rows, username : req.session.name});
+        }
+    });
+   },
+
+   //next will show_master....
+   post_update_master : function(req,res,next){
+    update={
+        category: req.body.category,
+        subcategory:req.body.subcategory,
+        engine : req.body.engine,
+        speed : req.body.speed,
+        mixer_tank_capacity : req.body.mixer_tank_capacity,
+        four_wheel_drive : req.body.four_wheel_drive,
+        two_wheel_drive : req.body.two_wheel_drive, 
+        max_digging_depth : req.body.max_digging_depth, 
+        bucket_volumetric_capacity : req.body.bucket_volumetric_capacity,
+        shovel_volumetric_capactiy : req.body.shovel_volumetric_capactiy,
+        operating_weight : req.body.operating_weight,
+        single_drum : req.body.single_drum,
+        double_drum : req.body.double_drum,
+        volumetric_output : req.body.volumetric_output,
+        roller_width : req.body.roller_width,
+        roller_dia : req.body.roller_dia,
+        body_size : req.body.body_size,
+        blade_length : req.body.blade_length,
+        concrete_pressure : req.body.concrete_pressure,
+        mobile : req.body.mobile,
+        stationary : req.body.stationary,
+        max_lift : req.body.max_lift,
+        stablizer : req.body.stablizer,
+        boomarm_length : req.body.boomarm_length,
+        horizontal_deliver : req.body.horizontal_deliver,
+        vertical_deliver : req.body.vertical_deliver,
+        blade_width : req.body.blade_width,
+        max_paving_width : req.body.max_paving_width,
+        current : req.body.current,
+        fuel_consumption : req.body.fuel_consumption,
+        other1 : req.body.other1,
+        other2 : req.body.other2,
+        other3 : req.body.other3,
+        other4 : req.body.other4,
+
+    }
+    connection.query("UPDATE equipment_master SET ? WHERE master_id=?",[update,req.params.id],function(err){
+               if(err) throw err ;
+               else{
+                return next();
+               }
+    });
+   },
+
+    show_user : function(req,res){
+        connection.query("SELECT account.id, account.name, account.category, account.state, count(all_equipment.owner_id)as no_of_equip FROM account INNER JOIN all_equipment ON account.id=all_equipment.id WHERE account.id=? GROUP BY account.id",[req.params.id],function(err,rows){
+            if(err)throw err ;
+            else{
+                res.render("./show_user.ejs",{datarows:rows, username :req.session.name});
+            }
+        });
+    },
+ 
+    show_user_profile1 : function (req,res){
+        
+        connection.query("SELECT account.*, all_equipment.id, all_equipment.brand, all_equipment.model, all_equipment.category, all_equipment.subcategory,all_equipment.status FROM account INNER JOIN all_equipment ON account.id=all_equipment.id WHERE account.id=?",[req.params.id],function(err,rows){
+            if (err)throw err;
+            else{req.show_users=rows; 
+                req.user_id= req.params.user_id;
+                return next();// ufunc.my_requests1->my_requests2->myrequests3->show_user_profile2
+            }
+        });
+    },
+    
+    show_user_profile2 : function(req,res){
+        res.render('./show_user_profile',{datarows : req.show_users, new_equip:req.new_equip, used_equip:req.used_equip});
+    },
+
+    //auction_summary - show auctoios - params m auction_id, fuction to convert it to session.auction_id, this_acution()
+    auction_summary:function(req,rows, next){
+        req.auction_id = req.params.auction_id;
+        return next();
+    },
+
+    //get add equipment master
+    //post
+
+    //equip_requests - pending first
+    show_equipment_requests1: function(req,res){
+        new_equip = [];
+        used_equip = [];
+        interested = [];
+        connection.query("SELECT * FROM requests ORDER BY status",function(err,rows){
+            if(err) throw err;
+            else{
+                for(var i =0 ; i <rows.length; i ++){
+                    equip_id = rows[i].equip_id + '';
+                    if(rows[i].equip_id[0] == 't'){
+                        equip_id = equip_id.slice(1);
+                        new_equip.push(equip_id);
+                    }
+                    else used_equip.push(equip_id);
+                    if(rows[i].status ==2) interested.push(rows[i].sno)
+                    if(i == (rows.length-1)){
+                        req.new_equip = new_equip;
+                        req.used_equip = used_equip;
+                        return next();// user/my_requests2, my_requests3, my_requests4
+                    }
+                }
+            }
+        });
+    },
+
+    show_equipment_requests2: function(req,res){
+        res.render("./user_requested.ejs", {new_equip: req.new_equip, used_equip: req.used_equip, proposals:req.proposals, username:req.session.name});
+    },
+    //users - name - category, #equip(count + innerjoin all_equipment(owner_id)), state from account table 
+    //user_profile - upar wala data + all.equipment.*, requested equipments(requests);
+
+    //dealer auction 
+
 	//================================================================================
     //======================= ADMIN FUNCTIONS ========================================
     //================================================================================
 
-    //Handle POST request to add a new working location 
     /*
-    add_new_location : function(req, res){
-    	var city = req.body.city;
-    	var city = city.toUpperCase(); // Change CASE to uppercase for handling case-coflicts while comparing
-
-    	connection.query("SELECT * FROM location WHERE city = ?",[city], function(err, rows) {
-            if (err){
-                throw err;
-            }
-            else if (rows.length) {
-                req.send("That Location already exists");
-            } else {
-            	var state = req.body.state;
-               	var insertQuery = "INSERT INTO location ( city, state, dealer_count, equipment_count) values (?,?,?,?)";
-                // insert with initial deal_count, equipment_count to zero
-               	connection.query(insertQuery, [city, state, 0, 0],function (err, rows) {
-				    if (err) throw err;
-				    console.log("New Location Added");
-				});
-
-				res.send("New Location Added");
-            }
-            return ;
-    	});
-    },
-
-    // Show existing locations
-    existing_location: function(req,res){
-    	connection.query("SELECT * FROM location", function(err, rows){
-    		if (err){
-                throw err;
-    		}
-            // if there is no locations
-    		else if (!rows.length) {
-    			res.send("Please add a location to view"); 
-    		}
-    		else {
-    			res.send(rows);
-    		}
-    	});
-    },
-
     // Show all the sub-Admin working under the particuler logged in admin.
     existing_user: function(req,res){
         //query for searching from tree like stucture.
@@ -874,48 +1167,7 @@ module.exports = {
             }
         });
     },
-    
-    // Handle post request to handle addition of standard equipment.
-    add_new_equipment_post_form: function(req,res){
-        data = req.body;
-        var name = {};
-        name.brand = data.brand;
-        delete data["brand"];
-        name.model = data.model;
-        delete data["model"];
-        name.varient = data.varient;
-        delete data["varient"];
-        var description = data.description;
-        delete data["description"];
-        data =JSON.stringify(data);
 
-        // Check if equipment doesn't already exist.
-        connection.query("SELECT * FROM std_equipment WHERE (brand = ? AND model = ? AND varient = ?)",[name.brand, name.model, name.varient], function(err, rows) {
-            if (err){
-                throw err;
-            }
-            else if (rows.length) {
-                req.send("That Equipment already exists");
-            } 
-            else {
-                var insertQuery = "INSERT INTO std_equipment (brand, model, varient, details, description, search_count, view_count, auction_count) values (?,?,?,?,?,?,?,?)";
-                connection.query(insertQuery, [name.brand, name.model, name.varient, data, description, 0, 0, 0],function (err, rows) {
-                    if (err) throw err;
-                    else {
-                        res.send("Added new Equipment");
-                    }
-                });
-            }
-        });
-    },
-
-    add_new_equipment_by_csv: function(req, res){
-        //
-        //
-        //
-        //
-        //
-    },
 
     // add new auction of D->C andd C->C type
     add_new_auction_post_form: function(req, res){

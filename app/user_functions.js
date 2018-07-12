@@ -769,5 +769,20 @@ module.exports =  {
             }
         });
     },
-    
+    auction_result_owner : function(req,res){
+     connection.query("SELECT all_equipment.id, all_equipment.category ,all_equipment.subcategory ,all_equipment.brand ,all_equipment.model, auction_equipment.base_price, count(bids.equip_id) FROM auction_equipment INNER JOIN all_equipment ON auction_equipment.equip_id=all_equipment.id LEFT JOIN bids ON bids.equip_id = all_equipment.id WHERE (auction_equipment.auction_id =? AND all_equipment.owner_id = ?)",[req.params.id,req.session.user],function(err,rows){
+        if(err) throw err;
+        else{
+
+        }
+     });
+    },
+   auction_result_bidder : function(req,res){
+    connection.query("SELECT ");
+   }    
+
+
+
+
 }
+

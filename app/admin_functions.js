@@ -212,7 +212,7 @@ module.exports = {
                         return next();
                     }
                 });
-            }
+           } }
         });
     },
   

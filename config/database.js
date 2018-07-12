@@ -19,7 +19,7 @@
 module.exports = {
     'connection': {
       // local configs.
-         'host' : '192.168.0.9',
+         'host' : '192.168.0.8',
          'user': 'muskan',
          'password': 'password',
 			   'database': 'eqsAuction'

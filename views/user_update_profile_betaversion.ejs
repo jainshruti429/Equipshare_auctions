@@ -1,0 +1,198 @@
+<%- include user_header.ejs %>			<!-- UPDATE FORM AREA -->	
+            <div class="update-form">
+            <div class="container">
+                <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                   <!-- <h3 style="border-bottom:solid thin #e1e1e1;padding-bottom:10px;margin-bottom:10px;">Edit Product Detail</h3> -->
+                   <form action="/user_update_profile" method =  'post' style="margin-top:20px;margin-bottom:20px;" class="product-edit-custom-form" autocomplete="off">
+                       <h3 style="border-bottom:solid thin #e1e1e1;padding-bottom:10px;margin-bottom:10px;">Update Profile</h3>
+                      
+                       <h4 class="text-center center-block" style="padding: 15px;padding-bottom: 20px;"><%=msg%></h4>
+         <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Update Email</label>
+    <div class="col-sm-9">
+       <input type="email" class="form-control" id="staticEmail" name = 'email' placeholder="Enter Email" value="<%=user_data.email%>"> 
+    </div>
+  </div>
+                        <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Enter State</label>
+    <div class="col-sm-9">
+     <select id="listBox" onchange='selct_district(this.value)' name = 'state' class="form-control"></select>
+        
+    </div>
+  </div>
+                        <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Enter City</label>
+    <div class="col-sm-9">
+     <!--<select id="listBox" onchange='selct_district(this.value)' class="form-control"></select><br>-->
+        <select id='secondlist' name="city" class="form-control"></select>
+    </div>
+  </div>
+    <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Address Line 1</label>
+    <div class="col-sm-9">
+       <input type="text" class="form-control" name="address1" value="<%=user_data.address1%>"/>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Address Line 2</label>
+    <div class="col-sm-9">
+       <input type="text" class="form-control" name="address2" value="<%=user_data.address2%>"/>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Address Line 3</label>
+    <div class="col-sm-9">
+       <input type="text" class="form-control" name="address3" value="<%=user_data.address3%>"/>
+    </div>
+  </div>
+    <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-3 col-form-label custom-form-name-title">Zip Code</label>
+    <div class="col-sm-9">
+     <input type="number" class="form-control" name="zipcode" value="<%=user_data.zipcode%>"/>
+    </div>
+  </div>
+   <input type="submit" class="btn btn-primary" value="SUBMIT">
+   <a href="/user_reset_password"><input type="button" class="btn btn-danger" value="Reset Password" style="margin-left:10px;"></a>
+  </form>
+                    </div>
+                    
+                    
+                    
+                </div>
+                </div>
+            </div>
+            
+            <!--END UPDATE FORM AREA-->
+            
+            
+            
+            
+            
+            <!--FEATURED PRODUCT HERE-->
+           
+            
+            <!--END FEATURED PRODUCT HERE-->
+            
+
+			<!-- start footer Area -->		
+			<footer class="footer-area section-gap">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-3  offset-md-1 col-md-2 col-sm-6">
+							<div class="single-footer-widget">
+								<!--<h4 class="text-white">About Us</h4>
+								<p>
+									Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore dolore magna aliqua.
+								</p>-->
+                                <img src="img/logo%20-%20Copy.png" class="img-fluid" style="width:80%">
+                                
+							</div>
+						</div>
+						<div class="col-lg-2  col-md-2 col-sm-6">
+							<div class="single-footer-widget">
+								<h4 class="text-white">Equipments</h4>
+                                <ul>
+                                <li>Popular</li>
+                                <li>Catalog</li>
+                                <li>Trending</li>
+                                <li>Features</li>
+                                </ul>
+                                
+                                
+                                
+							</div>
+						</div>						
+						<div class="col-lg-2  col-md-2 col-sm-6">
+							<div class="single-footer-widget">
+								<h4 class="text-white">Company</h4>
+                                 <ul>
+                                <li>Home</li>
+                                <li>Rental</li>
+                                <li>Solutions</li>
+                                <li>Blog</li>
+                                </ul>
+							</div>
+						</div>
+                        
+                        <div class="col-lg-2 col-md-2 col-sm-6">
+                        <div class="single-footer-widget">
+                            <h4 class="text-white">Info</h4>
+                            <ul>
+                            <li>Support</li>
+                            <li>Disclaimer</li>
+                            <li>Privacy Policy</li>
+                            <li>Terms of Services</li>
+                            </ul>
+                            </div>
+                        </div>
+                        
+                         <div class="col-lg-2 col-md-2 col-sm-6">
+                        <div class="single-footer-widget">
+                            <h4 class="text-white">Follow Us :</h4>
+                            <div class="footer-bottom d-flex justify-content-between align-items-center flex-wrap">
+                            <div class="footer-social d-flex align-items-center">
+							<a href="#"><i class="fa fa-facebook"></i></a>
+							<a href="#"><i class="fa fa-twitter"></i></a>
+							<a href="#"><i class="fa fa-linkedin"></i></a>
+							<!--<a href="#"><i class="fa fa-behance"></i></a>-->
+                                </div>
+						</div>
+                            </div>
+                        </div>
+                        
+                        
+                        
+                        
+                        
+                        
+					</div>
+					
+				</div>
+			</footer>	
+			<!-- End footer Area -->
+           
+            <!--<script src="js/jquery1.11.1.js"></script>-->
+             <script language="Javascript" src="js/stat-jquery.js"></script>
+			<script src="js/vendor/jquery-2.2.4.min.js"></script>
+			<script src="js/superfish.min.js"></script>	
+			<script src="js/jquery.ajaxchimp.min.js"></script>
+			<script src="js/jquery.magnific-popup.min.js"></script>			
+			<script src="js/parallax.min.js"></script>	
+			<script src="js/jquery.counterup.min.js"></script>
+            <script src="js/owl.carousel.min.js"></script>
+            <script src="js/vendor/bootstrap.min.js"></script>
+			<script src="js/main.js"></script>   
+            
+             <script type="text/JavaScript" src='js/state.js'></script>
+           
+           <!--custom slider js-->
+                <!-- Syntax Highlighter -->
+  <script type="text/javascript" src="js/custom-slider/shCore.js"></script>
+  <script type="text/javascript" src="js/custom-slider/shBrushXml.js"></script>
+  <script type="text/javascript" src="js/custom-slider/shBrushJScript.js"></script>
+            
+             <script defer src="js/custom-slider/jquery.flexslider.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      SyntaxHighlighter.all();
+    });
+    $(window).load(function(){
+      $('.flexslider').flexslider({
+        animation: "slide",
+        controlNav: "thumbnails",
+        start: function(slider){
+          $('body').removeClass('loading');
+        }
+      });
+    });
+  </script>
+            
+            <!--end custom slider js-->
+          
+		</body>
+	</html>
+
+
+

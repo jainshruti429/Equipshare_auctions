@@ -19,9 +19,9 @@ app.use(express.static(path.join(__dirname, "/arishconflicts")));
 app.use(fileUpload());
 
 // import functions from other files.
-// var gfunc = require('./app/general_functions') //common functions
-// var afunc = require('./app/admin_functions'); //admin side functions
-// var ufunc = require('./app/user_functions'); 
+var gfunc = require('./app/general_functions') //common functions
+var afunc = require('./app/admin_functions'); //admin side functions
+var ufunc = require('./app/user_functions'); 
 // var csv = require('./app/csv');
 // var cfunc = require('./app/company_functions');
 //var func = require('./app/functions')

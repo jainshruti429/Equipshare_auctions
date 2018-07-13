@@ -345,7 +345,7 @@ module.exports =  {
     //          2 = reject    
     //-------------------------------------------------------------------     
     //proposals
-    my_requests4 : function(req,res){
+    my_requests4 : function(req,res, next){
         if(req.interested.length){
             interested = req.interested
             str = "SELECT * FROM proposals WHERE request_sno IN (";
@@ -368,8 +368,8 @@ module.exports =  {
         } 
     },
 
-    my_requests5: function(req,res){
-        res.render("./user_requested.ejs", {new_equip: req.new_equip, used_equip: req.used_equip, proposals:req.proposals, username:req.session.name});
+    my_requests5: function(req,res, next){
+        res.render("./user_myrequests.ejs", {new_equip: req.new_equip, used_equip: req.used_equip, proposals:req.proposals, username:req.session.name, category:req.session.category});
     },
 
     change_proposal_status: function(req,res){
@@ -531,7 +531,7 @@ module.exports =  {
     },
 
     my_equipment2: function(req,res){
-        res.render("./table.ejs", {datarows:req.datarows, username:req.session.name});
+        res.render("./table.ejs", {datarows:req.datarows, username:req.session.name, category:req.session.category, title1:"Equipments",title2:"My Equipment", fields:req.fields, edit :1, eye : 1});
     },
 
     // view_equipment:  function(req , res){
@@ -792,20 +792,43 @@ module.exports =  {
             }
         });
     },
-    auction_result_owner : function(req,res){
-     connection.query("SELECT all_equipment.id, all_equipment.category ,all_equipment.subcategory ,all_equipment.brand ,all_equipment.model, auction_equipment.base_price, count(bids.equip_id) FROM auction_equipment INNER JOIN all_equipment ON auction_equipment.equip_id=all_equipment.id LEFT JOIN bids ON bids.equip_id = all_equipment.id WHERE (auction_equipment.auction_id =? AND all_equipment.owner_id = ?)",[req.params.id,req.session.user],function(err,rows){
-        if(err) throw err;
-        else{
-
-        }
-     });
+    auction_result_owner : function(req,res, next){//to be called
+        connection.query("SELECT * FROM auctions WHERE auction_id = ?",[req.params.auction_id],function(err1,rows1){
+            if(err1) throw err1;
+            else{
+                connection.query("SELECT all_equipment.category,auction_equipment.base_price,auction_equipment.equip_id, MAX(bids.bid_amount), bids.user_id, all_equipment.subcategory, all_equipment.brand, all_equipment.model, count(bids.equip_id) FROM all_equipment LEFT JOIN auction_equipment ON all_equipment.id=auction_equipment.equip_id LEFT JOIN bids ON all_equipment.id = bids.equip_id WHERE auction_equipment.auction_id = ? AND all_equipment.owner_id = ? GROUP BY all_equipment.id ORDER BY all_equipment.id",[req.auction_id,req.session.user], function(err,rows){
+                    if(err) throw err;
+                    else {
+                       req.auction_info = rows1;
+                       req.datarows=rows;
+                                return next();
+                         
+                    }
+                });  
+            }  
+        }); 
     },
    auction_result_bidder : function(req,res){
-    connection.query("SELECT ");
+    connection.query("SELECT bids.equip_id ,MAX(bids.bid_amount), all_equipment.owner_id, account.name ,account.state FROM bids INNER JOIN all_equipment ON bids.equip_id=all_equipment.id INNER JOIN account ON bids.user_id=account.id WHERE bids.auction_id=? AND bids.user_id=?",[1,41],function(err,rows){
+               if(err) throw err;
+               else {
+                str = "SELECT * FROM bids WHERE equip_id IN (";
+                str1 = '';    
+                for(var i = 0; i <rows.length; i++){
+                 str1 = str1 + rows[i].equip_id + ",";
+                 console.log(rows[i].equip_id);
+                }
+                str1 = str1.slice(0,-1);
+                str = str +str1+")";
+
+                connection.query(str,function(err1,rows1){
+                    if(err1)throw err1;
+                    else{
+
+                    }
+                });
+               }
+    });
    }    
 
-
-
-
 }
-

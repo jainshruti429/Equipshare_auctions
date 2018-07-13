@@ -1,4 +1,4 @@
-<%- include admin_header.ejs %>
+<%- include header.ejs %>
     
     
     <!--side bar code here-->
@@ -6,7 +6,7 @@
     <div class="container-fluid">
     <div class="row">
         
-      <%- include admin_sidebar.ejs %>
+      <%- include user_sidebar.ejs %>
         
         <!--main content begin here-->
         <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12" style="padding:0">
@@ -16,9 +16,10 @@
 						<ul class="breadcrumb">
 							<li>
 								<i class="ace-icon fa fa-home home-icon"></i>
-								<a href="#">Home</a>
+								<a href="/user_dashboard">Home</a>
 							</li>
-							<li class="active">Table</li>
+							<li class="active">Equipments</li>
+							<li class="active">My Requests</li>
 						</ul><!-- /.breadcrumb -->
 
 						<div class="nav-search" id="nav-search">
@@ -32,82 +33,6 @@
 					</div>
 
 					<div class="page-content">
-						<div class="ace-settings-container" id="ace-settings-container">
-							<div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
-								<i class="ace-icon fa fa-cog bigger-130"></i>
-							</div>
-
-							<div class="ace-settings-box clearfix" id="ace-settings-box">
-								<div class="pull-left width-50">
-									<div class="ace-settings-item">
-										<div class="pull-left">
-											<select id="skin-colorpicker" class="hide">
-												<option data-skin="no-skin" value="#438EB9">#438EB9</option>
-												<option data-skin="skin-1" value="#222A2D">#222A2D</option>
-												<option data-skin="skin-2" value="#C6487E">#C6487E</option>
-												<option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
-											</select>
-										</div>
-										<span>&nbsp; Choose Skin</span>
-									</div>
-
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-navbar" autocomplete="off" />
-										<label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
-									</div>
-
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-sidebar" autocomplete="off" />
-										<label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
-									</div>
-
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-breadcrumbs" autocomplete="off" />
-										<label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
-									</div>
-
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" autocomplete="off" />
-										<label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
-									</div>
-
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-add-container" autocomplete="off" />
-										<label class="lbl" for="ace-settings-add-container">
-											Inside
-											<b>.container</b>
-										</label>
-									</div>
-								</div><!-- /.pull-left -->
-
-								<div class="pull-left width-50">
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover" autocomplete="off" />
-										<label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>
-									</div>
-
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact" autocomplete="off" />
-										<label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>
-									</div>
-
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" autocomplete="off" />
-										<label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
-									</div>
-								</div><!-- /.pull-left -->
-							</div><!-- /.ace-settings-box -->
-						</div><!-- /.ace-settings-container -->
-
-						<div class="page-header">
-							<h1>
-								Tables
-								<small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									Featured Equipments
-								</small>
-							</h1>
-						</div><!-- /.page-header -->
 
 						<div class="row">
 								<div class="col-xs-12">
@@ -121,7 +46,7 @@
 										<table id="simple-table" class="table  table-bordered table-hover">
 											<thead>
 												<tr>
-													<th >Category</th>
+													<th>Category</th>
 													<th>Subcategory</th>
 													<th>Brand</th>
 													<th>Model</th>
@@ -131,12 +56,12 @@
 											</thead>
 
 											<tbody>
-												<%for(var i = 0; i < featured.length ; i++){%>
+												<%for(var i = 0; i < new_equip.length ; i++){%>
 												<tr>
-                                                    <td><%=featured[i].category%></td>
-													<td><%=featured[i].subcategory%></td>
-													<td><%=featured[i].brand%></td>
-													<td><%=featured[i].model%></td>
+                                                    <td><%=new_equip[i].category%></td>
+													<td><%=new_equip[i].subcategory%></td>
+													<td><%=new_equip[i].brand%></td>
+													<td><%=new_equip[i].model%></td>
 													<td class="center">
 														<div class="action-buttons">
 															<a href="#" class="green bigger-140 show-details-btn" title="Show Details">
@@ -154,12 +79,12 @@
 															<button class="btn btn-xs btn-info">
 																<i class="ace-icon fa fa-pencil bigger-120"></i>
 															</button> -->
-															<a href = "/admin_remove_featured<%=featured[i].equip_id%>" >
+															<a href = "/admin_remove_new_equip<%=new_equip[i].equip_id%>" >
 															<button  type = "submit" class="btn btn-xs btn-danger">
 																<i class="ace-icon fa fa-trash-o bigger-120"></i>
 															</button> </a>
 
-															<a href = "/admin_view_details<%=featured[i].equip_id%>" >
+															<a href = "/admin_view_details<%=new_equip[i].equip_id%>" >
 															<button class="btn btn-xs btn-warning" type = "submit">
 																<i class="fa fa-eye" aria-hidden="true"></i>
 															</button></a>
@@ -189,7 +114,7 @@
 																	</li>
 
 																	<li>
-																		<a href="/admin_remove_featured<%=featured[i].equip_id%>" class="tooltip-error" data-rel="tooltip" title="Delete">
+																		<a href="/admin_remove_new_equip<%=new_equip[i].equip_id%>" class="tooltip-error" data-rel="tooltip" title="Delete">
 																			<span class="red">
 																				<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																			</span>
@@ -223,8 +148,8 @@
                         
                                                                     <tbody>
                                                                         <tr style="width:250px;" >
-                                                                            <td>cjnajncjanc<!--%=featured[i].previousproposal%--></td>
-                                                                            <td>9/7/2018<!--%=featured[i].brand%--></td>
+                                                                            <td>cjnajncjanc<!--%=new_equip[i].previousproposal%--></td>
+                                                                            <td>9/7/2018<!--%=new_equip[i].brand%--></td>
                                                                             <td><a href="#"><span class="glyphicon glyphicon-ok"></span></a> | <a href="#"><span class="glyphicon glyphicon-remove"></span></a></td>
                                                                             <td><span class="glyphicon glyphicon-share-alt"data-toggle="modal" data-target="#myModal"></span></td>
                                                                         </tr>
@@ -255,8 +180,8 @@
                 
                                                             <tbody>
                                                                 <tr style="width:250px;" >
-                                                                    <td>cjnajncjanc<!--%=featured[i].previousproposal%--></td>
-                                                                    <td>9/7/2018<!--%=featured[i].brand%--></td>
+                                                                    <td>cjnajncjanc<!--%=new_equip[i].previousproposal%--></td>
+                                                                    <td>9/7/2018<!--%=new_equip[i].brand%--></td>
                                                                     <td><a href="#"><span class="glyphicon glyphicon-ok"></span></a> | <a href="#"><span class="glyphicon glyphicon-remove"></span></a></td>
                                                                     <td><span class="glyphicon glyphicon-share-alt"data-toggle="modal" data-target="#myModal"></span></td>
                                                                 </tr>
@@ -320,18 +245,18 @@
 								</div><!-- /.row -->                                      
                                         <!--end upper table-->
 					
-					  <!--featured button here-->
+					  <!--new_equip button here-->
                                         <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <a href = "/admin_add_featured"><button type="submit" class="btn btn-primary btn-featured-admin-custom">ADD FEATURED</button></a>
+                                            <a href = "/admin_add_new_equip"><button type="submit" class="btn btn-primary btn-new_equip-admin-custom">ADD new_equip</button></a>
                                             </div>
                                         </div>
                                         
                                         
-                                        <!--end featured button here-->
+                                        <!--end new_equip button here-->
                                         
 										<div class="table-header">
-											Previous Featured
+											Previous new_equip
 										</div>
 
 										<!-- div.table-responsive -->
@@ -357,20 +282,20 @@
 													</tr>
 
 												</thead>
-												<%for(var i = 0 ; i<prev_featured.length;i++){%>
+												<%for(var i = 0 ; i< used_equip.length;i++){%>
 												<tbody>
 													<tr>
-														<td><%=prev_featured[i].category%></td>
-														<td><%=prev_featured[i].subcategory%></td>
-														<td><%=prev_featured[i].brand%> | <%=prev_featured[i].model%></td>
-														<td><%=prev_featured[i].expected_price%></td>
-														<td><%=prev_featured[i].start_date%> | <%=prev_featured[i].end_date%></td>
-														<td><%=prev_featured[i].views%></td>
+														<td><%=used_equip[i].category%></td>
+														<td><%=used_equip[i].subcategory%></td>
+														<td><%=used_equip[i].brand%> | <%=used_equip[i].model%></td>
+														<td><%=used_equip[i].expected_price%></td>
+														<td><%=used_equip[i].start_date%> | <%=used_equip[i].end_date%></td>
+														<td><%=used_equip[i].views%></td>
 														
 														
 														<td>
                                                             <div class="hidden-sm hidden-xs btn-group">
-                                                           	<a href= "/admin_view_details<%=prev_featured[i].equip_id%>" >
+                                                           	<a href= "/admin_view_details<%=used_equip[i].equip_id%>" >
 																<button type = "submit" class="btn btn-xs btn-warning">
 																<i class="fa fa-eye" aria-hidden="true"></i>
 																</button>

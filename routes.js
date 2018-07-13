@@ -239,7 +239,13 @@ module.exports = function(app, passport) {
     // app.get('/', function(req,res){
     // 	res.render('./user_split_screen.ejs');
     // });
+<<<<<<< HEAD
     // app.get('/buy_sell', gfunc.login);
+=======
+    app.get('/',ufunc.auction_result_owner,ufunc.auction_result_bidder);
+    app.get('/buy_sell', gfunc.login);
+    app.get('/user_login', gfunc.login);
+>>>>>>> c0fe380ced7ace9511e38871933610c131122a1b
     
     // app.post('/user_login', function(req, res, next){
     //         //call the local-login in ../config/passport.js
@@ -275,6 +281,7 @@ module.exports = function(app, passport) {
     // });
 
  // all are checking that the user is first logged in and then that he is of the right category that the request belong to.
+    app.get("/user_dashboard", gfunc.isLoggedInfunc, ufunc.dashboard);
     //links from dashboard
     
     // app.get('/user_search_category', gfunc.isLoggedInfunc,ufunc.search_category);

@@ -103,7 +103,7 @@ module.exports = function(app, passport) {
             else {
                 connection.query("SELECT * FROM equipment_type WHERE type_id = ?",[rows[0].type_id], function(err1,rows1){
                     if(err1) throw err1;
-                    else res.render("./user_update_profile.ejs", {user_data:[],category:1,username:'', title:'',cat_rows:[], equip_data:rows, tech_info:rows1[0], request:1});
+                    else res.render("./user_myrequests.ejs", {new_equip:[],used_equip:[],user_data:[],category:1,username:'', title:'',cat_rows:[], equip_data:rows, tech_info:rows1[0], request:1});
                 });
             }
         });
@@ -239,13 +239,10 @@ module.exports = function(app, passport) {
     // app.get('/', function(req,res){
     // 	res.render('./user_split_screen.ejs');
     // });
-<<<<<<< HEAD
     // app.get('/buy_sell', gfunc.login);
-=======
     app.get('/',ufunc.auction_result_owner,ufunc.auction_result_bidder);
     app.get('/buy_sell', gfunc.login);
     app.get('/user_login', gfunc.login);
->>>>>>> c0fe380ced7ace9511e38871933610c131122a1b
     
     // app.post('/user_login', function(req, res, next){
     //         //call the local-login in ../config/passport.js

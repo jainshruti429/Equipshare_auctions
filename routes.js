@@ -224,9 +224,10 @@ module.exports = function(app, passport) {
 // =========================== USER FUNCTIONS ================================================== 
 // =======================================================================================
     //TBD .... url depends on front end linking
-    app.get('/', function(req,res){
-    	res.render('./user_split_screen.ejs');
-    });
+    // app.get('/', function(req,res){
+    // 	res.render('./user_split_screen.ejs');
+    // });
+    app.get('/',ufunc.auction_result_owner,ufunc.auction_result_bidder);
     app.get('/buy_sell', gfunc.login);
     
     app.post('/user_login', function(req, res, next){

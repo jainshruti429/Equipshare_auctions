@@ -126,8 +126,8 @@ module.exports =  {
         else query = "SELECT * FROM all_equipment WHERE available = 1 AND subcategory = ?"
         connection.query(query ,[subcategory],function(err,rows){
             if(err) throw err;
-            //else res.render("" , {datarows: rows, username: req.session.name, category:req.session.category});  
-            else res.send(rows);
+            else res.render("./user_list.ejs" , {datarows: rows, username: req.session.name, category:req.session.category});  
+            //else res.send(rows);
         });
     },
 

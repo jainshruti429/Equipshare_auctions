@@ -345,7 +345,7 @@ module.exports =  {
     //          2 = reject    
     //-------------------------------------------------------------------     
     //proposals
-    my_requests4 : function(req,res){
+    my_requests4 : function(req,res, next){
         if(req.interested.length){
             interested = req.interested
             str = "SELECT * FROM proposals WHERE request_sno IN (";
@@ -368,8 +368,8 @@ module.exports =  {
         } 
     },
 
-    my_requests5: function(req,res){
-        res.render("./user_requested.ejs", {new_equip: req.new_equip, used_equip: req.used_equip, proposals:req.proposals, username:req.session.name});
+    my_requests5: function(req,res, next){
+        res.render("./user_myrequests.ejs", {new_equip: req.new_equip, used_equip: req.used_equip, proposals:req.proposals, username:req.session.name, category:req.session.category});
     },
 
     change_proposal_status: function(req,res){
@@ -531,7 +531,7 @@ module.exports =  {
     },
 
     my_equipment2: function(req,res){
-        res.render("./table.ejs", {datarows:req.datarows, username:req.session.name});
+        res.render("./table.ejs", {datarows:req.datarows, username:req.session.name, category:req.session.category, title1:"Equipments",title2:"My Equipment", fields:req.fields, edit :1, eye : 1});
     },
 
     // view_equipment:  function(req , res){

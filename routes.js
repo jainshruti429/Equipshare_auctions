@@ -228,6 +228,7 @@ module.exports = function(app, passport) {
     	res.render('./user_split_screen.ejs');
     });
     app.get('/buy_sell', gfunc.login);
+    app.get('/user_login', gfunc.login);
     
     app.post('/user_login', function(req, res, next){
             //call the local-login in ../config/passport.js
@@ -263,6 +264,7 @@ module.exports = function(app, passport) {
     });
 
  // all are checking that the user is first logged in and then that he is of the right category that the request belong to.
+    app.get("/user_dashboard", gfunc.isLoggedInfunc, ufunc.dashboard);
     //links from dashboard
     app.get('/user_search_category', gfunc.isLoggedInfunc,ufunc.search_category);
     app.post('/user_search',gfunc.isLoggedInfunc,ufunc.search);

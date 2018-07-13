@@ -129,8 +129,9 @@ module.exports = {
         });
     },
 
-    equip_data: function(req,res){
+    equip_data: function(req,res, next){
         datarows = req.datarows;
+        fields = req.fields;
         var str = "";
         for(var i = 0; i < datarows.length; i++){
             str = str + datarows[i].id+ ",";
@@ -143,6 +144,7 @@ module.exports = {
                 obj = {
                     name : "Views | Requests | Compares",
                 };
+                fields.push(obj);
                 var y = "";
                 for(var i = 0 ; i < datarows.length ; i++){
                     y = JSON.stringify(datarows[i]);
@@ -151,6 +153,7 @@ module.exports = {
                     datarows[i] = JSON.parse(y);
                 }
                 req.datarows = datarows;
+                req.fields = fields;
                 return next();
             }
         });

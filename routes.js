@@ -236,10 +236,9 @@ module.exports = function(app, passport) {
 // =========================== USER FUNCTIONS ================================================== 
 // =======================================================================================
     //TBD .... url depends on front end linking
-    // app.get('/', function(req,res){
-    // 	res.render('./user_split_screen.ejs');
-    // });
-    app.get('/',ufunc.auction_result_owner,ufunc.auction_result_bidder);
+    app.get('/', function(req,res){
+    	res.render('./user_split_screen.ejs');
+    });
     app.get('/buy_sell', gfunc.login);
     
     app.post('/user_login', function(req, res, next){
@@ -444,7 +443,11 @@ module.exports = function(app, passport) {
 //     app.get('/admin_saved_searches', gfunc.isLoggedInfunc, admin_access, afunc.saved_searches);
 //     app.get('/admin_enquiry', gfunc.isLoggedInfunc, admin_access, afunc.inEmail);
 
-
+       app.get('/show_master',gfunc.isLoggedInfunc, admin_access,afunc.show_master);
+       app.get('/update_master',gfunc.isLoggedInfunc, admin_access,afunc.get_update_master);
+       app.post('/post_show_master',gfunc.isLoggedInfunc, admin_access,afunc.post_show_master,afunc.show_master);
+       app.get('/show_user_profile',gfunc.isLoggedInfunc, admin_access,afunc.show_user_profile1,ufunc.my_requests1,ufunc.my_requests,ufunc.myrequests3,ufunc.show_user_profile2);
+       app.get('/show_user',gfunc.isLoggedInfunc, admin_access,afunc.show_user);
 // // =======================================================================================
 // // =========================== COMPANY USER FUNCTIONS ====================================== 
 // // =======================================================================================

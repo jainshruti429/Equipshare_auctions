@@ -5,7 +5,7 @@
             <div class="container-fluid">
                     <div class="row">
                         
-                      <%- include admin_sidebar.ejs %>
+                      <%- include user_sidebar.ejs %>
                         <!--main content begin here-->
           
                         <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12" style="padding:0">
@@ -17,7 +17,7 @@
                                                         <i class="ace-icon fa fa-home home-icon"></i>
                                                         <a href="#">Home</a>
                                                     </li>
-                                                    <li class="active">Dashboard</li>
+                                                    <li class="active">Equipments</li>
                                                     <li>Equipment Detail</li>
                                                 </ul><!-- /.breadcrumb -->
                         
@@ -155,14 +155,7 @@
                         </div>
                         
                          <div class="row custom-second-row">
-                        <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
-                            <h4 class="text-center" style="padding-top:10px;">City</h4>
-                        <p class="text-center"><%=equip_data[0].city%></p>
-                        </div>
-                        <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
-                       <h4 class="text-center" style="padding-top:10px;">State</h4>
-                        <p class="text-center"><%=equip_data[0].state%></p>
-                        </div>
+
                         </div>
                         
                     </div>

@@ -12,13 +12,12 @@ module.exports = {
 			'database': 'eqsAuction'
     }   
 };
-
 //=================================USE THIS FOR OTHER COMPUTER===================================
 
 // module.exports = {
 //     'connection': {
 //       // local configs.
-//          'host' : '192.168.0.8',
+//          'host' : '192.168.0.13',
 //          'user': 'muskan',
 //          'password': 'password',
 // 			   'database': 'eqsAuction'

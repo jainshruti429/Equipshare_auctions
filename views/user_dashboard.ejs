@@ -21,6 +21,7 @@
 								<a href="/admin">Home</a>
 							</li>
 							<li class="active">Dashboard</li>
+							<li>Overview &amp; Stats</li>
 						</ul><!-- /.breadcrumb -->
 
 						<div class="nav-search" id="nav-search">
@@ -36,15 +37,7 @@
 					<div class="page-content">
 						<!-- /.ace-settings-container -->
 
-						<div class="page-header">
-							<h1>
-								Dashboard
-								<small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									overview &amp; stats
-								</small>
-							</h1>
-						</div><!-- /.page-header -->
+						
 
 						<div class="row">
 							<div class="col-xs-12">
@@ -147,7 +140,8 @@
 												<div class="card border-secondary mb-4 box-shadow" style="width:30rem ;">
 												  <img class="card-img-top" onmouseover="bigImg(this)" onmouseout="normalImg(this)" alt="Equipment name" style="height: 225px; width: 100%; display: block;" src= "/images/old/<%=featured[i].photo1%>"  data-holder-rendered="true">
 												  <div class="card-body text-secondary">
-													<h2 class="card-title"><%=featured[i].subcategory%> &nbsp&nbsp&nbsp <span class="text-primary"><i class="fa fa-inr"></i><%=featured[i].expected_price%></span> </h2>
+													<h4 class="card-title"><center><%=featured[i].subcategory%></center></h4>
+													<h4> <span class="text-primary"><center><i class="fa fa-inr"></i><%=featured[i].expected_price%></center></span></h4>
 													<div class="d-flex justify-content-between align-items-center">
 													  
 														<div class="row">

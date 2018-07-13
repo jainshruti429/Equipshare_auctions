@@ -97,16 +97,9 @@ module.exports = {
         id = req.params.id;
         if(id[0] == 't') {
             req.type_id = id.slice(1);
-            // table = "equipment_type";
-            // page = "./new_details.ejs";  
-            // para = "type_id";          
             return next();
         }
         else{
-        //     table = "all_equipment";
-        //     page = "./user_view./ejs";
-        //     para = "id";
-        // }
         connection.query("SELECT * FROM all_equipment WHERE id = "+id,function(err,rows){
             if (err) throw err;
             else{
@@ -120,7 +113,7 @@ module.exports = {
                     else{
                         req.equip_data = rows[0];
                         req.type_id = rows[0].type_id;
-                        if(!row2.length){ //if viewer is not already added in the list
+                        if(!rows2.length){ //if viewer is not already added in the list
                             connection.query("INSERT INTO views (equip_id, viewer_id) VALUES (?,?)", [req.params.id, viewer], function(err1){
                                 if(err1) throw err1;
                                 else return next(); 
@@ -138,23 +131,35 @@ module.exports = {
         connection.query("SELECT * FROM equipment_type WHERE type_id = ?",[req.type_id], function(err,rows){
             if(err) throw err;
             else {
-                var used, equip_data;
-                if(req.equip_data) {
-                    equip_data = req.equip_data;
-                    used = 1;}
+            connection.query("SELECT * FROM equipment_master WHERE master_id = ?", [rows[0].master_id], function(err1,rows1,fields1){
+                if(err1) throw err1;
                 else{
-                    equip_data = {
-                        subcategory : rows[0].subcategory,
-                        brand : rows[0].brand,
-                        model : rows[0].brand,
-                        category : rows[0].category 
-                    };
-                    used = 0;
+                    var str = rows[0].parameters;
+                    var arr = str.split("!#%");
+                    var used, equip_data;
+                    if(req.equip_data) {
+                        equip_data = req.equip_data;
+                        used = 1;}
+                    else{
+                        equip_data = {
+                            photo1 : rows[0].photo1,
+                            photo2 : rows[0].photo2,
+                            photo3 : rows[0].photo3,
+                            photo4 : rows[0].photo4,
+                            subcategory : rows[0].subcategory,
+                            brand : rows[0].brand,
+                            model : rows[0].brand,
+                            category : rows[0].category,
+                            description : rows[0].description 
+                        };
+                        used = 0;
+                    }
+                    res.render("./detail.ejs", {username:req.session.name, category:req.session.category, equip_data:equip_data, param: arr, fields:fields1, param_name :rows1[0], tech_info:rows, used : used});
                 }
-                res.render("./detail.ejs", {username:req.session.name, category:req.session.category, equip_data:equip_data, tech_info : rows[0], used : used});
+            });    
             }
         });
-    }
+    },
 
     equip_data: function(req,res, next){
         datarows = req.datarows;

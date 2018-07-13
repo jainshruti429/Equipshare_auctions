@@ -85,75 +85,69 @@
                 <div >
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="header-name">
-                <h3><!--%=equip_data[0].subcategory%-->Backhoes</h3>    
+                <h3><%=equip_data.subcategory%></h3>    
                         </div>
                     <div class="custom-equip-detail" style="margin-top:10px;">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                          <span class="fa fa-star custom-checked"></span>
-  <span class="fa fa-star custom-checked"></span>
-  <span class="fa fa-star custom-checked"></span>
-  <span class="fa fa-star custom-checked"></span>
-  <span class="fa fa-star"></span><br>
-                             </div>
-                         </div>
-                        
+                   
                         
                         <div class="row custom-row-border">
                         <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-                            <p class="price-para-custom">$&nbsp;<!--%=equip_data[0].expected_price%-->1000</p> 
+                            <p class="fa fa-inr" style="font-size:2rem;">&nbsp;<!--%=equip_data.expected_price%-->1000</p> 
                             </div>
                             
                             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                             <%if(request){%>
-                            <a href="/user_request<%=equip_data[0].id%>">
+                            <a href="/user_request<%=equip_data.id%>">
                             <input type="submit" class="btn btn-primary custom-buy-btn" value ="BUY NOW"></a>
                             <%} 
                             else{%>
-                            <a href="/user_update_equipment<%=equip_data[0].id%>">
+                            <a href="/user_update_equipment<%=equip_data.id%>">
                             <input type="submit" class="btn btn-primary custom-buy-btn" value ="UPDATE"></a>
                             <%}%>
                             </div>
                             
                         </div>
                         
-                           <p style="padding-top:10px;"><%=equip_data[0].description%></p>
+                           <p style="padding-top:10px;"><%=equip_data.description%></p>
 
                        
                         
                        <div class="row custom-second-row">
                         <div class="  col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
                             <h4 class="text-center" style="padding-top:10px;">Brand</h4>
-                        <p class="text-center"><%=equip_data[0].brand%></p>
+                            <%if(equip_data.brand){%><p class="text-center"><%=equip_data.brand%></p><%}%>
+                        <%else{%><p class="text-center">-</p><%}%>
                         </div>
                         <div class="  col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
                        <h4 class="text-center" style="padding-top:10px;">Model</h4>
-                        <p class="text-center"><%=equip_data[0].model%></p>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
-                        <h4 class="text-center" style="padding-top:10px;">Year</h4>
-                        <p class="text-center"><%=equip_data[0].year%></p>
-                        </div>
-                        
-                        </div>
-                        
-                        
-                        
-                        <div class="row custom-second-row">
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
-                            <h4 class="text-center" style="padding-top:10px;">Colour</h4>
-                        <p class="text-center"><%=equip_data[0].colour%></p>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
-                       <h4 class="text-center" style="padding-top:10px;">Km / Hour</h4>
-                        <p class="text-center"><%=equip_data[0].km%></p>
+                       <%if(equip_data.model){%> <p class="text-center"><%=equip_data.model%></p><%}%>
+                        <%else{%><p class="text-center">-</p><%}%>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
                         <h4 class="text-center" style="padding-top:10px;">Type</h4>
-                        <p class="text-center"><%=equip_data[0].category%></p>
+                        <%if(equip_data.category){%><p class="text-center"><%=equip_data.category%></p><%}%>
+                        <%else{%><p class="text-center">-</p><%}%>
+                        </div>
+                        </div> 
+                        <%if(used){%>      
+                        <div class="row custom-second-row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
+                            <h4 class="text-center" style="padding-top:10px;">Colour</h4>
+                        <%if(equip_data.colour){%><p class="text-center"><%=equip_data.colour%></p><%}%>
+                        <%else{%><p class="text-center">-</p><%}%>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
+                       <h4 class="text-center" style="padding-top:10px;">Km / Hour</h4>
+                       <%if(equip_data.km){%><p class="text-center"><%=equip_data.km%></p><%}%>
+                       <%else{%><p class="text-center">-</p><%}%>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
+                        <h4 class="text-center" style="padding-top:10px;">Year</h4>
+                        <%if(equip_data.year){%><p class="text-center"><%=equip_data.year%></p><%}%>
+                        <%else{%><p class="text-center">-</p><%}%>
                         </div>
                         </div>
-                        
+                        <%}%>
                          <div class="row custom-second-row">
 
                         </div>
@@ -171,7 +165,7 @@
                                 
             
             <!--END SIDEBAR PRODUCT SLIDER HERE-->
-            
+            <div class="hr hr32 hr-dotted"></div> 
             <!---   PRODUCT DESCRIPTION ACCORDION-->
             <div class="custom-accordian-fluid">
             <div class="container-fluid">
@@ -183,10 +177,10 @@
     <a class="nav-link active custom-pill-header" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Description</a>
   </li>-->
   <li class="nav-item">
-    <a class="nav-link active custom-pill-header show" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="true">Technical Information</a>
+    <a class="nav-link active custom-pill-header show" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="true" ><span style="font-size:2rem;">Technical Information</span></a>
   </li>
   <li class="nav-item">
-    <a class="nav-link custom-pill-header" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Documents</a>
+    <a class="nav-link custom-pill-header" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false"><span style="font-size:2rem;">Documents</span></a>
   </li>
 </ul>
 <hr class="custom-hr-detail">   
@@ -195,7 +189,7 @@
   <div class="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
   						<%if(tech_info.mapping_unit){%>
                             <div class="row custom-second-row">
-                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width:20%">
+                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width:20%;font-size:2rem;">
                         			<h4>Mapping Unit <span style="padding-left:30px">:</span> </h4>
                         		</div>
 
@@ -207,7 +201,7 @@
 
   						<%if(tech_info.max_dig_depth){%>
                             <div class="row custom-second-row">
-                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width:20%">
+                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width:20%;font-size:2rem;">
                         			<h4>Max Dig Depth <span style="padding-left:30px">:</span> </h4>
                         		</div>
 
@@ -219,7 +213,7 @@
 
   						<%if(tech_info.blade_capacity){%>
                             <div class="row custom-second-row">
-                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width:20%">
+                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width:20%;font-size:2rem;">
                         			<h4>Blade Capacity <span style="padding-left:30px">:</span> </h4>
                         		</div>
 
@@ -231,7 +225,7 @@
 
   						<%if(tech_info.showel_capacity){%>
                             <div class="row custom-second-row">
-                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width:20%">
+                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width:20%;font-size:2rem;">
                         			<h4>Showel Capacity <span style="padding-left:30px">:</span> </h4>
                         		</div>
 
@@ -243,7 +237,7 @@
 
   						<%if(tech_info.engine_power){%>
                             <div class="row custom-second-row">
-                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width:20%">
+                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width:20%;font-size:2rem;">
                         			<h4>engine_power <span style="padding-left:30px">:</span> </h4>
                         		</div>
 
@@ -255,7 +249,7 @@
 
   						<%if(tech_info.mapping_unit){%>
                             <div class="row custom-second-row">
-                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width: 20%">
+                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width: 20%;font-size:2rem;">
                         			<h4>Mapping Unit <span style="padding-left:30px">:</span> </h4>
                         		</div>
 
@@ -267,7 +261,7 @@
 
   						<%if(tech_info.mapping_unit){%>
                             <div class="row custom-second-row">
-                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width: 20%">
+                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width: 20%;font-size:2rem;">
                         			<h4>Mapping Unit <span style="padding-left:30px">:</span> </h4>
                         		</div>
 
@@ -279,7 +273,7 @@
 
   						<%if(tech_info.mapping_unit){%>
                             <div class="row custom-second-row">
-                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width: 20%">
+                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width: 20%;font-size:2rem;">
                         			<h4>Mapping Unit <span style="padding-left:30px">:</span> </h4>
                         		</div>
 
@@ -291,7 +285,7 @@
 
   						<%if(tech_info.mapping_unit){%>
                             <div class="row custom-second-row">
-                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width: 20%">
+                        		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="max-width: 20%;font-size:2rem;">
                         			<h4>Mapping Unit <span style="padding-left:30px">:</span> </h4>
                         		</div>
 
@@ -307,24 +301,24 @@
     </div>
     
   <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                             <ol type="I" style="list-style:upper-roman;padding-left:30px;" class="custom-detail-ol">
-          <%if(equip_data[0].doc_invoice){%>
-          <li><a href="docs/<%=equip_data[0].doc_invoice%>">&nbsp;&nbsp;&nbsp;Invoice</a></li>
+                             <ol type="I" style="list-style:upper-roman;padding-left:30px;" class="custom-detail-ol"style="font-size:2rem;">
+          <%if(equip_data.doc_invoice){%>
+          <li><a href="docs/<%=equip_data.doc_invoice%>">&nbsp;&nbsp;&nbsp;Invoice</a></li>
           <%}%>
-          <%if(equip_data[0].doc_insurance){%>
-          <li><a href="docs/<%=equip_data[0].doc_insurance%>">&nbsp;&nbsp;&nbsp;Insurance</a></li>
+          <%if(equip_data.doc_insurance){%>
+          <li><a href="docs/<%=equip_data.doc_insurance%>">&nbsp;&nbsp;&nbsp;Insurance</a></li>
           <%}%>
-          <%if(equip_data[0].doc_rc){%>
-          <li><a href="docs/<%=equip_data[0].doc_rc%>">&nbsp;&nbsp;&nbsp;RC</a></li>
+          <%if(equip_data.doc_rc){%>
+          <li><a href="docs/<%=equip_data.doc_rc%>">&nbsp;&nbsp;&nbsp;RC</a></li>
           <%}%>
-          <%if(equip_data[0].doc_poc){%>
-          <li><a href="docs/<%=equip_data[0].doc_poc%>">&nbsp;&nbsp;&nbsp;POC</a></li>
+          <%if(equip_data.doc_poc){%>
+          <li><a href="docs/<%=equip_data.doc_poc%>">&nbsp;&nbsp;&nbsp;POC</a></li>
           <%}%>
-          <%if(equip_data[0].doc_fitness){%>
-          <li><a href="docs/<%=equip_data[0].doc_fitness%>">&nbsp;&nbsp;&nbsp;fitness</a></li>
+          <%if(equip_data.doc_fitness){%>
+          <li><a href="docs/<%=equip_data.doc_fitness%>">&nbsp;&nbsp;&nbsp;fitness</a></li>
           <%}%>
-          <%if(equip_data[0].doc_roadtax){%>
-          <li><a href="docs/<%=equip_data[0].doc_roadtax%>">&nbsp;&nbsp;&nbsp;roadtax</a></li>
+          <%if(equip_data.doc_roadtax){%>
+          <li><a href="docs/<%=equip_data.doc_roadtax%>">&nbsp;&nbsp;&nbsp;roadtax</a></li>
           <%}%>
           <%if(tech_info.doc1){%>
           <li><a href="docs/<%=tech_info.doc1%>">&nbsp;&nbsp;&nbsp;Brochure</a></li>

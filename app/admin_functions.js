@@ -975,6 +975,7 @@ module.exports = {
         }
     });
    },
+   // called in routes
    show_master : function(req,res){
      connection.query("SELECT master_id,category,subcategory FROM equipment_master",function(err,res){
         if (err) throw err ;
@@ -984,6 +985,7 @@ module.exports = {
         }
      });
    },
+   //called in routes
    get_update_master : function(req,res){
     connection.query("SELECT * from equipment_master WHERE master_id=?",[req.params.id],function(err,rows){
         if(err) throw err ;
@@ -993,7 +995,9 @@ module.exports = {
     });
    },
 
+
    //next will show_master....
+   //called in routes
    post_update_master : function(req,res,next){
     update={
         category: req.body.category,
@@ -1039,7 +1043,8 @@ module.exports = {
                }
     });
    },
-
+    
+    //called 
     show_user : function(req,res){
         connection.query("SELECT account.id, account.name, account.category, account.state, count(all_equipment.owner_id)as no_of_equip FROM account INNER JOIN all_equipment ON account.id=all_equipment.id WHERE account.id=? GROUP BY account.id",[req.params.id],function(err,rows){
             if(err)throw err ;
@@ -1048,8 +1053,10 @@ module.exports = {
             }
         });
     },
- 
-    show_user_profile1 : function (req,res){
+     
+
+     // called in routes..
+    show_user_profile1 : function (req,res,next){
         
         connection.query("SELECT account.*, all_equipment.id, all_equipment.brand, all_equipment.model, all_equipment.category, all_equipment.subcategory,all_equipment.status FROM account INNER JOIN all_equipment ON account.id=all_equipment.id WHERE account.id=?",[req.params.id],function(err,rows){
             if (err)throw err;
@@ -1060,6 +1067,7 @@ module.exports = {
         });
     },
     
+    //called in routes
     show_user_profile2 : function(req,res){
         res.render('./show_user_profile',{datarows : req.show_users, new_equip:req.new_equip, used_equip:req.used_equip});
     },

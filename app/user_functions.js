@@ -60,21 +60,14 @@ module.exports =  {
      // },
 //---------------------------------------------------------------------------------------------------------
 
-    home: function(req, res) {  
+    dashboard: function(req, res) {  
         connection.query("SELECT DISTINCT category FROM equipment_type", function(errc,crows){
             if(errc) throw errc;
             else {
-                connection.query("SELECT DISTINCT subcategory FROM equipment_type WHERE category = ?",[crows[0].category], function(err2, rows2){
-                    if(err2) throw err2;
-                    else {
-                        connection.query("SELECT all_equipment.photo1, all_equipment.expected_price, all_equipment.subcategory,all_equipment.category, all_equipment.brand, all_equipment.model, all_equipment.id FROM all_equipment INNER JOIN featured ON featured.equip_id = all_equipment.id WHERE featured.display = 1",function(errf,featured){
-                            if(errf) throw errf;
-                            else res.render("./user_index.ejs", {featured :featured, cat_rows:crows, subcat_rows: rows2, selected : '', username : req.session.name});
-                                    
-
-                                  });
-                            }
-                    });
+                connection.query("SELECT all_equipment.photo1, all_equipment.expected_price, all_equipment.subcategory,all_equipment.category, all_equipment.brand, all_equipment.model, all_equipment.id FROM all_equipment INNER JOIN featured ON featured.equip_id = all_equipment.id WHERE featured.display = 1",function(errf,featured){
+                    if(errf) throw errf;
+                    else res.render("./user_dashboard.ejs", {featured :featured, cat_rows:crows, username : req.session.name, category : req.session.category});
+                });
             }
         });
     },        
@@ -93,7 +86,7 @@ module.exports =  {
     //                             request = 1;
     //                             connection.query("SELECT * FROM equipment_type WHERE type_id = ?" ,[rows2[0].type_id], function(err4, rows4){
     //                                 if(err4) throw err4;
-    //                                 else res.render('./user_view.ejs', {equip_data : rows2, featured:index_featured, tech_info : rows4[0], request:request, isLoggedIn : isLoggedIn(req,res), username: req.session.name});                            
+    //                                 else res.render('./user_view.ejs', {equip_data : rows2, featured:index_featured, tech_info : rows4[0], request:request, isLoggedIn : isLoggedIn(req,res), username: req.session.name, category:req.session.category});                            
     //                             });
     //                         }       
     //                     });       
@@ -133,7 +126,8 @@ module.exports =  {
         else query = "SELECT * FROM all_equipment WHERE available = 1 AND subcategory = ?"
         connection.query(query ,[subcategory],function(err,rows){
             if(err) throw err;
-            else res.render("" , {datarows: rows, username: req.session.name});  
+            //else res.render("" , {datarows: rows, username: req.session.name, category:req.session.category});  
+            else res.send(rows);
         });
     },
 
@@ -188,7 +182,7 @@ module.exports =  {
             else {
                 var x = "";
                 for(var i = 0 ;i<rows.length;i++){
-                    x = (String)(rows[i]["Date/Time Of Search"];
+                    x = (String)(rows[i]["Date/Time Of Search"]);
                     x = x.slice(0,-18);//remove sec and GMT etc
                     rows[i]["Date/Time Of Search"] = x;
                 }
@@ -251,7 +245,7 @@ module.exports =  {
         //                     else{ 
         //                         connection.query("SELECT * FROM equipment_type WHERE type_id = ?" ,[rows1[0].type_id], function(err4, rows4){
         //                             if(err4) throw err4;
-        //                             else res.render('./user_request.ejs', {owner_details : rows3[0] , equip_data : rows1, featured:index_featured, tech_info : rows4[0] , isLoggedIn : isLoggedIn(req,res), username: req.session.name});    
+        //                             else res.render('./user_request.ejs', {owner_details : rows3[0] , equip_data : rows1, featured:index_featured, tech_info : rows4[0] , isLoggedIn : isLoggedIn(req,res), username: req.session.name, category:req.session.category});    
         //                         });
         //                     }
         //             });
@@ -419,7 +413,7 @@ module.exports =  {
             else {
                 connection.query("SELECT * FROM account WHERE id = ?" ,[req.session.user],function(err,rows){
                     if (err) throw err ;
-                    else res.render('./user_update_profile.ejs' , {msg : "Please Update your Profile first." , user_data : rows[0], isLoggedIn : isLoggedIn(req,res), username: req.session.name});
+                    else res.render('./user_update_profile.ejs' , {msg : "Please Update your Profile first." , user_data : rows[0], isLoggedIn : isLoggedIn(req,res), username: req.session.name, category:req.session.category});
                 });
             }
         });
@@ -428,7 +422,7 @@ module.exports =  {
     get_update_profile:  function(req, res){
         connection.query("SELECT * FROM account WHERE id = ?" ,[req.session.user],function(err,rows){
             if (err) throw err ;
-            else res.render('./user_update_profile.ejs' , {msg : '' , user_data : rows[0], username: req.session.name});
+            else res.render('./user_update_profile.ejs' , {msg : '' , user_data : rows[0], username: req.session.name, category:req.session.category});
         });
     },
 
@@ -439,7 +433,7 @@ module.exports =  {
             else {
                 connection.query("SELECT * FROM account WHERE id = ?" ,[req.session.user],function(err1,rows1){
                     if (err) throw err ;
-                    else res.render('./user_update_profile.ejs' , {msg : 'Profile Updated' , user_data : rows1[0], isLoggedIn : isLoggedIn(req,res), username: req.session.name});
+                    else res.render('./user_update_profile.ejs' , {msg : 'Profile Updated' , user_data : rows1[0], username: req.session.name, category:req.session.category});
                 });          
             }
         });
@@ -448,7 +442,7 @@ module.exports =  {
     get_update_this_equipment: function(req, res){
     connection.query("SELECT * FROM all_equipment WHERE id = ?" ,[req.params.id],function(err,rows){
             if (err) throw err;
-            else res.render('./user_update_equipment.ejs' , {equip_data : rows[0], isLoggedIn : isLoggedIn(req,res), username: req.session.name});
+            else res.render('./user_update_equipment.ejs' , {equip_data : rows[0], username: req.session.name, category:req.session.category});
         });
     },
     
@@ -543,7 +537,7 @@ module.exports =  {
     // view_equipment:  function(req , res){
     //     connection.query("SELECT photo1, subcategory, brand, model,colour, expected_price, id  FROM all_equipment WHERE available = 1",function(err,rows){
     //         if (err) throw err ;
-    //         else res.render('./user_view_equipment.ejs' , {datarows: rows, isLoggedIn : isLoggedIn(req,res), username: req.session.name});
+    //         else res.render('./user_view_equipment.ejs' , {datarows: rows, isLoggedIn : isLoggedIn(req,res), username: req.session.name, category:req.session.category});
     //     });
     // },
 
@@ -555,7 +549,7 @@ module.exports =  {
         else msg = 'Please enter the following details';
         connection.query("SELECT DISTINCT subcategory FROM equipment_type WHERE category = ?",[cat_rows[0].category], function(err1, subcat_rows){
             if (err1) throw err1;
-            else res.render('./user_add_equipment.ejs', {msg : msg, cat_rows:cat_rows, username: req.session.name});                             
+            else res.render('./user_add_equipment.ejs', {msg : msg, cat_rows:cat_rows, username: req.session.name, category:req.session.category});                             
         });
     },
 
@@ -699,10 +693,10 @@ module.exports =  {
                 var x = "";
                 var y = "";
                 for(var i = 0 ;i<rows.length;i++){
-                    x = (String)(rows[i]["Start Date/Time"];
+                    x = (String)(rows[i]["Start Date/Time"]);
                     x = x.slice(0,-15);//remove sec and GMT etc
                     rows[i]["Start Date/Time"] = x;
-                    y = (String)(rows[i]["End Date/Time"];
+                    y = (String)(rows[i]["End Date/Time"]);
                     y = y.slice(0,-15);//remove sec and GMT etc
                     rows[i]["End Date/Time"] = y;
                 }
@@ -723,10 +717,10 @@ module.exports =  {
             if(err) throw err;
             else if(rows.length){
                 if(rows[0]["Status"]){
-                    var x = (String)(rows[0]["Start Time"];
+                    var x = (String)(rows[0]["Start Time"]);
                     x = x.slice(15,-15);//remove sec and GMT etc
                     rows[0]["Start Time"] = x;
-                    var z = (String)(rows[i]["End Time"];
+                    var z = (String)(rows[i]["End Time"]);
                     z = z.slice(15,-15);//remove sec and GMT etc
                     rows[0]["End Time"] = z;
                     connection.query("SELECT all_equipment.photo1, all_equipment.owner_id, all_equipment.subcategory, all_equipment.brand, all_equipment.model, auction_equipment.current_bid, auction_equipment.base_price, auction_equipment.equip_id, count(bids.equip_id) as bids FROM auction_equipment LEFT JOIN all_equipment ON all_equipment.id=auction_equipment.equip_id LEFT JOIN bids ON auction_equipment.equip_id = bids.equip_id WHERE auction_equipment.auction_id = ? GROUP BY auction_equipment.equip_id, auction_equipment.current_bid, auction_equipment.base_price ORDER BY auction_equipment.equip_id;",[rows[0].id,rows[0].id],function(err1,rows1){

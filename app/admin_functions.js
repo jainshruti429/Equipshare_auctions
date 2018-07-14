@@ -1116,6 +1116,19 @@ module.exports = {
     show_equipment_requests2: function(req,res){
         res.render("./user_requested.ejs", {new_equip: req.new_equip, used_equip: req.used_equip, proposals:req.proposals, username:req.session.name});
     },
+    find_fields : function(req,res){
+    	fields=[];
+    	connection.query("SELECT * FROM equipment_master WHERE subcategory=?",[req.query.subcategory],function(err,rows){
+    		if(err) throw err;
+    		else{
+    			if(rows.length>0){
+    				
+                
+    			}
+    		}
+    	});
+    },
+
     //users - name - category, #equip(count + innerjoin all_equipment(owner_id)), state from account table 
     //user_profile - upar wala data + all.equipment.*, requested equipments(requests);
 

@@ -837,7 +837,8 @@ module.exports = {
 
     //select_this_equipment - (ajax)
     select_this_equipment: function(req,res){
-        if(req.selected_equip.length<req.body.max_no_equipment){
+        //$$req.session.selected_equip h in next 2 func also
+        if(req.session.selected_equip.length<req.body.max_no_equipment){
             req.selected_equip.push(req.params.equip_id);
             res.send("Equipment added to auction", req.selected_equip);
         }

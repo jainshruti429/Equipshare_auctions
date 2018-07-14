@@ -1116,8 +1116,8 @@ module.exports = {
     show_equipment_requests2: function(req,res){
         res.render("./user_requested.ejs", {new_equip: req.new_equip, used_equip: req.used_equip, proposals:req.proposals, username:req.session.name});
     },
-    find_fields : function(req,res,fields){
-    	fields=[];
+    find_fields : function(req,res,fields,next){
+    	display_fields=[];
     	connection.query("SELECT * FROM equipment_master WHERE subcategory=?",[req.query.subcategory],function(err,rows){
     		if(err) throw err;
     		else{
@@ -1125,11 +1125,17 @@ module.exports = {
     				for(var i=2; i<(fields.length-4);i++)
     				{
     					if(rows[0][fields[i].name]){
-    						y = JSON.stringify(rows[0][fields[i].name);
+    						y = JSON.stringify(rows[0][fields[i].name]);
     						y = y.replace('_', ' ');
-    						fields.push(y);
-    				         console.log(fields);
-    				 	}
+    						display_fields.push(y);
+    				         console.log(display_fields);
+                     		}
+                          if(i == (fields.length-4))
+    				    {req.display_fields=display_fields;
+    				    	return next();
+    				    }
+
+    			     	   
     				}
     				
                 
@@ -1138,6 +1144,22 @@ module.exports = {
     	});
     },
 
+ find_fields2 : function(req,res,fields){
+	display_fields=req.display_fields;
+	connection.query("SELECT * FROM equipment_master WHERE subcategory=?",[req.query.subcategory],function(err,rows){
+		if(err)throw err ;
+		else {
+			for ( var i =(fields.length-4); i<fields.length;i++ ){
+                 if(rows[0][fields[i].name]){
+                 	display_fields.push(rows[0][fields[i].name]);
+                 }
+
+		     console.log(display_fields);
+			}
+		
+		}
+	});
+}
     //users - name - category, #equip(count + innerjoin all_equipment(owner_id)), state from account table 
     //user_profile - upar wala data + all.equipment.*, requested equipments(requests);
 

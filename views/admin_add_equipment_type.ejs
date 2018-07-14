@@ -1,4 +1,4 @@
-<%- include admin_header.ejs %>
+<%- include header.ejs %>
     
     
     <!--side bar code here-->
@@ -34,83 +34,6 @@
 					</div>
 
 					<div class="page-content">
-						<div class="ace-settings-container" id="ace-settings-container">
-							<div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
-								<i class="ace-icon fa fa-cog bigger-130"></i>
-							</div>
-
-							<div class="ace-settings-box clearfix" id="ace-settings-box">
-								<div class="pull-left width-50">
-									<div class="ace-settings-item">
-										<div class="pull-left">
-											<select id="skin-colorpicker" class="hide">
-												<option data-skin="no-skin" value="#438EB9">#438EB9</option>
-												<option data-skin="skin-1" value="#222A2D">#222A2D</option>
-												<option data-skin="skin-2" value="#C6487E">#C6487E</option>
-												<option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
-											</select>
-										</div>
-										<span>&nbsp; Choose Skin</span>
-									</div>
-
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-navbar" autocomplete="off" />
-										<label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
-									</div>
-
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-sidebar" autocomplete="off" />
-										<label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
-									</div>
-
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-breadcrumbs" autocomplete="off" />
-										<label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
-									</div>
-
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" autocomplete="off" />
-										<label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
-									</div>
-
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-add-container" autocomplete="off" />
-										<label class="lbl" for="ace-settings-add-container">
-											Inside
-											<b>.container</b>
-										</label>
-									</div>
-								</div><!-- /.pull-left -->
-
-								<div class="pull-left width-50">
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover" autocomplete="off" />
-										<label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>
-									</div>
-
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact" autocomplete="off" />
-										<label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>
-									</div>
-
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" autocomplete="off" />
-										<label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
-									</div>
-								</div><!-- /.pull-left -->
-							</div><!-- /.ace-settings-box -->
-						</div><!-- /.ace-settings-container -->
-
-						<div class="page-header">
-							<h1>
-								Equipment Form
-								<small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									Add Equipment Type
-								</small>
-							</h1>
-						</div><!-- /.page-header -->
-                        
 
 						<div class="row">
 								<div class="col-xs-12">
@@ -122,7 +45,12 @@
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Category </label>
 
 										<div class="col-sm-9">
-											<input class="input-sm" type="text" id="form-field-4" placeholder=".input-sm" name = "category" required/>
+											<select class="form-cntrol col-xs-10 col-sm-7" name = "category" onchange="if(this.value!= 0) { find_subcategory(this.value); }" id = 'cat' required>
+										<option value="0">Select Category</option>
+                					<%for(var i = 0;i< cat_rows.length; i++){%> 
+								  		<option value="<%=cat_rows[i].category%>"><%=cat_rows[i].category%></option>
+							    	<%}%>
+							    			</select>
 										</div>
 									</div>
 
@@ -130,7 +58,7 @@
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-1-1"> Sub Category </label>
 
 										<div class="col-sm-9">
-											<input class="input-sm" type="text" id="form-field-4" placeholder=".input-sm" name = "subcategory" required/>
+											<select id = "subcat" class="form-cntrol col-xs-10 col-sm-7" name = "subcategory" onchange="if(this.value!= 0) { find_fields(this.value); }" list = 'subcat' required></select>
 										</div>
 									</div>
 
@@ -156,30 +84,7 @@
 
 									<div class="space-4"></div>
 
-									<!--<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="form-field-4">Relative Sizing</label>
-
-										<div class="col-sm-9">
-											<input class="input-sm" type="text" id="form-field-4" placeholder=".input-sm" />
-											<div class="space-2"></div>
-
-											<div class="help-block" id="input-size-slider"></div>
-										</div>
-									</div>-->
-
-									<!--<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="form-field-5">Grid Sizing</label>
-
-										<div class="col-sm-9">
-											<div class="clearfix">
-												<input class="col-xs-1" type="text" id="form-field-5" placeholder=".col-xs-1" />
-											</div>
-
-											<div class="space-2"></div>
-
-											<div class="help-block" id="input-span-slider"></div>
-										</div>
-									</div>-->
+									
                                         <div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Mapping Unit </label>
 
@@ -258,136 +163,6 @@
 										</div>
 									</div>
 									
-									<!--
-									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Upload CSV </label>
-
-										<div class="col-sm-9">
-                                            <input type="file" class="col-xs-10 col-sm-7" name="equip_csv" required>
-					    <p>Upload CSV in format as shown below</p>
-					    <img src= "/img/csv_format.png" class="center-block text-center">
-										</div>
-									</div>
-									-->
-									
-									
-                                        
-									<!--<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right">Input with Icon</label>
-
-										<div class="col-sm-9">
-											<span class="input-icon">
-												<input type="text" id="form-field-icon-1" />
-												<i class="ace-icon fa fa-leaf blue"></i>
-											</span>
-
-											<span class="input-icon input-icon-right">
-												<input type="text" id="form-field-icon-2" />
-												<i class="ace-icon fa fa-leaf green"></i>
-											</span>
-										</div>
-									</div>
-
-									<div class="space-4"></div>
-
-								<!--	<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="form-field-6">Tooltip and help button</label>
-
-										<div class="col-sm-9">
-											<input data-rel="tooltip" type="text" id="form-field-6" placeholder="Tooltip on hover" title="Hello Tooltip!" data-placement="bottom" />
-											<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="More details." title="Popover on hover">?</span>
-										</div>
-									</div>
-
-									<div class="space-4"></div>
-
-									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="form-field-tags">Tag input</label>
-
-										<div class="col-sm-9">
-											<div class="inline">
-												<input type="text" name="tags" id="form-field-tags" value="Tag Input Control" placeholder="Enter tags ..." />
-											</div>
-										</div>
-									</div> --
->
-                                        
-                                      <!--choose a state here-->
-                                       <!-- <div class="form-group">
-      <label for="basic" class="col-sm-3 control-label no-padding-right">Choose a state (live search)</label>
-
-      <div class="col-lg-9 col-sm-9">
-        <select id="basic" class="selectpicker show-tick col-xs-10 col-sm-5 custom-bg-select" data-live-search="true">
-          <option>Madhya Pradesh</option>
-          <option>Rajasthan</option>
-          <option>Andhra Pradesh</option>
-          <option>Maharashtra</option>
-          <option>Tamil Nadu</option>
-          <option data-subtext="option subtext">bull</option>
-          <option class="get-class" disabled>ox</option>
-        </select>
-      </div>
-    </div> -->
-                                        
-                                        <!--end choose state end here-->
-                                        
-                                        <!--check box and radio button-->
-                                     <!--   <div class="form-group form-inline">
-         <label for="basic" class="col-sm-3 control-label no-padding-right">Inline Checkboxes</label>
-                                        <div class="checkbox" style="padding-left:20px;">
-													<label>
-														<input name="form-field-checkbox" type="checkbox" class="ace" />
-														<span class="lbl"> choice 1</span>
-													</label>
-												</div>
-
-												<div class="checkbox" style="padding-left:20px;">
-													<label>
-														<input name="form-field-checkbox" type="checkbox" class="ace" />
-														<span class="lbl"> choice 2</span>
-													</label>
-												</div>
-
-												<div class="checkbox" style="padding-left:20px;">
-													<label>
-														<input name="form-field-checkbox" class="ace ace-checkbox-2" type="checkbox" />
-														<span class="lbl"> choice 3</span>
-													</label>
-												</div>
-                                        
-                                        </div><!--checkbox-->
-                                        
-                                     <!--   <div class="form-group form-inline">
-         <label for="basic" class="col-sm-3 control-label no-padding-right">Inline Radio Button</label>
-                                        <div class="radio" style="padding-left:20px;">
-													<label>
-														<input name="form-field-radio" type="radio" class="ace" />
-														<span class="lbl"> radio option 1</span>
-													</label>
-												</div>
-
-												<div class="radio" style="padding-left:20px;">
-													<label>
-														<input name="form-field-radio" type="radio" class="ace" />
-														<span class="lbl"> radio option 2</span>
-													</label>
-												</div>
-
-												<div class="radio" style="padding-left:20px;">
-													<label>
-														<input name="form-field-radio" type="radio" class="ace" />
-														<span class="lbl"> radio option 3</span>
-													</label>
-												</div>
-                                        
-                                        </div><!--radio-->
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        <!--end check box an radio button-->
-
 									<div class="clearfix form-actions">
 										<div class="col-md-offset-3 col-md-9">
 											<button class="btn btn-info" type="submit">
@@ -947,6 +722,58 @@
 				});
 			
 			});
+
+function find_subcategory(val){
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && (this.status == 200 || this.status == 304)) {
+  
+  var subcat=new Array();
+  subcat=JSON.parse(this.responseText);
+
+  
+  var select = document.getElementById('subcat');
+       for(var i = select.options.length - 1 ; i > 0 ; i--) {
+         select.remove(i);
+        }
+  
+  for(var i=0;i<subcat.length;i++) { 
+            option = document.createElement('option');
+            option.value =subcat[i].subcategory ;
+            option.text = subcat[i].subcategory ;
+            select.appendChild(option);
+     }
+    }
+  };
+  xhttp.open("GET", "/user_add_equipment_category?category="+val,true);
+  xhttp.send();
+}
+
+function find_fields(val){
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && (this.status == 200 || this.status == 304)) {
+  
+  var subcat=new Array();
+  subcat=JSON.parse(this.responseText);
+
+  
+  var select = document.getElementById('subcat');
+       for(var i = select.options.length - 1 ; i > 0 ; i--) {
+         select.remove(i);
+        }
+  
+  for(var i=0;i<subcat.length;i++) { 
+            option = document.createElement('option');
+            option.value =subcat[i].subcategory ;
+            option.text = subcat[i].subcategory ;
+            select.appendChild(option);
+     }
+    }
+  };
+  xhttp.open("GET", "/user_add_equipment_category?category="+val,true);
+  xhttp.send();
+}
 		</script>
     <!--choose state js-->
 

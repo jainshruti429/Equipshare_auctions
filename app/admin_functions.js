@@ -421,38 +421,38 @@ module.exports = {
         });
     },
 
-    // get_add_new_admin: function(req,res){
-    //  res.render('./Profiles/admin/add_new_admin.ejs', {msg: 'Enter the following details' , username:req.session.name});
-    // },
+    get_add_new_admin: function(req,res){
+     res.render('./Profiles/admin/add_new_admin.ejs', {msg: 'Enter the following details' , username:req.session.name});
+    },
 
-    // post_add_new_admin: function(req,res){
-    //  if(req.body.password == req.body.retype_password){
-    //     connection.query("SELECT * FROM account WHERE name = ?",[req.body.name], function(err, rows) {
-    //         if (err) throw err;
-    //         if (rows.length) res.render('./Profiles/admin/add_new_admin.ejs', {msg: 'That name is already taken' });
-    //         else {
-    //             // insert data into account table
-    //             var newAdmin = {
-    //                     name: req.body.name,
-    //                     password: bcrypt.hashSync(req.body.password, null, null),  // use the generateHash function in our user model
-    //                     category: 0,
-    //                     email: req.body.email,
-    //                     mobile: req.body.mobile
-    //                 };
-    //             var insertQuery1 = "INSERT INTO account ( name, email, mobile, category, password) values (?,?,?,?,?)";
-    //             connection.query(insertQuery1,[newAdmin.name, newAdmin.email, newAdmin.mobile,newAdmin.category,newAdmin.password,], function(err) {
-    //                 if (err) throw err;
-    //              else res.render('./Profiles/admin/homepage.ejs' ,{msg:'Admin '+req.body.name+ ' added'});
-       //          });
-    //         }
-    //     });
-    //     }
-    //     else res.render('./Profiles/admin/add_new_admin.ejs', {msg:'Passwords do not match'});
-    // },
+    post_add_new_admin: function(req,res){
+     if(req.body.password == req.body.retype_password){
+        connection.query("SELECT * FROM account WHERE name = ?",[req.body.name], function(err, rows) {
+            if (err) throw err;
+            if (rows.length) res.render('./Profiles/admin/add_new_admin.ejs', {msg: 'That name is already taken' });
+            else {
+                // insert data into account table
+                var newAdmin = {
+                        name: req.body.name,
+                        password: bcrypt.hashSync(req.body.password, null, null),  // use the generateHash function in our user model
+                        category: 0,
+                        email: req.body.email,
+                        mobile: req.body.mobile
+                    };
+                var insertQuery1 = "INSERT INTO account ( name, email, mobile, category, password) values (?,?,?,?,?)";
+                connection.query(insertQuery1,[newAdmin.name, newAdmin.email, newAdmin.mobile,newAdmin.category,newAdmin.password,], function(err) {
+                    if (err) throw err;
+                 else res.render('./Profiles/admin/homepage.ejs' ,{msg:'Admin '+req.body.name+ ' added'});
+                });
+            }
+        });
+        }
+        else res.render('./Profiles/admin/add_new_admin.ejs', {msg:'Passwords do not match'});
+    },
 
     home:function(req, res) {
-        //stats missing
-        res.render('./admin_dashboard.ejs', {category:req.session.category, username : req.session.name});
+        //$$stats missing
+        return res.render('./admin_dashboard.ejs', {category:req.session.category, username : req.session.name});
     },
     
     get_equipment_type_csv : function(req,res){
@@ -766,7 +766,7 @@ module.exports = {
 
     		if(err) throw err ;
     		else{
-    			res.render("./show_auc_req.ejs",{datarows:rows ,username:req.session.name});
+    			return res.render("./show_auc_req.ejs",{datarows:rows ,username:req.session.name});
     		}
     	});
     },
@@ -987,7 +987,7 @@ module.exports = {
         if (err) throw err ;
         else
         {
-            res.render('./show_master.ejs',{datarows:rows, username : req.session.name});
+            return res.render('./show_master.ejs',{datarows:rows, username : req.session.name, category:req.session.category});
         }
      });
    },
@@ -996,7 +996,7 @@ module.exports = {
     connection.query("SELECT * from equipment_master WHERE master_id=?",[req.params.id],function(err,rows){
         if(err) throw err ;
         else {
-            res.render('./get_update_master.ejs',{datarows : rows, username : req.session.name});
+            res.render('./get_update_master.ejs',{datarows : rows, username : req.session.name, category:req.session.category });
         }
     });
    },
@@ -1075,7 +1075,7 @@ module.exports = {
     
     //called in routes
     show_user_profile2 : function(req,res){
-        res.render('./show_user_profile',{datarows : req.show_users, new_equip:req.new_equip, used_equip:req.used_equip});
+        return res.render('./show_user_profile.ejs',{username:req.session.name,category:req.session.category});
     },
 
     //auction_summary - show auctoios - params m auction_id, fuction to convert it to session.auction_id, this_acution()

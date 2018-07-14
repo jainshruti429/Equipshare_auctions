@@ -797,7 +797,7 @@ module.exports =  {
         connection.query("SELECT * FROM auctions WHERE auction_id = ?",[req.params.auction_id],function(err1,rows1){
             if(err1) throw err1;
             else{
-                connection.query("28. SELECT a.*, b.* FROM (SELECT auction_equipment.base_price, auction_equipment.equip_id,all_equipment.category, all_equipment.subcategory, all_equipment.brand, all_equipment.model FROM auction_equipment INNER JOIN all_equipment ON all_equipment.id = auction_equipment.equip_id WHERE all_equipment.owner_id = ? AND auction_equipment.auction_id = ?) AS a LEFT JOIN (select c.*, bids.user_id from (SELECT  MAX(bid_amount) AS max , equip_id, count(equip_id) as bid_count FROM bids GROUP BY equip_id ) AS c LEFT JOIN bids ON bids.bid_amount = c.max AND bids.equip_id = c.equip_id ) as b ON a.equip_id = b.equip_id ",[req.session.user,req.auction_id], function(err,rows){
+                connection.query("SELECT a.*, b.* FROM (SELECT auction_equipment.base_price, auction_equipment.equip_id,all_equipment.category, all_equipment.subcategory, all_equipment.brand, all_equipment.model FROM auction_equipment INNER JOIN all_equipment ON all_equipment.id = auction_equipment.equip_id WHERE all_equipment.owner_id = ? AND auction_equipment.auction_id = ?) AS a LEFT JOIN (select c.*, bids.user_id from (SELECT  MAX(bid_amount) AS max , equip_id, count(equip_id) as bid_count FROM bids GROUP BY equip_id ) AS c LEFT JOIN bids ON bids.bid_amount = c.max AND bids.equip_id = c.equip_id ) as b ON a.equip_id = b.equip_id ",[req.session.user,req.auction_id], function(err,rows){
                     //"SELECT a.*, b.* FROM (SELECT auction_equipment.base_price, auction_equipment.equip_id,all_equipment.category, all_equipment.subcategory, all_equipment.brand, all_equipment.model FROM auction_equipment INNER JOIN all_equipment ON all_equipment.id = auction_equipment.equip_id WHERE all_equipment.owner_id = 31 AND auction_equipment.auction_id = 1) AS a LEFT JOIN (select c.*, bids.user_id from (SELECT  MAX(bid_amount) AS max , equip_id, count(equip_id) as bid_count FROM bids GROUP BY equip_id ) AS c LEFT JOIN bids ON bids.bid_amount = c.max AND bids.equip_id = c.equip_id ) as b ON a.equip_id = b.equip_id "
                     if(err) throw err;
                     else {
@@ -811,7 +811,8 @@ module.exports =  {
     },
 
    auction_result_bidder : function(req,res){
-    connection.query("SELECT bids.equip_id ,MAX(bids.bid_amount), all_equipment.owner_id, account.name ,account.state FROM bids INNER JOIN all_equipment ON bids.equip_id=all_equipment.id INNER JOIN account ON bids.user_id=account.id WHERE bids.auction_id=? AND bids.user_id=?",[1,41],function(err,rows){
+    //bidder k max bid, bidder k count(bids)
+    connection.query("SELECT bids.equip_id ,MAX(bids.bid_amount) as max, count(bids.equip_id) as count, all_equipment.category,all_equipment.subcategory,all_equipment.brand,all_equipment.model, account.name ,account.state FROM bids INNER JOIN all_equipment ON bids.equip_id=all_equipment.id INNER JOIN account ON all_equipment.owner_id = account.id WHERE bids.auction_id=? AND bids.user_id=? GROUP BY bids.equip_id ORDER BY bids.equip_id",[1,41],function(err,rows){
        if(err) throw err;
        else {
         str = "SELECT * FROM bids WHERE equip_id IN (";
@@ -821,12 +822,29 @@ module.exports =  {
          console.log(rows[i].equip_id);
         }
         str1 = str1.slice(0,-1);
-        str = str +str1+")";
+        str = str +str1+") ORDER BY equip_id, bid_amount";
 
         connection.query(str,function(err1,rows1){
             if(err1)throw err1;
             else{
-
+                //j = 0
+                //display=[]
+                // for(rows.length){
+                    //display[i] = 0;
+                // temp_id = rows[i].equip_id;
+                // temp_arr = [];
+                // while(rows1[j].equip_id == temp_id){
+                    //if(temp_arr.length<3){temp_arr.push(rows1[j].user_id)}
+                    //j++;
+                    //}
+                    //for(temp_arr.length){
+                        //if(temp_arr[k] == req.ses.user){
+                            //display[i] = 1;
+                        //}
+                        //}        
+                    //}
+                //}
+                //display arr m 0 or 1 => owner_profile visible
             }
         });
        }

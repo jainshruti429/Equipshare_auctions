@@ -99,17 +99,19 @@ module.exports = function(app, passport) {
 
     // });
 
-    app.get('/', function(req,res){
-        connection.query("SELECT * FROM all_equipment WHERE id = 42",function(err,rows){
-            if(err) throw err;
-            else {
-                connection.query("SELECT * FROM equipment_type WHERE type_id = ?",[rows[0].type_id], function(err1,rows1){
-                    if(err1) throw err1;
-                    else res.render("./Admin_EquipmentMaster.ejs", {new_equip:[],used_equip:[],user_data:[],category:1,username:'', title:'',cat_rows:[], equip_data:rows, tech_info:rows1[0], request:1});
-                });
-            }
-        });
-    });
+    // app.get('/', function(req,res){
+    //     connection.query("SELECT * FROM all_equipment WHERE id = 42",function(err,rows){
+    //         if(err) throw err;
+    //         else {
+    //             connection.query("SELECT * FROM equipment_type WHERE type_id = ?",[rows[0].type_id], function(err1,rows1){
+    //                 if(err1) throw err1;
+    //                 else res.render("./Admin_EquipmentMaster.ejs", {new_equip:[],used_equip:[],user_data:[],category:1,username:'', title:'',cat_rows:[], equip_data:rows, tech_info:rows1[0], request:1});
+    //             });
+    //         }
+    //     });
+    // });
+
+    app.get("/", afunc.find_fields, afunc.find_fields2);
 
 
     // app.get('/', function(req,res){
@@ -231,58 +233,58 @@ module.exports = function(app, passport) {
 
     //these functions do not require user to be logged in
     //HOME PAGE of website.... 
-    app.get('/logout',gfunc.isLoggedInfunc, gfunc.logoutfunc);
-    //$$if admin access this give option of user_profile instead of request
-    app.get('/view:id',gfunc.isLoggedInfunc, gfunc.view1,gfunc.view2);
+//     app.get('/logout',gfunc.isLoggedInfunc, gfunc.logoutfunc);
+//     //$$if admin access this give option of user_profile instead of request
+//     app.get('/view:id',gfunc.isLoggedInfunc, gfunc.view1,gfunc.view2);
     
     
-// =======================================================================================
-// =========================== USER FUNCTIONS ================================================== 
-// =======================================================================================
-    //TBD .... url depends on front end linking
+// // =======================================================================================
+// // =========================== USER FUNCTIONS ================================================== 
+// // =======================================================================================
+//     //TBD .... url depends on front end linking
     
 
-//     app.get('/', function(req,res){
-//     	res.render('./user_split_screen.ejs');
+// //     app.get('/', function(req,res){
+// //     	res.render('./user_split_screen.ejs');
+// //     });
+
+// //     app.get('/buy_sell', gfunc.login);
+// //     app.get('/user_login', gfunc.login);
+    
+
+
+//     app.post('/user_login', function(req, res, next){
+//             //call the local-login in ../config/passport.js
+//         passport.authenticate('local-user-login', function (err, user, info) {
+//             // info is json given by passport.aunthicate
+//             //this function is called when LocalStrategy returns done function with parameters
+//             if(err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para : 1});    
+//             //if username or password doesn't match
+//             if(!user) return res.render('./user_login.ejs', {msg: 'Please Try Again!', login_para : 1});  
+//             //this is when login is successful
+//             req.logIn(user, function(err) {
+//                 if (err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para : 1}); 
+//                 else  return next();
+//             });   
+//         })(req,res,next);
+//     }, ufunc.dashboard);
+//         // function(req,res,next){
+//         //     if(req.params.id != 0) return next();
+//         //     else return gfunc.home(req,res);
+//         // }, gfunc.view);
+
+//     app.post('/user_signup', function(req, res, next){
+//         passport.authenticate('local-signup', function (err, user, info) {
+//             //this function is called when LocalStrategy returns done function with parameters
+//             if(err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para:0});    
+//             //if username or password doesn't match
+//             if(!user) return res.render('./user_login.ejs', {msg:info.message,  login_para:0});
+//             if (req.body.password != req.body.retype_password) return res.render('./user_login.ejs',{msg:'passwords did not match', login_para:0});
+//             //if (!req.body.agree) return res.render('./user_signup.ejs',{msg:'You need to agree to TnC'});          
+//             //this is when signup is successful
+//             else return res.render('./user_login.ejs',{msg:'Signup successful! Login to continue', login_para:1});
+//         })(req,res,next);
 //     });
-
-//     app.get('/buy_sell', gfunc.login);
-//     app.get('/user_login', gfunc.login);
-    
-
-
-    app.post('/user_login', function(req, res, next){
-            //call the local-login in ../config/passport.js
-        passport.authenticate('local-user-login', function (err, user, info) {
-            // info is json given by passport.aunthicate
-            //this function is called when LocalStrategy returns done function with parameters
-            if(err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para : 1});    
-            //if username or password doesn't match
-            if(!user) return res.render('./user_login.ejs', {msg: 'Please Try Again!', login_para : 1});  
-            //this is when login is successful
-            req.logIn(user, function(err) {
-                if (err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para : 1}); 
-                else  return next();
-            });   
-        })(req,res,next);
-    }, ufunc.dashboard);
-        // function(req,res,next){
-        //     if(req.params.id != 0) return next();
-        //     else return gfunc.home(req,res);
-        // }, gfunc.view);
-
-    app.post('/user_signup', function(req, res, next){
-        passport.authenticate('local-signup', function (err, user, info) {
-            //this function is called when LocalStrategy returns done function with parameters
-            if(err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para:0});    
-            //if username or password doesn't match
-            if(!user) return res.render('./user_login.ejs', {msg:info.message,  login_para:0});
-            if (req.body.password != req.body.retype_password) return res.render('./user_login.ejs',{msg:'passwords did not match', login_para:0});
-            //if (!req.body.agree) return res.render('./user_signup.ejs',{msg:'You need to agree to TnC'});          
-            //this is when signup is successful
-            else return res.render('./user_login.ejs',{msg:'Signup successful! Login to continue', login_para:1});
-        })(req,res,next);
-    });
 
 //  // all are checking that the user is first logged in and then that he is of the right category that the request belong to.
 //     app.get("/user_dashboard", gfunc.isLoggedInfunc, ufunc.dashboard);
@@ -419,11 +421,11 @@ module.exports = function(app, passport) {
 // //     app.get('/admin_saved_searches', gfunc.isLoggedInfunc, admin_access, afunc.saved_searches);
 // //     app.get('/admin_enquiry', gfunc.isLoggedInfunc, admin_access, afunc.inEmail);
 		
-       app.get('/admin_show_master',gfunc.isLoggedInfunc, admin_access,afunc.show_master);
-       app.get('/admin_update_master',gfunc.isLoggedInfunc, admin_access,afunc.get_update_master);
-       app.post('/admin_post_update_master',gfunc.isLoggedInfunc, admin_access,afunc.post_update_master,afunc.show_master);
-       app.get('/admin_show_user_profile',gfunc.isLoggedInfunc, admin_access,afunc.show_user_profile1,ufunc.my_requests1,ufunc.my_requests2,ufunc.my_requests3,afunc.show_user_profile2);
-       app.get('/admin_show_user',gfunc.isLoggedInfunc, admin_access,afunc.show_user);
+       // app.get('/admin_show_master',gfunc.isLoggedInfunc, admin_access,afunc.show_master);
+       // app.get('/admin_update_master',gfunc.isLoggedInfunc, admin_access,afunc.get_update_master);
+       // app.post('/admin_post_update_master',gfunc.isLoggedInfunc, admin_access,afunc.post_update_master,afunc.show_master);
+       // app.get('/admin_show_user_profile',gfunc.isLoggedInfunc, admin_access,afunc.show_user_profile1,ufunc.my_requests1,ufunc.my_requests2,ufunc.my_requests3,afunc.show_user_profile2);
+       // app.get('/admin_show_user',gfunc.isLoggedInfunc, admin_access,afunc.show_user);
 
 
 // // =======================================================================================

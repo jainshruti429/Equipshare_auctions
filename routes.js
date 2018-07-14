@@ -124,7 +124,6 @@ module.exports = function(app, passport) {
     //     });
     // });
 
-// }
 
 	// app.get('/', function(req,res){
 	// 		connection.query("SELECT start_date AS 'Date Searched' FROM auctions", function(err,rows,fields){
@@ -264,7 +263,7 @@ module.exports = function(app, passport) {
                 else  return next();
             });   
         })(req,res,next);
-     }, ufunc.dashboard);
+    }, ufunc.dashboard);
         // function(req,res,next){
         //     if(req.params.id != 0) return next();
         //     else return gfunc.home(req,res);
@@ -279,7 +278,7 @@ module.exports = function(app, passport) {
             if (req.body.password != req.body.retype_password) return res.render('./user_login.ejs',{msg:'passwords did not match', login_para:0});
             //if (!req.body.agree) return res.render('./user_signup.ejs',{msg:'You need to agree to TnC'});          
             //this is when signup is successful
-            else return res.render('./user_update_profile.ejs',{msg:'Signup successful! Login to continue',category:1, login_para:1});
+            else return res.render('./user_login.ejs',{msg:'Signup successful! Login to continue', login_para:1});
         })(req,res,next);
     });
 
@@ -418,12 +417,14 @@ module.exports = function(app, passport) {
 //     app.get('/admin_saved_searches', gfunc.isLoggedInfunc, admin_access, afunc.saved_searches);
 //     app.get('/admin_enquiry', gfunc.isLoggedInfunc, admin_access, afunc.inEmail);
 
+
 		
        app.get('/admin_show_master',gfunc.isLoggedInfunc, admin_access,afunc.show_master);
        app.get('/admin_update_master',gfunc.isLoggedInfunc, admin_access,afunc.get_update_master);
-       app.post('/admin_post_show_master',gfunc.isLoggedInfunc, admin_access,afunc.post_show_master,afunc.show_master);
-       app.get('/admin_show_user_profile',gfunc.isLoggedInfunc, admin_access,afunc.show_user_profile1,ufunc.my_requests1,ufunc.my_requests,ufunc.myrequests3,ufunc.show_user_profile2);
+       app.post('/admin_post_update_master',gfunc.isLoggedInfunc, admin_access,afunc.post_update_master,afunc.show_master);
+       app.get('/admin_show_user_profile',gfunc.isLoggedInfunc, admin_access,afunc.show_user_profile1,ufunc.my_requests1,ufunc.my_requests2,ufunc.my_requests3,afunc.show_user_profile2);
        app.get('/admin_show_user',gfunc.isLoggedInfunc, admin_access,afunc.show_user);
+
 // // =======================================================================================
 // // =========================== COMPANY USER FUNCTIONS ====================================== 
 // // =======================================================================================
@@ -477,7 +478,7 @@ module.exports = function(app, passport) {
 //     add proposal
     
 
-// };
+};
 
 // //-------------------------------------------------------
 // 			// Admin = 0
@@ -501,9 +502,9 @@ module.exports = function(app, passport) {
 //         return x;
 // };
 
-var admin_access = function access(req,res,next){
+var admin_access = function(req,res,next){
     if(req.session.category==0) return next();
-    return res.render("./error.ejs");
+    else return res.render("./error.ejs");
 };
 
 // // var dealer_user_access = function access(req,res,next){
@@ -513,4 +514,3 @@ var admin_access = function access(req,res,next){
  
 
 
-}

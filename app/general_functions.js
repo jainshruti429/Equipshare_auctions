@@ -77,8 +77,7 @@ module.exports = {
     isLoggedInfunc: function(req, res, next) {
         // if user is authenticated in the session, carry on else ask them to login again
         if (req.isAuthenticated()) return next();
-        else {
-            res.render('./user_login.ejs', {login_para : 1,msg:"PLease Login to continue"});
+        else { return res.render('./user_login.ejs', {login_para : 1,msg:"PLease Login to continue"});
         }
     },
 

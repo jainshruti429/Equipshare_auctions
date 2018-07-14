@@ -16,10 +16,10 @@
 						<ul class="breadcrumb">
 							<li>
 								<i class="ace-icon fa fa-home home-icon"></i>
-								<a href="/user_dashboard">Home</a>
+								<a href="/user_dashboard.ejs">Home</a>
 							</li>
 							<li class="active">Equipments</li>
-							<li class="active">My Requests</li>
+							<li>My Requests</li>
 						</ul><!-- /.breadcrumb -->
 
 						<div class="nav-search" id="nav-search">
@@ -33,6 +33,9 @@
 					</div>
 
 					<div class="page-content">
+						
+
+						
 
 						<div class="row">
 								<div class="col-xs-12">
@@ -46,7 +49,7 @@
 										<table id="simple-table" class="table  table-bordered table-hover">
 											<thead>
 												<tr>
-													<th>Category</th>
+													<th >Category</th>
 													<th>Subcategory</th>
 													<th>Brand</th>
 													<th>Model</th>
@@ -56,12 +59,12 @@
 											</thead>
 
 											<tbody>
-												<%for(var i = 0; i < new_equip.length ; i++){%>
+												<%for(var i = 0; i < featured.length ; i++){%>
 												<tr>
-                                                    <td><%=new_equip[i].category%></td>
-													<td><%=new_equip[i].subcategory%></td>
-													<td><%=new_equip[i].brand%></td>
-													<td><%=new_equip[i].model%></td>
+                                                    <td><%=featured[i].category%></td>
+													<td><%=featured[i].subcategory%></td>
+													<td><%=featured[i].brand%></td>
+													<td><%=featured[i].model%></td>
 													<td class="center">
 														<div class="action-buttons">
 															<a href="#" class="green bigger-140 show-details-btn" title="Show Details">
@@ -79,12 +82,12 @@
 															<button class="btn btn-xs btn-info">
 																<i class="ace-icon fa fa-pencil bigger-120"></i>
 															</button> -->
-															<a href = "/admin_remove_new_equip<%=new_equip[i].equip_id%>" >
+															<a href = "/admin_remove_featured<%=featured[i].equip_id%>" >
 															<button  type = "submit" class="btn btn-xs btn-danger">
 																<i class="ace-icon fa fa-trash-o bigger-120"></i>
 															</button> </a>
 
-															<a href = "/admin_view_details<%=new_equip[i].equip_id%>" >
+															<a href = "/admin_view_details<%=featured[i].equip_id%>" >
 															<button class="btn btn-xs btn-warning" type = "submit">
 																<i class="fa fa-eye" aria-hidden="true"></i>
 															</button></a>
@@ -114,7 +117,7 @@
 																	</li>
 
 																	<li>
-																		<a href="/admin_remove_new_equip<%=new_equip[i].equip_id%>" class="tooltip-error" data-rel="tooltip" title="Delete">
+																		<a href="/admin_remove_featured<%=featured[i].equip_id%>" class="tooltip-error" data-rel="tooltip" title="Delete">
 																			<span class="red">
 																				<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																			</span>
@@ -148,8 +151,8 @@
                         
                                                                     <tbody>
                                                                         <tr style="width:250px;" >
-                                                                            <td>cjnajncjanc<!--%=new_equip[i].previousproposal%--></td>
-                                                                            <td>9/7/2018<!--%=new_equip[i].brand%--></td>
+                                                                            <td>cjnajncjanc<!--%=featured[i].previousproposal%--></td>
+                                                                            <td>9/7/2018<!--%=featured[i].brand%--></td>
                                                                             <td><a href="#"><span class="glyphicon glyphicon-ok"></span></a> | <a href="#"><span class="glyphicon glyphicon-remove"></span></a></td>
                                                                             <td><span class="glyphicon glyphicon-share-alt"data-toggle="modal" data-target="#myModal"></span></td>
                                                                         </tr>
@@ -180,8 +183,8 @@
                 
                                                             <tbody>
                                                                 <tr style="width:250px;" >
-                                                                    <td>cjnajncjanc<!--%=new_equip[i].previousproposal%--></td>
-                                                                    <td>9/7/2018<!--%=new_equip[i].brand%--></td>
+                                                                    <td>cjnajncjanc<!--%=featured[i].previousproposal%--></td>
+                                                                    <td>9/7/2018<!--%=featured[i].brand%--></td>
                                                                     <td><a href="#"><span class="glyphicon glyphicon-ok"></span></a> | <a href="#"><span class="glyphicon glyphicon-remove"></span></a></td>
                                                                     <td><span class="glyphicon glyphicon-share-alt"data-toggle="modal" data-target="#myModal"></span></td>
                                                                 </tr>
@@ -245,18 +248,18 @@
 								</div><!-- /.row -->                                      
                                         <!--end upper table-->
 					
-					  <!--new_equip button here-->
+					  <!--featured button here-->
                                         <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <a href = "/admin_add_new_equip"><button type="submit" class="btn btn-primary btn-new_equip-admin-custom">ADD new_equip</button></a>
+                                            <a href = "/admin_add_featured"><button type="submit" class="btn btn-primary btn-featured-admin-custom">ADD FEATURED</button></a>
                                             </div>
                                         </div>
                                         
                                         
-                                        <!--end new_equip button here-->
+                                        <!--end featured button here-->
                                         
 										<div class="table-header">
-											Previous new_equip
+											Previous Featured
 										</div>
 
 										<!-- div.table-responsive -->
@@ -282,20 +285,20 @@
 													</tr>
 
 												</thead>
-												<%for(var i = 0 ; i< used_equip.length;i++){%>
+												<%for(var i = 0 ; i<prev_featured.length;i++){%>
 												<tbody>
 													<tr>
-														<td><%=used_equip[i].category%></td>
-														<td><%=used_equip[i].subcategory%></td>
-														<td><%=used_equip[i].brand%> | <%=used_equip[i].model%></td>
-														<td><%=used_equip[i].expected_price%></td>
-														<td><%=used_equip[i].start_date%> | <%=used_equip[i].end_date%></td>
-														<td><%=used_equip[i].views%></td>
+														<td><%=prev_featured[i].category%></td>
+														<td><%=prev_featured[i].subcategory%></td>
+														<td><%=prev_featured[i].brand%> | <%=prev_featured[i].model%></td>
+														<td><%=prev_featured[i].expected_price%></td>
+														<td><%=prev_featured[i].start_date%> | <%=prev_featured[i].end_date%></td>
+														<td><%=prev_featured[i].views%></td>
 														
 														
 														<td>
                                                             <div class="hidden-sm hidden-xs btn-group">
-                                                           	<a href= "/admin_view_details<%=used_equip[i].equip_id%>" >
+                                                           	<a href= "/admin_view_details<%=prev_featured[i].equip_id%>" >
 																<button type = "submit" class="btn btn-xs btn-warning">
 																<i class="fa fa-eye" aria-hidden="true"></i>
 																</button>
@@ -353,31 +356,7 @@
 				</div>
 			</div><!-- /.main-content -->
 
-			<div class="footer">
-				<div class="footer-inner">
-					<div class="footer-content">
-						<span class="bigger-120">
-							<span class="blue bolder">Ace</span>
-							Application &copy; 2013-2014
-						</span>
-
-						&nbsp; &nbsp;
-						<span class="action-buttons">
-							<a href="#">
-								<i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
-							</a>
-
-							<a href="#">
-								<i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
-							</a>
-
-							<a href="#">
-								<i class="ace-icon fa fa-rss-square orange bigger-150"></i>
-							</a>
-						</span>
-					</div>
-				</div>
-			</div>
+		
             
             
         

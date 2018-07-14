@@ -409,11 +409,11 @@ module.exports = function(app, passport) {
 //     app.get('/admin_saved_searches', gfunc.isLoggedInfunc, admin_access, afunc.saved_searches);
 //     app.get('/admin_enquiry', gfunc.isLoggedInfunc, admin_access, afunc.inEmail);
 
-       app.get('/show_master',gfunc.isLoggedInfunc, admin_access,afunc.show_master);
-       app.get('/update_master',gfunc.isLoggedInfunc, admin_access,afunc.get_update_master);
-       app.post('/post_show_master',gfunc.isLoggedInfunc, admin_access,afunc.post_show_master,afunc.show_master);
-       app.get('/show_user_profile',gfunc.isLoggedInfunc, admin_access,afunc.show_user_profile1,ufunc.my_requests1,ufunc.my_requests,ufunc.myrequests3,ufunc.show_user_profile2);
-       app.get('/show_user',gfunc.isLoggedInfunc, admin_access,afunc.show_user);
+    //    app.get('/show_master',gfunc.isLoggedInfunc, admin_access,afunc.show_master);
+    //    app.get('/update_master',gfunc.isLoggedInfunc, admin_access,afunc.get_update_master);
+    //    app.post('/post_show_master',gfunc.isLoggedInfunc, admin_access,afunc.post_show_master,afunc.show_master);
+    //    app.get('/show_user_profile',gfunc.isLoggedInfunc, admin_access,afunc.show_user_profile1,ufunc.my_requests1,ufunc.my_requests,ufunc.myrequests3,ufunc.show_user_profile2);
+    //    app.get('/show_user',gfunc.isLoggedInfunc, admin_access,afunc.show_user);
 // // =======================================================================================
 // // =========================== COMPANY USER FUNCTIONS ====================================== 
 // // =======================================================================================

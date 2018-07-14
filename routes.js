@@ -417,12 +417,14 @@ module.exports = function(app, passport) {
 //     app.get('/admin_saved_searches', gfunc.isLoggedInfunc, admin_access, afunc.saved_searches);
 //     app.get('/admin_enquiry', gfunc.isLoggedInfunc, admin_access, afunc.inEmail);
 
+
 		
        app.get('/admin_show_master',gfunc.isLoggedInfunc, admin_access,afunc.show_master);
        app.get('/admin_update_master',gfunc.isLoggedInfunc, admin_access,afunc.get_update_master);
        app.post('/admin_post_update_master',gfunc.isLoggedInfunc, admin_access,afunc.post_update_master,afunc.show_master);
        app.get('/admin_show_user_profile',gfunc.isLoggedInfunc, admin_access,afunc.show_user_profile1,ufunc.my_requests1,ufunc.my_requests2,ufunc.my_requests3,afunc.show_user_profile2);
        app.get('/admin_show_user',gfunc.isLoggedInfunc, admin_access,afunc.show_user);
+
 // // =======================================================================================
 // // =========================== COMPANY USER FUNCTIONS ====================================== 
 // // =======================================================================================

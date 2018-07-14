@@ -15,7 +15,9 @@
                                                 <ul class="breadcrumb">
                                                     <li>
                                                         <i class="ace-icon fa fa-home home-icon"></i>
-                                                        <a href="#">Home</a>
+                                                      <%if(category:0){%>  <a href="/admin_dashboard.">Home</a><%}%>
+                                                      <%else if(category:1){%><a href="/user_dashboard.">Home</a><%}%>
+                                                      <%else if(category:4){%><a href="/company_dashboard.">Home</a><%}%>
                                                     </li>
                                                     <li class="active">Equipments</li>
                                                     <li>Equipment Detail</li>

@@ -1125,7 +1125,9 @@ module.exports = {
     				for(var i=2; i<(fields.length-4);i++)
     				{
     					if(rows[0][fields[i].name]){
-    						fields.push(rows[0][fields[i].name);
+    						y = JSON.stringify(rows[0][fields[i].name);
+    						y = y.replace('_', ' ');
+    						fields.push(y);
     				         console.log(fields);
     				 	}
     				}

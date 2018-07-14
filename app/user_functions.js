@@ -547,7 +547,7 @@ module.exports =  {
                     req.session.msg = '';
         }
         else msg = 'Please enter the following details';
-        connection.query("SELECT DISTINCT subcategory FROM equipment_type WHERE category = ?",[cat_rows[0].category], function(err1, subcat_rows){
+        connection.query("SELECT DISTINCT category FROM equipment_type", function(err1, cat_rows){
             if (err1) throw err1;
             else res.render('./user_add_equipment.ejs', {msg : msg, cat_rows:cat_rows, username: req.session.name, category:req.session.category});                             
         });

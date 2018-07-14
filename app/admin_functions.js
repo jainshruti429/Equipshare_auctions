@@ -78,7 +78,7 @@ module.exports = {
             else return next();
         });
     },
-
+    //$$redundant
     feat_data : function(req,res,next){
         feat_data = [];
         str1 = "SELECT views.equip_id, count(views.equip_id) as no_views FROM views INNER JOIN featured ON featured.equip_id = views.equip_id WHERE featured.display = 1 GROUP BY views.equip_id";
@@ -166,6 +166,7 @@ module.exports = {
     },
 
     featured_equip : function(req,res, next){
+        //$$if possible left join try kar lena
         featured = [];
         prev_featured = [];
         feat_details = [];
@@ -209,7 +210,10 @@ module.exports = {
                                 feat_details[2] = rows2[0];   
                             }
                         }
-                        return next();
+                        //$$put above 3 arrays in request
+                        //$$req.datarows <= array of json st datarows[i].equip_id
+                        //$$req.fields <= fields of datarows
+                        return next();//$$gfunc.equip_data
                     }
                 });
            } }
@@ -447,7 +451,8 @@ module.exports = {
     // },
 
     home:function(req, res) {
-        res.render('./admin_index.ejs', {username : req.session.name});
+        //stats missing
+        res.render('./admin_dashboard.ejs', {category:req.session.category, username : req.session.name});
     },
     
     get_equipment_type_csv : function(req,res){
@@ -460,8 +465,9 @@ module.exports = {
         res.render("admin_upload_csv.ejs", {what:req.title, username : req.session.name, img_name: 'equipment_csv_format.png'});
     },
 
+    //$$page need to be changed
     get_add_equipment_type : function(req,res){
-        res.render('./admin_add_equipment_type.ejs', {username:req.session.name});
+        res.render('./admin_add_equipment_type.ejs', {username:req.session.name, category:req.session.category});
     },
 
     post_add_equipment_type :  function(req,res, next){

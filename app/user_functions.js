@@ -540,6 +540,14 @@ module.exports =  {
     //         else res.render('./user_view_equipment.ejs' , {datarows: rows, isLoggedIn : isLoggedIn(req,res), username: req.session.name, category:req.session.category});
     //     });
     // },
+       // to be called in routes
+        view_bids: function(req,res){
+        connection.query("SELECT * FROM bids WHERE auction_id = ? AND equip_id = ? ORDER BY DESC",[req.params.auction_id, req.params.equip_id], function(err,rows){
+            if(err) throw err;
+            else res.render("", {datarows:rows, username:req.session.name});
+        });
+    },
+
 
     get_add_equipment: function(req,res){
         if(req.session.msg) {
@@ -750,7 +758,7 @@ module.exports =  {
                                             } 
                                         }
                                     }
-                                    res.render("./user_live_auction.ejs",{auction:rows, auction_fields :fields, my_equipment:my_equipment, my_bids:my_bids, others:others, username:req.session.name});
+                                    res.render("./user_liveauctions.ejs",{auction:rows, auction_fields :fields, my_equipment:my_equipment, my_bids:my_bids, others:others, username:req.session.name});
                                 }
                             });
                         }

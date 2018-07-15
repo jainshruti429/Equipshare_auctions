@@ -111,7 +111,7 @@ module.exports = function(app, passport) {
     //     });
     // });
 
-    app.get("/", afunc.find_fields, afunc.find_fields2);
+    // app.get("/", afunc.find_fields, afunc.find_fields2);
 
 
     // app.get('/', function(req,res){
@@ -244,11 +244,11 @@ module.exports = function(app, passport) {
 //     //TBD .... url depends on front end linking
     
 
-// //     app.get('/', function(req,res){
-// //     	res.render('./user_split_screen.ejs');
-// //     });
+    app.get('/', function(req,res){
+    	res.render('./user_split_screen.ejs');
+    });
 
-// //     app.get('/buy_sell', gfunc.login);
+    app.get('/buy_sell', gfunc.login);
 // //     app.get('/user_login', gfunc.login);
     
 

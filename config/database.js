@@ -17,7 +17,7 @@ module.exports = {
     'connection': {
       // local configs.
          'host' : '192.168.0.11',
-         'user': 'muskan',
+         'user': 'piyush',
          'password': 'password',
 			   'database': 'eqsAuction'
     }   

@@ -320,7 +320,7 @@ module.exports = {
     get_reset_password : function(req,res){
         res.render("./admin_reset_password.ejs", {msg:'', username:req.session.name});
     },
-
+    // check category then redirect accordingly..
     post_reset_password : function(req,res, next){
         connection.query("SELECT password FROM account WHERE id = ?",[req.session.user], function(err,rows){
             if(err) throw(err);

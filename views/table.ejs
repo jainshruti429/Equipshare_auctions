@@ -79,18 +79,25 @@
 														<%if(fields[j].name != "id"){%>
 														<th><%=fields[j].name%></th>
 														<%}}%>
+														<%if(extra_link){%>
 														<th> </th>
+														<%}%>
+														<%if(eye||edit){%>
+														<th> </th>
+														<%}%>
 													</tr>
 												</thead>
 
 												<tbody>
 												<% for(var i = 0 ; i < datarows.length; i++){%>
 													<tr>
-														<%for(var j = 0 ; j < fields.length ; j++){%>
+													<%for(var j = 0 ; j < fields.length ; j++){%>
 														<%if(fields[j].name != "id"){%>
                                                         <td><%=datarows[i][fields[j].name]%></td>
-														<%}}%>
-
+														<%}%>
+														<%if(datarows[i].extra_link){%>
+														<td><a href="/<%datarows[i].extra_link%>"><%extra_link%></a></td>
+													<%}}%>
 														 <td>
 															<div class="hidden-sm hidden-xs btn-group">
 															<%if(eye){%>

@@ -3,25 +3,25 @@
 // configs to connect to the database
 
 //=================================USE THIS FOR OTHER COMPUTER===================================
-// module.exports = {
-//     'connection': {
-//       // local configs.
-//         'host' : 'localhost',
-//         'user': 'root',
-//         'password': 'root@SQL1',
-// 			'database': 'eqsAuction'
-//     }   
-// };
-//=================================USE THIS FOR OTHER COMPUTER==================================
 module.exports = {
     'connection': {
       // local configs.
-         'host' : '192.168.0.11',
-         'user': 'piyush',
-         'password': 'password',
-			   'database': 'eqsAuction'
+        'host' : 'localhost',
+        'user': 'root',
+        'password': 'root',
+			'database': 'eqsAuction'
     }   
 };
+//=================================USE THIS FOR OTHER COMPUTER==================================
+// module.exports = {
+//     'connection': {
+//       // local configs.
+//          'host' : '192.168.0.11',
+//          'user': 'piyush',
+//          'password': 'password',
+// 			   'database': 'eqsAuction'
+//     }   
+// };
 
 //=================================USE THIS FOR OTHER COMPUTER===================================
 
@@ -35,16 +35,7 @@ module.exports = {
 //     }   
 // };
 
-//=================================USE THIS FOR OTHER COMPUTER===================================
-// module.exports = {
-//     'connection': {
-//       // local configs.
-//          'host' : '192.168.0.11',
-//          'user': 'piyush',
-//          'password': 'password',
-// 			   'database': 'eqsAuction'
-//     }   
-// };
+
 
 //=================================USE THIS FOR SERVER===================================
 // module.exports = {

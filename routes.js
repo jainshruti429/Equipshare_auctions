@@ -233,45 +233,47 @@ module.exports = function(app, passport) {
 
     //these functions do not require user to be logged in
     //HOME PAGE of website.... 
-//     app.get('/logout',gfunc.isLoggedInfunc, gfunc.logoutfunc);
+    app.get('/logout',gfunc.isLoggedInfunc, gfunc.logoutfunc);
 //     //$$if admin access this give option of user_profile instead of request
-//     app.get('/view:id',gfunc.isLoggedInfunc, gfunc.view1,gfunc.view2);
+    app.get('/view:id',gfunc.isLoggedInfunc, gfunc.view1,gfunc.view2);
     
     
 // // =======================================================================================
 // // =========================== USER FUNCTIONS ================================================== 
 // // =======================================================================================
 //     //TBD .... url depends on front end linking
-    
+// app.get('/',function(req,res){
+//     res.render('/user_liveauctions.ejs');
+// });    
 
     app.get('/', function(req,res){
     	res.render('./user_split_screen.ejs');
     });
 
     app.get('/buy_sell', gfunc.login);
-// //     app.get('/user_login', gfunc.login);
+     app.get('/user_login', gfunc.login);
     
 
 
-//     app.post('/user_login', function(req, res, next){
-//             //call the local-login in ../config/passport.js
-//         passport.authenticate('local-user-login', function (err, user, info) {
-//             // info is json given by passport.aunthicate
-//             //this function is called when LocalStrategy returns done function with parameters
-//             if(err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para : 1});    
-//             //if username or password doesn't match
-//             if(!user) return res.render('./user_login.ejs', {msg: 'Please Try Again!', login_para : 1});  
-//             //this is when login is successful
-//             req.logIn(user, function(err) {
-//                 if (err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para : 1}); 
-//                 else  return next();
-//             });   
-//         })(req,res,next);
-//     }, ufunc.dashboard);
-//         // function(req,res,next){
-//         //     if(req.params.id != 0) return next();
-//         //     else return gfunc.home(req,res);
-//         // }, gfunc.view);
+    app.post('/user_login', function(req, res, next){
+            //call the local-login in ../config/passport.js
+        passport.authenticate('local-user-login', function (err, user, info) {
+            // info is json given by passport.aunthicate
+            //this function is called when LocalStrategy returns done function with parameters
+            if(err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para : 1});    
+            //if username or password doesn't match
+            if(!user) return res.render('./user_login.ejs', {msg: 'Please Try Again!', login_para : 1});  
+            //this is when login is successful
+            req.logIn(user, function(err) {
+                if (err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para : 1}); 
+                else  return next();
+            });   
+        })(req,res,next);
+    }, ufunc.dashboard);
+        // function(req,res,next){
+        //     if(req.params.id != 0) return next();
+        //     else return gfunc.home(req,res);
+        // }, gfunc.view);
 
 //     app.post('/user_signup', function(req, res, next){
 //         passport.authenticate('local-signup', function (err, user, info) {
@@ -287,15 +289,15 @@ module.exports = function(app, passport) {
 //     });
 
 //  // all are checking that the user is first logged in and then that he is of the right category that the request belong to.
-//     app.get("/user_dashboard", gfunc.isLoggedInfunc, ufunc.dashboard);
+    app.get("/user_dashboard", gfunc.isLoggedInfunc, ufunc.dashboard);
 //     //links from dashboard
-//     app.get('/user_search_category', gfunc.isLoggedInfunc,ufunc.search_category);
-//     app.post('/user_search',gfunc.isLoggedInfunc,ufunc.search);
+    app.get('/user_search_category', gfunc.isLoggedInfunc,ufunc.search_category);
+    app.post('/user_search',gfunc.isLoggedInfunc,ufunc.search);
 //     //links from side_nav_bar
 //     //Equipments
-//     app.get("/user_my_requests", gfunc.isLoggedInfunc, ufunc.my_requests0,ufunc.my_requests1, ufunc.my_requests2, ufunc.my_requests3, ufunc.my_requests4, ufunc.my_requests5);
-//     app.get('/user_my_equipment', gfunc.isLoggedInfunc,ufunc.my_equipment1,gfunc.equip_data,ufunc.my_equipment2 );
-//     app.get('/user_add_equipment',gfunc.isLoggedInfunc, ufunc.check_profile, ufunc.get_add_equipment);
+    app.get("/user_my_requests", gfunc.isLoggedInfunc, ufunc.my_requests0,ufunc.my_requests1, ufunc.my_requests2, ufunc.my_requests3, ufunc.my_requests4, ufunc.my_requests5);
+    app.get('/user_my_equipment', gfunc.isLoggedInfunc,ufunc.my_equipment1,gfunc.equip_data,ufunc.my_equipment2 );
+    app.get('/user_add_equipment',gfunc.isLoggedInfunc, ufunc.check_profile, ufunc.get_add_equipment);
 //     app.get("/user_saved_searches", gfunc.isLoggedInfunc, ufunc.saved_searches);
 //     //Auction
 //     app.get("/user_upcoming_auctions",gfunc.isLoggedInfunc,ufunc.upcoming_auctions);
@@ -303,8 +305,8 @@ module.exports = function(app, passport) {
 //     app.get("/user_auction_results", gfunc.isLoggedInfunc, afunc.show_auctions);
 //     //app.get("/this_auction_result:id", gfunc.isLoggedInfunc,);
 //     //links from header dropdown - logout is a common function
-//     app.get('/user_update_profile',gfunc.isLoggedInfunc, ufunc.get_update_profile);
-//     app.post('/user_update_profile', gfunc.isLoggedInfunc, ufunc.post_update_profile);
+    app.get('/user_update_profile',gfunc.isLoggedInfunc, ufunc.get_update_profile);
+    app.post('/user_update_profile', gfunc.isLoggedInfunc, ufunc.post_update_profile);
 
 //     // app.get('/user_compare',gfunc.isLoggedInfunc,ufunc.compare);
 //     // app.get('/user_compare_now', gfunc.isLoggedInfunc,ufunc.compare_now);
@@ -320,7 +322,7 @@ module.exports = function(app, passport) {
 //     // app.get('/user_add_equipment_category', gfunc.isLoggedInfunc, ufunc.get_add_equipment_category);
 //     // app.get('/user_add_equipment_subcategory', gfunc.isLoggedInfunc, ufunc.get_add_equipment_subcategory);
 //     // app.get('/user_add_equipment_brand', gfunc.isLoggedInfunc, ufunc.get_add_equipment_brand);
-//     // app.post('/user_add_equipment', gfunc.isLoggedInfunc, ufunc.post_add_equipment, ufunc.get_add_equipment);
+    app.post('/user_add_equipment', gfunc.isLoggedInfunc, ufunc.post_add_equipment, ufunc.get_add_equipment);
 //     // 
     
 // // // =======================================================================================

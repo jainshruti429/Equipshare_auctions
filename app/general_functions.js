@@ -134,6 +134,7 @@ module.exports = {
                 if(err1) throw err1;
                 else{
                     var str = rows[0].parameters;
+                    console.log(str);
                     var arr = str.split("!#%");
                     var used, equip_data;
                     if(req.equip_data) {

@@ -8,7 +8,7 @@ module.exports = {
       // local configs.
         'host' : 'localhost',
         'user': 'root',
-        'password': 'root',
+        'password': 'root@SQL1',
 			'database': 'eqsAuction'
     }   
 };

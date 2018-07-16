@@ -131,6 +131,19 @@ module.exports =  {
         });
     },
 
+    search2: function(req,res){
+        var subcategory = req.query.subcategory;
+        var sort = req.query.sort;
+        var query = '';
+        if(sort == "new") query = "SELECT * FROM equipment_type WHERE subcategory = ?"
+        else query = "SELECT * FROM all_equipment WHERE available = 1 AND subcategory = ?"
+        connection.query(query ,[subcategory],function(err,rows){
+            if(err) throw err;
+            else res.render("./user_list.ejs" , {datarows: rows, username: req.session.name, category:req.session.category});  
+            //else res.send(rows);
+        });
+    },
+
     compare_now : function(req,res){
         if(req.session.compare){
             compare = req.session.compare
@@ -185,8 +198,12 @@ module.exports =  {
                     x = (String)(rows[i]["Date/Time Of Search"]);
                     x = x.slice(0,-18);//remove sec and GMT etc
                     rows[i]["Date/Time Of Search"] = x;
+                    y = JSON.stringify(rows[i]);
+                    y = y.slice(0,-1);
+                    y = y + ',"extra_link":"/user_search2?subcategory='+rows[i]["Subcategory"]+'&sort='+rows[i]["Type"]+'"}';
+                    rows[i] = JSON.parse(y);
                 }
-                res.render("./table.ejs", {datarows:rows, fields:fields, username:req.session.name, title:"Saved Searches"});
+                res.render("./table.ejs", {datarows:rows, fields:fields, username:req.session.name,category:req.session.category, title1 : "Equipment", title2:"Saved Searches", extra_link : "Go", eye:0, edit:0 });
             }
         });
     },

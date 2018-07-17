@@ -46,6 +46,10 @@
                                         <!--upper-table-->
                                         	<div class="row">
 									<div class="col-xs-12">
+										<div class="table-header">
+											New Equipment
+										</div>
+
 										<table id="simple-table" class="table  table-bordered table-hover">
 											<thead>
 												<tr>
@@ -59,12 +63,12 @@
 											</thead>
 
 											<tbody>
-												<%for(var i = 0; i < featured.length ; i++){%>
+												<%for(var i = 0; i < new_equip.length ; i++){%>
 												<tr>
-                                                    <td><%=featured[i].category%></td>
-													<td><%=featured[i].subcategory%></td>
-													<td><%=featured[i].brand%></td>
-													<td><%=featured[i].model%></td>
+                                                    <td><%=new_equip[i].category%></td>
+													<td><%=new_equip[i].subcategory%></td>
+													<td><%=new_equip[i].brand%></td>
+													<td><%=new_equip[i].model%></td>
 													<td class="center">
 														<div class="action-buttons">
 															<a href="#" class="green bigger-140 show-details-btn" title="Show Details">
@@ -82,12 +86,12 @@
 															<button class="btn btn-xs btn-info">
 																<i class="ace-icon fa fa-pencil bigger-120"></i>
 															</button> -->
-															<a href = "/admin_remove_featured<%=featured[i].equip_id%>" >
+															<a href = "/admin_remove_new_equip<%=new_equip[i].equip_id%>" >
 															<button  type = "submit" class="btn btn-xs btn-danger">
 																<i class="ace-icon fa fa-trash-o bigger-120"></i>
 															</button> </a>
 
-															<a href = "/admin_view_details<%=featured[i].equip_id%>" >
+															<a href = "/admin_view_details<%=new_equip[i].equip_id%>" >
 															<button class="btn btn-xs btn-warning" type = "submit">
 																<i class="fa fa-eye" aria-hidden="true"></i>
 															</button></a>
@@ -117,7 +121,7 @@
 																	</li>
 
 																	<li>
-																		<a href="/admin_remove_featured<%=featured[i].equip_id%>" class="tooltip-error" data-rel="tooltip" title="Delete">
+																		<a href="/admin_remove_new_equip<%=new_equip[i].equip_id%>" class="tooltip-error" data-rel="tooltip" title="Delete">
 																			<span class="red">
 																				<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																			</span>
@@ -151,8 +155,8 @@
                         
                                                                     <tbody>
                                                                         <tr style="width:250px;" >
-                                                                            <td>cjnajncjanc<!--%=featured[i].previousproposal%--></td>
-                                                                            <td>9/7/2018<!--%=featured[i].brand%--></td>
+                                                                            <td>cjnajncjanc<!--%=new_equip[i].previousproposal%--></td>
+                                                                            <td>9/7/2018<!--%=new_equip[i].brand%--></td>
                                                                             <td><a href="#"><span class="glyphicon glyphicon-ok"></span></a> | <a href="#"><span class="glyphicon glyphicon-remove"></span></a></td>
                                                                             <td><span class="glyphicon glyphicon-share-alt"data-toggle="modal" data-target="#myModal"></span></td>
                                                                         </tr>
@@ -183,8 +187,8 @@
                 
                                                             <tbody>
                                                                 <tr style="width:250px;" >
-                                                                    <td>cjnajncjanc<!--%=featured[i].previousproposal%--></td>
-                                                                    <td>9/7/2018<!--%=featured[i].brand%--></td>
+                                                                    <td>cjnajncjanc<!--%=new_equip[i].previousproposal%--></td>
+                                                                    <td>9/7/2018<!--%=new_equip[i].brand%--></td>
                                                                     <td><a href="#"><span class="glyphicon glyphicon-ok"></span></a> | <a href="#"><span class="glyphicon glyphicon-remove"></span></a></td>
                                                                     <td><span class="glyphicon glyphicon-share-alt"data-toggle="modal" data-target="#myModal"></span></td>
                                                                 </tr>
@@ -248,18 +252,13 @@
 								</div><!-- /.row -->                                      
                                         <!--end upper table-->
 					
-					  <!--featured button here-->
-                                        <div class="row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <a href = "/admin_add_featured"><button type="submit" class="btn btn-primary btn-featured-admin-custom">ADD FEATURED</button></a>
-                                            </div>
-                                        </div>
+					  <!--new_equip button here-->
                                         
                                         
-                                        <!--end featured button here-->
+                                        <!--end new_equip button here-->
                                         
 										<div class="table-header">
-											Previous Featured
+											Used Equipment
 										</div>
 
 										<!-- div.table-responsive -->
@@ -272,33 +271,26 @@
 													<tr>
 														<th>Category</th>
 														<th>Subcategory</th>
-														<th>Brand | Model</th>
-														<th>Price</th>
-														<th>
-															<i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>
-															Start Date | End Date
-														</th>
-														<th>Views</th>
+														<th>Brand </th>
+														<th> Model</th>
 														<th> </th>
 														
 														
 													</tr>
 
 												</thead>
-												<%for(var i = 0 ; i<prev_featured.length;i++){%>
+												<%for(var i = 0 ; i< used_equip.length;i++){%>
 												<tbody>
 													<tr>
-														<td><%=prev_featured[i].category%></td>
-														<td><%=prev_featured[i].subcategory%></td>
-														<td><%=prev_featured[i].brand%> | <%=prev_featured[i].model%></td>
-														<td><%=prev_featured[i].expected_price%></td>
-														<td><%=prev_featured[i].start_date%> | <%=prev_featured[i].end_date%></td>
-														<td><%=prev_featured[i].views%></td>
+														<td><%=used_equip[i].category%></td>
+														<td><%=used_equip[i].subcategory%></td>
+														<td><%=used_equip[i].brand%> </td>
+														<td> <%=used_equip[i].model%></td>
 														
 														
 														<td>
                                                             <div class="hidden-sm hidden-xs btn-group">
-                                                           	<a href= "/admin_view_details<%=prev_featured[i].equip_id%>" >
+                                                           	<a href= "/admin_view_details<%=used_equip[i].equip_id%>" >
 																<button type = "submit" class="btn btn-xs btn-warning">
 																<i class="fa fa-eye" aria-hidden="true"></i>
 																</button>

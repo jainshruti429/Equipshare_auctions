@@ -275,18 +275,18 @@ module.exports = function(app, passport) {
         //     else return gfunc.home(req,res);
         // }, gfunc.view);
 
-//     app.post('/user_signup', function(req, res, next){
-//         passport.authenticate('local-signup', function (err, user, info) {
-//             //this function is called when LocalStrategy returns done function with parameters
-//             if(err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para:0});    
-//             //if username or password doesn't match
-//             if(!user) return res.render('./user_login.ejs', {msg:info.message,  login_para:0});
-//             if (req.body.password != req.body.retype_password) return res.render('./user_login.ejs',{msg:'passwords did not match', login_para:0});
-//             //if (!req.body.agree) return res.render('./user_signup.ejs',{msg:'You need to agree to TnC'});          
-//             //this is when signup is successful
-//             else return res.render('./user_login.ejs',{msg:'Signup successful! Login to continue', login_para:1});
-//         })(req,res,next);
-//     });
+    app.post('/user_signup', function(req, res, next){
+        passport.authenticate('local-signup', function (err, user, info) {
+            //this function is called when LocalStrategy returns done function with parameters
+            if(err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para:0});    
+            //if username or password doesn't match
+            if(!user) return res.render('./user_login.ejs', {msg:info.message,  login_para:0});
+            if (req.body.password != req.body.retype_password) return res.render('./user_login.ejs',{msg:'passwords did not match', login_para:0});
+            //if (!req.body.agree) return res.render('./user_signup.ejs',{msg:'You need to agree to TnC'});          
+            //this is when signup is successful
+            else return res.render('./user_login.ejs',{msg:'Signup successful! Login to continue', login_para:1});
+        })(req,res,next);
+    });
 
 //  // all are checking that the user is first logged in and then that he is of the right category that the request belong to.
     app.get("/user_dashboard", gfunc.isLoggedInfunc, ufunc.dashboard);
@@ -301,7 +301,7 @@ module.exports = function(app, passport) {
 //     app.get("/user_saved_searches", gfunc.isLoggedInfunc, ufunc.saved_searches);
 //     //Auction
 //     app.get("/user_upcoming_auctions",gfunc.isLoggedInfunc,ufunc.upcoming_auctions);
-//     app.get("/user_live_auction", gfunc.isLoggedInfunc, ufunc.live_auction,ufunc.upcoming_auctions);
+    app.get("/user_live_auction", gfunc.isLoggedInfunc, ufunc.live_auction,ufunc.upcoming_auctions);
 //     app.get("/user_auction_results", gfunc.isLoggedInfunc, afunc.show_auctions);
 //     //app.get("/this_auction_result:id", gfunc.isLoggedInfunc,);
 //     //links from header dropdown - logout is a common function
@@ -319,8 +319,8 @@ module.exports = function(app, passport) {
 //     // app.get('/user_update_equipment:id',gfunc.isLoggedInfunc, ufunc.get_update_this_equipment);
 //     // app.post('/user_update_equipment:id', gfunc.isLoggedInfunc, ufunc.post_update_this_equipment, gfunc.view);
 //     // //app.get('/user_view_equipment', gfunc.isLoggedInfunc, ufunc.view_equipment);
-//     // app.get('/user_add_equipment_category', gfunc.isLoggedInfunc, ufunc.get_add_equipment_category);
-//     // app.get('/user_add_equipment_subcategory', gfunc.isLoggedInfunc, ufunc.get_add_equipment_subcategory);
+    app.get('/user_add_equipment_category', gfunc.isLoggedInfunc, ufunc.get_add_equipment_category);
+    app.get('/user_add_equipment_subcategory', gfunc.isLoggedInfunc, ufunc.get_add_equipment_subcategory);
 //     // app.get('/user_add_equipment_brand', gfunc.isLoggedInfunc, ufunc.get_add_equipment_brand);
     app.post('/user_add_equipment', gfunc.isLoggedInfunc, ufunc.post_add_equipment, ufunc.get_add_equipment);
 //     // 

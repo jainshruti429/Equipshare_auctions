@@ -268,6 +268,7 @@ module.exports =  {
     //-------------------------------------------------------------------     
     my_requests0:function(req,res,next){
         req.user_id = req.session.user;
+        console.log(req.user_id);
         return next();
     },
 
@@ -300,7 +301,7 @@ module.exports =  {
     my_requests2 : function(req,res,next){
         if(req.new_equip.length){
             new_equip = req.new_equip;
-            str = "SELECT subcategory, brand, model FROM equipment_type WHERE type_id IN (";
+            str = "SELECT  category,subcategory, brand, model FROM equipment_type WHERE type_id IN (";
             for(var i = 0; i <new_equip.length; i++){
                 equip_id = new_equip[i].slice(1);
                 str = str + equip_id + ",";
@@ -311,6 +312,7 @@ module.exports =  {
                 if(err2) throw err2;
                 else {
                     req.new_equip = rows2;
+                    console.log(rows2);
                     return next();
                 }
             });
@@ -322,7 +324,7 @@ module.exports =  {
     my_requests3 : function(req,res,next){
         if(req.used_equip.length){
             used_equip = req.used_equip;
-            str = "SELECT subcategory, brand, model FROM all_equipment WHERE id IN (";
+            str = "SELECT id,category,subcategory, brand, model FROM all_equipment WHERE id IN (";
             for(var i = 0; i <used_equip.length; i++){
                 str = str + used_equip[i] + ",";
             }
@@ -369,6 +371,7 @@ module.exports =  {
     },
 
     my_requests5: function(req,res, next){
+        console.log(req.new_equip);
         res.render("./user_myrequests.ejs", {new_equip: req.new_equip, used_equip: req.used_equip, proposals:req.proposals, username:req.session.name, category:req.session.category});
     },
 
@@ -695,7 +698,7 @@ module.exports =  {
     //===========================AUCTION API'S==================================================
 
     upcoming_auctions : function(req,res){
-        connection.query("SELECT auctions.name AS 'Auction Name',auctions.start_date AS 'Start Date/Time',auctions.end_date AS 'End Date/Time',auction_requests.status AS 'Status',auctions.auction_id AS id FROM auctions LEFT JOIN auction_requests ON auctions.auction_id = auction_requests.auction_id WHERE auction_requests.user_id = ? auctions.start_date > current_timestamp()",[req.session.user], function(err,rows, fields){
+        connection.query("SELECT auctions.name AS 'Auction Name',auctions.start_date AS 'Start Date/Time',auctions.end_date AS 'End Date/Time',auction_requests.status AS 'Status',auctions.auction_id AS id FROM auctions LEFT JOIN auction_requests ON auctions.auction_id = auction_requests.auction_id WHERE auction_requests.user_id = ? AND auctions.start_date > current_timestamp()",[req.session.user], function(err,rows, fields){
             if(err) throw err;
             else {
                 var x = "";
@@ -720,7 +723,7 @@ module.exports =  {
     //     });
     // },
 
-    live_auction : function(req,res){
+    live_auction : function(req,res,next){
         connection.query("SELECT auctions.name AS 'Auction Name',auctions.start_date AS 'Start Time',auctions.end_date AS 'End Time',auction_requests.status AS 'Status',auctions.auction_id AS id FROM auctions LEFT JOIN auction_requests ON auction_requests.auction_id = auctions.auction_id WHERE auctions.start_date < current_timestamp AND auctions.end_date > current_timestamp AND auction_requests.user_id = ?",[req.session.user], function(err, rows,fields){
             if(err) throw err;
             else if(rows.length){

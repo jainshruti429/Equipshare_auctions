@@ -15,7 +15,7 @@
                                                 <ul class="breadcrumb">
                                                     <li>
                                                         <i class="ace-icon fa fa-home home-icon"></i>
-                                                        <a href="/user_dashboard.ejs">Home</a>
+                                                        <a href="/user_dashboard">Home</a>
                                                     </li>
                                                     <li class="active">Dashboard</li>
                                                     <li>Equipment List</li>
@@ -62,8 +62,8 @@
               <label for="sel1" class="machine-select">Machine Category</label>
                           <select class = "form-control" name="category"  onchange="if(this.value!= 0) { find_subcategory(this.value);}">
                                        <option value="">Select Category</option>	
-                                        <% for(var i = 0;i< cat_rows.length; i++){ %> 
-                                        <option value="<%=cat_rows[i].category%>"><%=cat_rows[i].category%> </option>
+                                        <% for(var i = 0;i< datarows.length; i++){ %> 
+                                        <option value="<%=datarows[i].category%>"><%=datarows[i].category%> </option>
                                         <%}%>
                                     </select>      
                             </div>

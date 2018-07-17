@@ -133,7 +133,8 @@ module.exports = {
             connection.query("SELECT * FROM equipment_master WHERE master_id = ?", [rows[0].master_id], function(err1,rows1,fields1){
                 if(err1) throw err1;
                 else{
-                    var str = rows[0].parameters;
+                    var str = (String)(rows[0].parameters);
+                    console.log(str);
                     var arr = str.split("!#%");
                     var used, equip_data;
                     if(req.equip_data) {

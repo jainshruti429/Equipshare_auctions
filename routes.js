@@ -110,6 +110,11 @@ module.exports = function(app, passport) {
     //         }
     //     });
     // });
+<<<<<<< HEAD
+=======
+
+    // app.get("/", afunc.find_fields, afunc.find_fields2);
+>>>>>>> 272758c9ba00b5d9949e279677db51e61de5b692
 
 
     // app.get('/', function(req,res){
@@ -232,15 +237,17 @@ module.exports = function(app, passport) {
     //these functions do not require user to be logged in
     //HOME PAGE of website.... 
     app.get('/logout',gfunc.isLoggedInfunc, gfunc.logoutfunc);
-    //$$if admin access this give option of user_profile instead of request
+//     //$$if admin access this give option of user_profile instead of request
     app.get('/view:id',gfunc.isLoggedInfunc, gfunc.view1,gfunc.view2);
     
     
-// =======================================================================================
-// =========================== USER FUNCTIONS ================================================== 
-// =======================================================================================
-    //TBD .... url depends on front end linking
-    
+// // =======================================================================================
+// // =========================== USER FUNCTIONS ================================================== 
+// // =======================================================================================
+//     //TBD .... url depends on front end linking
+// app.get('/',function(req,res){
+//     res.render('/user_liveauctions.ejs');
+// });    
 
     app.get('/', function(req,res){
     	res.render('./user_split_screen.ejs');
@@ -249,8 +256,6 @@ module.exports = function(app, passport) {
     app.get('/buy_sell', gfunc.login);
     app.get('/user_login', gfunc.login);
     
-
-
     app.post('/user_login', function(req, res, next){
             //call the local-login in ../config/passport.js
         passport.authenticate('local-user-login', function (err, user, info) {
@@ -285,24 +290,25 @@ module.exports = function(app, passport) {
     });
 
 //  // all are checking that the user is first logged in and then that he is of the right category that the request belong to.
-//     app.get("/user_dashboard", gfunc.isLoggedInfunc, ufunc.dashboard);
+    app.get("/user_dashboard", gfunc.isLoggedInfunc, ufunc.dashboard);
 //     //links from dashboard
-//     app.get('/user_search_category', gfunc.isLoggedInfunc,ufunc.search_category);
-//     app.post('/user_search',gfunc.isLoggedInfunc,ufunc.search);
+    app.get('/user_search_category', gfunc.isLoggedInfunc,ufunc.search_category);
+    app.post('/user_search',gfunc.isLoggedInfunc,ufunc.search);
+    app.get('/user_search2',gfunc.isLoggedInfunc,ufunc.search2);
 //     //links from side_nav_bar
 //     //Equipments
-//     app.get("/user_my_requests", gfunc.isLoggedInfunc, ufunc.my_requests0,ufunc.my_requests1, ufunc.my_requests2, ufunc.my_requests3, ufunc.my_requests4, ufunc.my_requests5);
-//     app.get('/user_my_equipment', gfunc.isLoggedInfunc,ufunc.my_equipment1,gfunc.equip_data,ufunc.my_equipment2 );
-//     app.get('/user_add_equipment',gfunc.isLoggedInfunc, ufunc.check_profile, ufunc.get_add_equipment);
-//     app.get("/user_saved_searches", gfunc.isLoggedInfunc, ufunc.saved_searches);
+    app.get("/user_my_requests", gfunc.isLoggedInfunc, ufunc.my_requests0,ufunc.my_requests1, ufunc.my_requests2, ufunc.my_requests3, ufunc.my_requests4, ufunc.my_requests5);
+    app.get('/user_my_equipment', gfunc.isLoggedInfunc,ufunc.my_equipment1,gfunc.equip_data,ufunc.my_equipment2 );
+    app.get('/user_add_equipment',gfunc.isLoggedInfunc, ufunc.check_profile, ufunc.get_add_equipment);
+    app.get("/user_saved_searches", gfunc.isLoggedInfunc, ufunc.saved_searches);
 //     //Auction
 //     app.get("/user_upcoming_auctions",gfunc.isLoggedInfunc,ufunc.upcoming_auctions);
 //     app.get("/user_live_auction", gfunc.isLoggedInfunc, ufunc.live_auction,ufunc.upcoming_auctions);
 //     app.get("/user_auction_results", gfunc.isLoggedInfunc, afunc.show_auctions);
 //     //app.get("/this_auction_result:id", gfunc.isLoggedInfunc,);
 //     //links from header dropdown - logout is a common function
-//     app.get('/user_update_profile',gfunc.isLoggedInfunc, ufunc.get_update_profile);
-//     app.post('/user_update_profile', gfunc.isLoggedInfunc, ufunc.post_update_profile);
+    app.get('/user_update_profile',gfunc.isLoggedInfunc, ufunc.get_update_profile);
+    app.post('/user_update_profile', gfunc.isLoggedInfunc, ufunc.post_update_profile);
 
 //     // app.get('/user_compare',gfunc.isLoggedInfunc,ufunc.compare);
 //     // app.get('/user_compare_now', gfunc.isLoggedInfunc,ufunc.compare_now);
@@ -318,7 +324,7 @@ module.exports = function(app, passport) {
 //     // app.get('/user_add_equipment_category', gfunc.isLoggedInfunc, ufunc.get_add_equipment_category);
 //     // app.get('/user_add_equipment_subcategory', gfunc.isLoggedInfunc, ufunc.get_add_equipment_subcategory);
 //     // app.get('/user_add_equipment_brand', gfunc.isLoggedInfunc, ufunc.get_add_equipment_brand);
-//     // app.post('/user_add_equipment', gfunc.isLoggedInfunc, ufunc.post_add_equipment, ufunc.get_add_equipment);
+    app.post('/user_add_equipment', gfunc.isLoggedInfunc, ufunc.post_add_equipment, ufunc.get_add_equipment);
 //     // 
     
 // // // =======================================================================================
@@ -419,11 +425,11 @@ module.exports = function(app, passport) {
 // //     app.get('/admin_saved_searches', gfunc.isLoggedInfunc, admin_access, afunc.saved_searches);
 // //     app.get('/admin_enquiry', gfunc.isLoggedInfunc, admin_access, afunc.inEmail);
 		
-       app.get('/admin_show_master',gfunc.isLoggedInfunc, admin_access,afunc.show_master);
-       app.get('/admin_update_master',gfunc.isLoggedInfunc, admin_access,afunc.get_update_master);
-       app.post('/admin_post_update_master',gfunc.isLoggedInfunc, admin_access,afunc.post_update_master,afunc.show_master);
-       app.get('/admin_show_user_profile',gfunc.isLoggedInfunc, admin_access,afunc.show_user_profile1,ufunc.my_requests1,ufunc.my_requests2,ufunc.my_requests3,afunc.show_user_profile2);
-       app.get('/admin_show_user',gfunc.isLoggedInfunc, admin_access,afunc.show_user);
+       // app.get('/admin_show_master',gfunc.isLoggedInfunc, admin_access,afunc.show_master);
+       // app.get('/admin_update_master',gfunc.isLoggedInfunc, admin_access,afunc.get_update_master);
+       // app.post('/admin_post_update_master',gfunc.isLoggedInfunc, admin_access,afunc.post_update_master,afunc.show_master);
+       // app.get('/admin_show_user_profile',gfunc.isLoggedInfunc, admin_access,afunc.show_user_profile1,ufunc.my_requests1,ufunc.my_requests2,ufunc.my_requests3,afunc.show_user_profile2);
+       // app.get('/admin_show_user',gfunc.isLoggedInfunc, admin_access,afunc.show_user);
 
 
 // // =======================================================================================

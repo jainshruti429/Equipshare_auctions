@@ -8,6 +8,7 @@ module.exports = {
       // local configs.
         'host' : 'localhost',
         'user': 'root',
+<<<<<<< HEAD
         'password': 'root',
 			'database': 'eqsauction'
     }   
@@ -25,6 +26,25 @@ module.exports = {
 // 
 //=================================USE THIS FOR OTHER COMPUTER===================================
 
+=======
+        'password': 'root@SQL1',
+			'database': 'eqsAuction'
+    }   
+};
+//=================================USE THIS FOR OTHER COMPUTER==================================
+>>>>>>> 272758c9ba00b5d9949e279677db51e61de5b692
+// module.exports = {
+//     'connection': {
+//       // local configs.
+//          'host' : '192.168.0.11',
+//          'user': 'piyush',
+//          'password': 'password',
+// 			   'database': 'eqsAuction'
+//     }   
+// };
+
+//=================================USE THIS FOR OTHER COMPUTER===================================
+
 // module.exports = {
 //     'connection': {
 //       // local configs.
@@ -35,16 +55,7 @@ module.exports = {
 //     }   
 // };
 
-//=================================USE THIS FOR OTHER COMPUTER===================================
-// module.exports = {
-//     'connection': {
-//       // local configs.
-//          'host' : '192.168.0.11',
-//          'user': 'piyush',
-//          'password': 'password',
-// 			   'database': 'eqsAuction'
-//     }   
-// };
+
 
 //=================================USE THIS FOR SERVER===================================
 // module.exports = {

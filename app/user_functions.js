@@ -131,6 +131,19 @@ module.exports =  {
         });
     },
 
+    search2: function(req,res){
+        var subcategory = req.query.subcategory;
+        var sort = req.query.sort;
+        var query = '';
+        if(sort == "new") query = "SELECT * FROM equipment_type WHERE subcategory = ?"
+        else query = "SELECT * FROM all_equipment WHERE available = 1 AND subcategory = ?"
+        connection.query(query ,[subcategory],function(err,rows){
+            if(err) throw err;
+            else res.render("./user_list.ejs" , {datarows: rows, username: req.session.name, category:req.session.category});  
+            //else res.send(rows);
+        });
+    },
+
     compare_now : function(req,res){
         if(req.session.compare){
             compare = req.session.compare
@@ -185,8 +198,12 @@ module.exports =  {
                     x = (String)(rows[i]["Date/Time Of Search"]);
                     x = x.slice(0,-18);//remove sec and GMT etc
                     rows[i]["Date/Time Of Search"] = x;
+                    y = JSON.stringify(rows[i]);
+                    y = y.slice(0,-1);
+                    y = y + ',"extra_link":"/user_search2?subcategory='+rows[i]["Subcategory"]+'&sort='+rows[i]["Type"]+'"}';
+                    rows[i] = JSON.parse(y);
                 }
-                res.render("./table.ejs", {datarows:rows, fields:fields, username:req.session.name, title:"Saved Searches"});
+                res.render("./table.ejs", {datarows:rows, fields:fields, username:req.session.name,category:req.session.category, title1 : "Equipment", title2:"Saved Searches", extra_link : "Go", eye:0, edit:0 });
             }
         });
     },
@@ -540,6 +557,14 @@ module.exports =  {
     //         else res.render('./user_view_equipment.ejs' , {datarows: rows, isLoggedIn : isLoggedIn(req,res), username: req.session.name, category:req.session.category});
     //     });
     // },
+       // to be called in routes
+        view_bids: function(req,res){
+        connection.query("SELECT * FROM bids WHERE auction_id = ? AND equip_id = ? ORDER BY DESC",[req.params.auction_id, req.params.equip_id], function(err,rows){
+            if(err) throw err;
+            else res.render("", {datarows:rows, username:req.session.name});
+        });
+    },
+
 
     get_add_equipment: function(req,res){
         if(req.session.msg) {
@@ -750,7 +775,7 @@ module.exports =  {
                                             } 
                                         }
                                     }
-                                    res.render("./user_live_auction.ejs",{auction:rows, auction_fields :fields, my_equipment:my_equipment, my_bids:my_bids, others:others, username:req.session.name});
+                                    res.render("./user_liveauctions.ejs",{auction:rows, auction_fields :fields, my_equipment:my_equipment, my_bids:my_bids, others:others, username:req.session.name});
                                 }
                             });
                         }
@@ -797,7 +822,7 @@ module.exports =  {
         connection.query("SELECT * FROM auctions WHERE auction_id = ?",[req.params.auction_id],function(err1,rows1){
             if(err1) throw err1;
             else{
-                connection.query("28. SELECT a.*, b.* FROM (SELECT auction_equipment.base_price, auction_equipment.equip_id,all_equipment.category, all_equipment.subcategory, all_equipment.brand, all_equipment.model FROM auction_equipment INNER JOIN all_equipment ON all_equipment.id = auction_equipment.equip_id WHERE all_equipment.owner_id = ? AND auction_equipment.auction_id = ?) AS a LEFT JOIN (select c.*, bids.user_id from (SELECT  MAX(bid_amount) AS max , equip_id, count(equip_id) as bid_count FROM bids GROUP BY equip_id ) AS c LEFT JOIN bids ON bids.bid_amount = c.max AND bids.equip_id = c.equip_id ) as b ON a.equip_id = b.equip_id ",[req.session.user,req.auction_id], function(err,rows){
+                connection.query("SELECT a.*, b.* FROM (SELECT auction_equipment.base_price, auction_equipment.equip_id,all_equipment.category, all_equipment.subcategory, all_equipment.brand, all_equipment.model FROM auction_equipment INNER JOIN all_equipment ON all_equipment.id = auction_equipment.equip_id WHERE all_equipment.owner_id = ? AND auction_equipment.auction_id = ?) AS a LEFT JOIN (select c.*, bids.user_id from (SELECT  MAX(bid_amount) AS max , equip_id, count(equip_id) as bid_count FROM bids GROUP BY equip_id ) AS c LEFT JOIN bids ON bids.bid_amount = c.max AND bids.equip_id = c.equip_id ) as b ON a.equip_id = b.equip_id ",[req.session.user,req.auction_id], function(err,rows){
                     //"SELECT a.*, b.* FROM (SELECT auction_equipment.base_price, auction_equipment.equip_id,all_equipment.category, all_equipment.subcategory, all_equipment.brand, all_equipment.model FROM auction_equipment INNER JOIN all_equipment ON all_equipment.id = auction_equipment.equip_id WHERE all_equipment.owner_id = 31 AND auction_equipment.auction_id = 1) AS a LEFT JOIN (select c.*, bids.user_id from (SELECT  MAX(bid_amount) AS max , equip_id, count(equip_id) as bid_count FROM bids GROUP BY equip_id ) AS c LEFT JOIN bids ON bids.bid_amount = c.max AND bids.equip_id = c.equip_id ) as b ON a.equip_id = b.equip_id "
                     if(err) throw err;
                     else {
@@ -811,7 +836,8 @@ module.exports =  {
     },
 
    auction_result_bidder : function(req,res){
-    connection.query("SELECT bids.equip_id ,MAX(bids.bid_amount), all_equipment.owner_id, account.name ,account.state FROM bids INNER JOIN all_equipment ON bids.equip_id=all_equipment.id INNER JOIN account ON bids.user_id=account.id WHERE bids.auction_id=? AND bids.user_id=?",[1,41],function(err,rows){
+    //bidder k max bid, bidder k count(bids)
+    connection.query("SELECT bids.equip_id ,MAX(bids.bid_amount) as max, count(bids.equip_id) as count, all_equipment.category,all_equipment.subcategory,all_equipment.brand,all_equipment.model, account.name ,account.state FROM bids INNER JOIN all_equipment ON bids.equip_id=all_equipment.id INNER JOIN account ON all_equipment.owner_id = account.id WHERE bids.auction_id=? AND bids.user_id=? GROUP BY bids.equip_id ORDER BY bids.equip_id",[1,41],function(err,rows){
        if(err) throw err;
        else {
         str = "SELECT * FROM bids WHERE equip_id IN (";
@@ -821,12 +847,29 @@ module.exports =  {
          console.log(rows[i].equip_id);
         }
         str1 = str1.slice(0,-1);
-        str = str +str1+")";
+        str = str +str1+") ORDER BY equip_id, bid_amount";
 
         connection.query(str,function(err1,rows1){
             if(err1)throw err1;
             else{
-
+                //j = 0
+                //display=[]
+                // for(rows.length){
+                    //display[i] = 0;
+                // temp_id = rows[i].equip_id;
+                // temp_arr = [];
+                // while(rows1[j].equip_id == temp_id){
+                    //if(temp_arr.length<3){temp_arr.push(rows1[j].user_id)}
+                    //j++;
+                    //}
+                    //for(temp_arr.length){
+                        //if(temp_arr[k] == req.ses.user){
+                            //display[i] = 1;
+                        //}
+                        //}        
+                    //}
+                //}
+                //display arr m 0 or 1 => owner_profile visible
             }
         });
        }

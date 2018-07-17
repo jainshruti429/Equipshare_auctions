@@ -320,7 +320,7 @@ module.exports = {
     get_reset_password : function(req,res){
         res.render("./admin_reset_password.ejs", {msg:'', username:req.session.name});
     },
-
+    // check category then redirect accordingly..
     post_reset_password : function(req,res, next){
         connection.query("SELECT password FROM account WHERE id = ?",[req.session.user], function(err,rows){
             if(err) throw(err);
@@ -837,7 +837,8 @@ module.exports = {
 
     //select_this_equipment - (ajax)
     select_this_equipment: function(req,res){
-        if(req.selected_equip.length<req.body.max_no_equipment){
+        //$$req.session.selected_equip h in next 2 func also
+        if(req.session.selected_equip.length<req.body.max_no_equipment){
             req.selected_equip.push(req.params.equip_id);
             res.send("Equipment added to auction", req.selected_equip);
         }
@@ -1116,50 +1117,52 @@ module.exports = {
     show_equipment_requests2: function(req,res){
         res.render("./user_requested.ejs", {new_equip: req.new_equip, used_equip: req.used_equip, proposals:req.proposals, username:req.session.name});
     },
-    find_fields : function(req,res,fields,next){
+
+    find_fields : function(req,res,next){
     	display_fields=[];
-    	connection.query("SELECT * FROM equipment_master WHERE subcategory=?",[req.query.subcategory],function(err,rows){
+    	connection.query("SELECT * FROM equipment_master WHERE subcategory=?",[req.query.subcategory],function(err,rows,fields){
     		if(err) throw err;
     		else{
-    			if(rows.length>0){
-    				for(var i=2; i<(fields.length-4);i++)
+    			if(rows.length){
+    				for(var i=3; i<(fields.length-4);i++)
     				{
     					if(rows[0][fields[i].name]){
-    						y = JSON.stringify(rows[0][fields[i].name]);
+    						y = (String)(fields[i].name);
     						y = y.replace('_', ' ');
     						display_fields.push(y);
-    				         console.log(display_fields);
                      		}
-                          if(i == (fields.length-4))
+                          if(i == (fields.length-5))   
     				    {req.display_fields=display_fields;
+                            req.rows = rows;
+                            req.fields = fields;
     				    	return next();
     				    }
-
-    			     	   
     				}
-    				
-                
-    			}
+                }
+                else return res.send("subcategory not found");    
     		}
     	});
     },
 
- find_fields2 : function(req,res,fields){
+ find_fields2 : function(req,res){
 	display_fields=req.display_fields;
-	connection.query("SELECT * FROM equipment_master WHERE subcategory=?",[req.query.subcategory],function(err,rows){
-		if(err)throw err ;
-		else {
+    rows =req.rows;
+    fields = req.fields;
+	// connection.query("SELECT * FROM equipment_master WHERE subcategory=?",[req.query.subcategory],function(err,rows){
+	// 	if(err)throw err ;
+	// 	else {
 			for ( var i =(fields.length-4); i<fields.length;i++ ){
                  if(rows[0][fields[i].name]){
                  	display_fields.push(rows[0][fields[i].name]);
                  }
+		        if(i==(fields.length - 1) )return res.send(display_fields); 
+            }
 
-		     console.log(display_fields);
-			}
-		
-		}
-	});
-}
+		 //console.log(display_fields);
+	// 	}
+	// });
+    },
+
     //users - name - category, #equip(count + innerjoin all_equipment(owner_id)), state from account table 
     //user_profile - upar wala data + all.equipment.*, requested equipments(requests);
 

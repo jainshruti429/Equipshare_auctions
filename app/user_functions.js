@@ -203,6 +203,7 @@ module.exports =  {
                     y = y + ',"extra_link":"/user_search2?subcategory='+rows[i]["Subcategory"]+'&sort='+rows[i]["Type"]+'"}';
                     rows[i] = JSON.parse(y);
                 }
+
                 res.render("./table.ejs", {datarows:rows, fields:fields, username:req.session.name,category:req.session.category, title1 : "Equipment", title2:"Saved Searches", extra_link : "Go", eye:0, edit:0 });
             }
         });

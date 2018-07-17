@@ -251,8 +251,10 @@ module.exports = function(app, passport) {
     });
 
     app.get('/buy_sell', gfunc.login);
-    app.get('/user_login', gfunc.login);
+     app.get('/user_login', gfunc.login);
     
+
+
     app.post('/user_login', function(req, res, next){
             //call the local-login in ../config/passport.js
         passport.authenticate('local-user-login', function (err, user, info) {
@@ -291,7 +293,6 @@ module.exports = function(app, passport) {
 //     //links from dashboard
     app.get('/user_search_category', gfunc.isLoggedInfunc,ufunc.search_category);
     app.post('/user_search',gfunc.isLoggedInfunc,ufunc.search);
-    app.get('/user_search2',gfunc.isLoggedInfunc,ufunc.search2);
 //     //links from side_nav_bar
 //     //Equipments
     app.get("/user_my_requests", gfunc.isLoggedInfunc, ufunc.my_requests0,ufunc.my_requests1, ufunc.my_requests2, ufunc.my_requests3, ufunc.my_requests4, ufunc.my_requests5);
@@ -309,7 +310,7 @@ module.exports = function(app, passport) {
 
 //     // app.get('/user_compare',gfunc.isLoggedInfunc,ufunc.compare);
 //     // app.get('/user_compare_now', gfunc.isLoggedInfunc,ufunc.compare_now);
-//     // app.get('/user_save_search', gfunc.isLoggedInfunc, ufunc.save_search);    
+    app.get('/user_save_search', gfunc.isLoggedInfunc, ufunc.save_search);    
 //     // app.get('/user_request:id', gfunc.isLoggedInfunc, ufunc.request_this);
 //     // app.post("/user_proposal_status", gfunc.isLoggedInfunc,ufunc.change_proposal_status);    
    
@@ -320,7 +321,7 @@ module.exports = function(app, passport) {
 //     // //app.get('/user_view_equipment', gfunc.isLoggedInfunc, ufunc.view_equipment);
     app.get('/user_add_equipment_category', gfunc.isLoggedInfunc, ufunc.get_add_equipment_category);
     app.get('/user_add_equipment_subcategory', gfunc.isLoggedInfunc, ufunc.get_add_equipment_subcategory);
-//     // app.get('/user_add_equipment_brand', gfunc.isLoggedInfunc, ufunc.get_add_equipment_brand);
+    app.get('/user_add_equipment_brand', gfunc.isLoggedInfunc, ufunc.get_add_equipment_brand);
     app.post('/user_add_equipment', gfunc.isLoggedInfunc, ufunc.post_add_equipment, ufunc.get_add_equipment);
 //     // 
     
@@ -419,7 +420,7 @@ module.exports = function(app, passport) {
 // //     app.post('/admin_upload_equipment_csv', gfunc.isLoggedInfunc, admin_access,csv.equipment_csv, afunc.get_add_equipment_user);
     
 // //     app.get('/admin_show_requests', gfunc.isLoggedInfunc, admin_access, afunc.show_requests);
-// //     app.get('/admin_saved_searches', gfunc.isLoggedInfunc, admin_access, afunc.saved_searches);
+    app.get('/admin_saved_searches', gfunc.isLoggedInfunc, admin_access, afunc.saved_searches);
 // //     app.get('/admin_enquiry', gfunc.isLoggedInfunc, admin_access, afunc.inEmail);
 		
        // app.get('/admin_show_master',gfunc.isLoggedInfunc, admin_access,afunc.show_master);

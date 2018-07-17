@@ -15,9 +15,9 @@
                                                 <ul class="breadcrumb">
                                                     <li>
                                                         <i class="ace-icon fa fa-home home-icon"></i>
-                                                      <%if(category:0){%>  <a href="/admin_dashboard.">Home</a><%}%>
-                                                      <%else if(category:1){%><a href="/user_dashboard.">Home</a><%}%>
-                                                      <%else if(category:4){%><a href="/company_dashboard.">Home</a><%}%>
+                                                      <%if(category==0){%>  <a href="/admin_dashboard.">Home</a><%}%>
+                                                      <%if(category==1){%><a href="/user_dashboard.">Home</a><%}%>
+                                                      <%if(category==4){%><a href="/company_dashboard.">Home</a><%}%>
                                                     </li>
                                                     <li class="active">Equipments</li>
                                                     <li>Equipment Detail</li>
@@ -101,8 +101,8 @@
                             <%if(request){%>
                             <a href="/user_request<%=equip_data.id%>">
                             <input type="submit" class="btn btn-primary custom-buy-btn" value ="BUY NOW"></a>
-                            <%} 
-                            else{%>
+                            <%}%> 
+                            <%else{%>
                             <a href="/user_update_equipment<%=equip_data.id%>">
                             <input type="submit" class="btn btn-primary custom-buy-btn" value ="UPDATE"></a>
                             <%}%>
@@ -132,23 +132,23 @@
                         </div>
                         </div> 
                         <%if(used){%>      
-                        <div class="row custom-second-row">
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
-                            <h4 class="text-center" style="padding-top:10px;">Colour</h4>
-                        <%if(equip_data.colour){%><p class="text-center"><%=equip_data.colour%></p><%}%>
-                        <%else{%><p class="text-center">-</p><%}%>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
-                       <h4 class="text-center" style="padding-top:10px;">Km / Hour</h4>
-                       <%if(equip_data.km){%><p class="text-center"><%=equip_data.km%></p><%}%>
-                       <%else{%><p class="text-center">-</p><%}%>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
-                        <h4 class="text-center" style="padding-top:10px;">Year</h4>
-                        <%if(equip_data.year){%><p class="text-center"><%=equip_data.year%></p><%}%>
-                        <%else{%><p class="text-center">-</p><%}%>
-                        </div>
-                        </div>
+                          <div class="row custom-second-row">
+                          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
+                              <h4 class="text-center" style="padding-top:10px;">Colour</h4>
+                          <%if(equip_data.colour){%><p class="text-center"><%=equip_data.colour%></p><%}%>
+                          <%else{%><p class="text-center">-</p><%}%>
+                          </div>
+                          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
+                         <h4 class="text-center" style="padding-top:10px;">Km / Hour</h4>
+                         <%if(equip_data.km){%><p class="text-center"><%=equip_data.km%></p><%}%>
+                         <%else{%><p class="text-center">-</p><%}%>
+                          </div>
+                          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border:solid thin #e1e1e1">
+                          <h4 class="text-center" style="padding-top:10px;">Year</h4>
+                          <%if(equip_data.year){%><p class="text-center"><%=equip_data.year%></p><%}%>
+                          <%else{%><p class="text-center">-</p><%}%>
+                          </div>
+                          </div>
                         <%}%>
                          <div class="row custom-second-row">
 
@@ -427,7 +427,7 @@
        
        <!--END BODY HERE-->
       </div>
-     <!- <div class="modal-footer">
+     <!-- <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Save changes</button>
       </div>--->

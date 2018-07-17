@@ -8,9 +8,9 @@ module.exports = {
       // local configs.
         'host' : 'localhost',
         'user': 'root',
-<<<<<<< HEAD
         'password': 'root',
-			'database': 'eqsauction'
+    'database': 'eqsauction',
+   
     }   
 };
 //=================================USE THIS FOR OTHER COMPUTER==================================
@@ -26,13 +26,9 @@ module.exports = {
 // 
 //=================================USE THIS FOR OTHER COMPUTER===================================
 
-=======
-        'password': 'root@SQL1',
-			'database': 'eqsAuction'
-    }   
-};
+ 
 //=================================USE THIS FOR OTHER COMPUTER==================================
->>>>>>> 272758c9ba00b5d9949e279677db51e61de5b692
+
 // module.exports = {
 //     'connection': {
 //       // local configs.

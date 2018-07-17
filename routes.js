@@ -4,7 +4,7 @@
  var dbconfig = require('./config/database');
  var connection = mysql.createConnection(dbconfig.connection);
 
-connection.query('USE ' + dbconfig.connection.database);
+// connection.query('USE ' + dbconfig.connection.database);
 
 
 var express  = require('express');
@@ -110,11 +110,8 @@ module.exports = function(app, passport) {
     //         }
     //     });
     // });
-<<<<<<< HEAD
-=======
 
     // app.get("/", afunc.find_fields, afunc.find_fields2);
->>>>>>> 272758c9ba00b5d9949e279677db51e61de5b692
 
 
     // app.get('/', function(req,res){
@@ -261,7 +258,8 @@ module.exports = function(app, passport) {
         passport.authenticate('local-user-login', function (err, user, info) {
             // info is json given by passport.aunthicate
             //this function is called when LocalStrategy returns done function with parameters
-            if(err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para : 1});    
+            if(err) 
+                return res.render('./user_login.ejs', {msg : 'Please Try !', login_para : 1});    
             //if username or password doesn't match
             if(!user) return res.render('./user_login.ejs', {msg: 'Please Try Again!', login_para : 1});  
             //this is when login is successful

@@ -4,7 +4,7 @@
  var dbconfig = require('./config/database');
  var connection = mysql.createConnection(dbconfig.connection);
 
-//connection.query('USE ' + dbconfig.connection.database);
+connection.query('USE ' + dbconfig.connection.database);
 
 
 var express  = require('express');
@@ -99,17 +99,17 @@ module.exports = function(app, passport) {
 
     // });
 
-    app.get('/', function(req,res){
-        connection.query("SELECT * FROM all_equipment WHERE id = 42",function(err,rows){
-            if(err) throw err;
-            else {
-                connection.query("SELECT * FROM equipment_type WHERE type_id = ?",[rows[0].type_id], function(err1,rows1){
-                    if(err1) throw err1;
-                    else res.render("./Admin_EquipmentMaster.ejs", {new_equip:[],used_equip:[],user_data:[],category:1,username:'', title:'',cat_rows:[], equip_data:rows, tech_info:rows1[0], request:1});
-                });
-            }
-        });
-    });
+    // app.get('/', function(req,res){
+    //     connection.query("SELECT * FROM all_equipment WHERE id = 42",function(err,rows){
+    //         if(err) throw err;
+    //         else {
+    //             connection.query("SELECT * FROM equipment_type WHERE type_id = ?",[rows[0].type_id], function(err1,rows1){
+    //                 if(err1) throw err1;
+    //                 else res.render("./Admin_EquipmentMaster.ejs", {new_equip:[],used_equip:[],user_data:[],category:1,username:'', title:'',cat_rows:[], equip_data:rows, tech_info:rows1[0], request:1});
+    //             });
+    //         }
+    //     });
+    // });
 
 
     // app.get('/', function(req,res){
@@ -242,12 +242,12 @@ module.exports = function(app, passport) {
     //TBD .... url depends on front end linking
     
 
-//     app.get('/', function(req,res){
-//     	res.render('./user_split_screen.ejs');
-//     });
+    app.get('/', function(req,res){
+    	res.render('./user_split_screen.ejs');
+    });
 
-//     app.get('/buy_sell', gfunc.login);
-//     app.get('/user_login', gfunc.login);
+    app.get('/buy_sell', gfunc.login);
+    app.get('/user_login', gfunc.login);
     
 
 

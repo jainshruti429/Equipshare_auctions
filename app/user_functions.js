@@ -786,8 +786,6 @@ module.exports =  {
                                             } 
                                         }
                                     }
-                                    var cat =req.session.category;
-                                    console.log(cat);
                                     return res.render("./user_liveauctions.ejs",{auction:rows, auction_fields :fields, category : req.session.category , my_equipment:my_equipment, my_bids:my_bids, others:others, username:req.session.name});
                                 }
                             });

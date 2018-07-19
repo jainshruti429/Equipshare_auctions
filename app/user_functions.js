@@ -113,20 +113,23 @@ module.exports =  {
         var subcategory, sort;
         if(req.subcategory){
             subcategory = req.subcategory;
+            //console.log(subcategory);
             sort = req.sort;
             req.subcategory = "";
             req.sort = "";
         }
         else {
             subcategory = req.body.subcategory;
+            console.log(subcategory);
             sort = req.body.sort;
         }
         var query = '';
-        if(sort == "new") query = "SELECT * FROM equipment_type WHERE subcategory = ?"
+        if(sort == "new") query = "SELECT type_id as id ,category ,model,doc1,doc2,subcategory,brand,master_id,parameters,photo1,photo2,photo3,photo4 FROM equipment_type WHERE subcategory = ?"
         else query = "SELECT * FROM all_equipment WHERE available = 1 AND subcategory = ?"
         connection.query(query ,[subcategory],function(err,rows){
             if(err) throw err;
-            else res.render("./user_list.ejs" , {datarows: rows, username: req.session.name, category:req.session.category});  
+            else{console.log(rows);
+             res.render("./user_list.ejs" , {datarows: rows, username: req.session.name, category:req.session.category});  }
             //else res.send(rows);
         });
     },
@@ -404,7 +407,7 @@ module.exports =  {
     },
 
     get_reset_password : function(req,res){
-        res.render("./user_reset_password.ejs", {msg:''});
+        res.render("./user_reset_password.ejs", {msg:'',category:req.session.category,username:req.session.name});
     },
 
     post_reset_password : function(req,res, next){
@@ -552,7 +555,7 @@ module.exports =  {
     },
 
     my_equipment2: function(req,res){
-        res.render("./table.ejs", {datarows:req.datarows, username:req.session.name, category:req.session.category, title1:"Equipments",title2:"My Equipment", fields:req.fields, edit :1, eye : 1});
+        res.render("./table.ejs", {datarows:req.datarows, username:req.session.name, category:req.session.category, title1:"Equipments",title2:"My Equipment", fields:req.fields, edit :1, eye : 1,extra_link:""});
     },
 
     // view_equipment:  function(req , res){
@@ -716,7 +719,8 @@ module.exports =  {
     //===========================AUCTION API'S==================================================
 
     upcoming_auctions : function(req,res){
-        connection.query("SELECT auctions.name AS 'Auction Name',auctions.start_date AS 'Start Date/Time',auctions.end_date AS 'End Date/Time',auction_requests.status AS 'Status',auctions.auction_id AS id FROM auctions LEFT JOIN auction_requests ON auctions.auction_id = auction_requests.auction_id WHERE auction_requests.user_id = ? AND auctions.start_date > current_timestamp()",[req.session.user], function(err,rows, fields){
+        connection.query("SELECT auctions.name AS 'Auction Name',auctions.start_date AS 'Start Date/Time',auctions.end_date AS 'End Date/Time',auctions.auction_id AS id FROM auctions LEFT JOIN auction_requests ON auctions.auction_id = auction_requests.auction_id WHERE auction_requests.user_id = ? AND auctions.start_date > current_timestamp()",[req.session.user], function(err,rows, fields){
+            //auction_requests.status
             if(err) throw err;
             else {
                 var x = "";
@@ -726,10 +730,16 @@ module.exports =  {
                     x = x.slice(0,-15);//remove sec and GMT etc
                     rows[i]["Start Date/Time"] = x;
                     y = (String)(rows[i]["End Date/Time"]);
-                    y = y.slice(0,-15);//remove sec and GMT etc
+                    y = y.slice(0,-15);//remove sec and GMT get_add_equipment_category
                     rows[i]["End Date/Time"] = y;
+                    z = JSON.stringify(rows[i]);
+                    z= z.slice(0,-1);
+                    if(rows[i]["Status"]) z= z + ',"extra_link":"/view_auction'+rows[i].id+'"}';
+                    else z= z + ',"extra_link":"/participate'+req.session.category+'&'+rows[i].id+'"}';
+                    rows[i] = JSON.parse(z);
                 }
-                res.render("./table.ejs", {datarows:rows, fields:fields, username:req.session.name, title:"Upcoming Auctions"});
+                console.log(rows);
+                return res.render("./table.ejs", {datarows:rows, fields:fields, username:req.session.name, title2:"Upcoming Auctions",title1:"auctions",category:req.session.category, extra_link:"View Equipments",eye:0,edit:0});
             }
         });
     },
@@ -749,7 +759,7 @@ module.exports =  {
                     var x = (String)(rows[0]["Start Time"]);
                     x = x.slice(15,-15);//remove sec and GMT etc
                     rows[0]["Start Time"] = x;
-                    var z = (String)(rows[i]["End Time"]);
+                    var z = (String)(rows[0]["End Time"]);
                     z = z.slice(15,-15);//remove sec and GMT etc
                     rows[0]["End Time"] = z;
                     connection.query("SELECT all_equipment.photo1, all_equipment.owner_id, all_equipment.subcategory, all_equipment.brand, all_equipment.model, auction_equipment.current_bid, auction_equipment.base_price, auction_equipment.equip_id, count(bids.equip_id) as bids FROM auction_equipment LEFT JOIN all_equipment ON all_equipment.id=auction_equipment.equip_id LEFT JOIN bids ON auction_equipment.equip_id = bids.equip_id WHERE auction_equipment.auction_id = ? GROUP BY auction_equipment.equip_id, auction_equipment.current_bid, auction_equipment.base_price ORDER BY auction_equipment.equip_id;",[rows[0].id,rows[0].id],function(err1,rows1){
@@ -779,15 +789,15 @@ module.exports =  {
                                             } 
                                         }
                                     }
-                                    res.render("./user_liveauctions.ejs",{auction:rows, auction_fields :fields, my_equipment:my_equipment, my_bids:my_bids, others:others, username:req.session.name});
+                                    return res.render("./user_liveauctions.ejs",{auction:rows, auction_fields :fields, category : req.session.category , my_equipment:my_equipment, my_bids:my_bids, others:others, username:req.session.name});
                                 }
                             });
                         }
                     });
                 }
-                else next();// not permited to view auction
+                else return next();// not permited to view auction
             }
-            else next();//upcoming auctions
+            else return next();//upcoming auctions
         });
     },
 
@@ -827,7 +837,6 @@ module.exports =  {
             if(err1) throw err1;
             else{
                 connection.query("SELECT a.*, b.* FROM (SELECT auction_equipment.base_price, auction_equipment.equip_id,all_equipment.category, all_equipment.subcategory, all_equipment.brand, all_equipment.model FROM auction_equipment INNER JOIN all_equipment ON all_equipment.id = auction_equipment.equip_id WHERE all_equipment.owner_id = ? AND auction_equipment.auction_id = ?) AS a LEFT JOIN (select c.*, bids.user_id from (SELECT  MAX(bid_amount) AS max , equip_id, count(equip_id) as bid_count FROM bids GROUP BY equip_id ) AS c LEFT JOIN bids ON bids.bid_amount = c.max AND bids.equip_id = c.equip_id ) as b ON a.equip_id = b.equip_id ",[req.session.user,req.auction_id], function(err,rows){
-                    //"SELECT a.*, b.* FROM (SELECT auction_equipment.base_price, auction_equipment.equip_id,all_equipment.category, all_equipment.subcategory, all_equipment.brand, all_equipment.model FROM auction_equipment INNER JOIN all_equipment ON all_equipment.id = auction_equipment.equip_id WHERE all_equipment.owner_id = 31 AND auction_equipment.auction_id = 1) AS a LEFT JOIN (select c.*, bids.user_id from (SELECT  MAX(bid_amount) AS max , equip_id, count(equip_id) as bid_count FROM bids GROUP BY equip_id ) AS c LEFT JOIN bids ON bids.bid_amount = c.max AND bids.equip_id = c.equip_id ) as b ON a.equip_id = b.equip_id "
                     if(err) throw err;
                     else {
                         req.auction_info = rows1;

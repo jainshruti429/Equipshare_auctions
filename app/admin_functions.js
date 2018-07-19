@@ -745,6 +745,8 @@ module.exports = {
                     else{
                         obj = {name:"Participants"};
                         fields.push(obj);
+                        console.log(rows1.length);
+                        console.log(rows2.length);
                         for(var i = 0 ; i<rows1.length; i++ ){
                             y = JSON.stringify(rows1[i]);
                             y = y.slice(0,-1);

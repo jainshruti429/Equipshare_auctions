@@ -154,7 +154,7 @@ module.exports = {
                         };
                         used = 0;
                     }
-                    res.render("./detail.ejs", {username:req.session.name, category:req.session.category, equip_data:equip_data, param: arr, fields:fields1, param_name :rows1[0], tech_info:rows, used : used});
+                    res.render("./user_detail.ejs", {username:req.session.name, category:req.session.category, equip_data:equip_data, param: arr, fields:fields1, param_name :rows1[0], tech_info:rows, used : used});
                 }
             });    
             }

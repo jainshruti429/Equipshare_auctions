@@ -301,9 +301,9 @@ module.exports = function(app, passport) {
     app.get('/user_add_equipment',gfunc.isLoggedInfunc, ufunc.check_profile, ufunc.get_add_equipment);
     app.get("/user_saved_searches", gfunc.isLoggedInfunc, ufunc.saved_searches);
 //     //Auction
-//     app.get("/user_upcoming_auctions",gfunc.isLoggedInfunc,ufunc.upcoming_auctions);
+    app.get("/user_upcoming_auctions",gfunc.isLoggedInfunc,ufunc.upcoming_auctions);
     app.get("/user_live_auction", gfunc.isLoggedInfunc, ufunc.live_auction,ufunc.upcoming_auctions);
-//     app.get("/user_auction_results", gfunc.isLoggedInfunc, afunc.show_auctions);
+    app.get("/user_auction_results", gfunc.isLoggedInfunc, afunc.show_auctions);
 //     //app.get("/this_auction_result:id", gfunc.isLoggedInfunc,);
 //     //links from header dropdown - logout is a common function
     app.get('/user_update_profile',gfunc.isLoggedInfunc, ufunc.get_update_profile);
@@ -315,8 +315,8 @@ module.exports = function(app, passport) {
 //     // app.get('/user_request:id', gfunc.isLoggedInfunc, ufunc.request_this);
 //     // app.post("/user_proposal_status", gfunc.isLoggedInfunc,ufunc.change_proposal_status);    
    
-//     // app.get('/user_reset_password', gfunc.isLoggedInfunc, ufunc.get_reset_password);
-//     // app.post('/user_reset_password', gfunc.isLoggedInfunc, ufunc.post_reset_password, ufunc.get_reset_password);
+    app.get('/user_reset_password', gfunc.isLoggedInfunc, ufunc.get_reset_password);
+    app.post('/user_reset_password', gfunc.isLoggedInfunc, ufunc.post_reset_password, ufunc.get_reset_password);
 //     // app.get('/user_update_equipment:id',gfunc.isLoggedInfunc, ufunc.get_update_this_equipment);
 //     // app.post('/user_update_equipment:id', gfunc.isLoggedInfunc, ufunc.post_update_this_equipment, gfunc.view);
 //     // //app.get('/user_view_equipment', gfunc.isLoggedInfunc, ufunc.view_equipment);

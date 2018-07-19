@@ -407,7 +407,7 @@ module.exports =  {
     },
 
     get_reset_password : function(req,res){
-        res.render("./user_reset_password.ejs", {msg:''});
+        res.render("./user_reset_password.ejs", {msg:'',category:req.session.category,username:req.session.name});
     },
 
     post_reset_password : function(req,res, next){
@@ -729,10 +729,14 @@ module.exports =  {
                     x = x.slice(0,-15);//remove sec and GMT etc
                     rows[i]["Start Date/Time"] = x;
                     y = (String)(rows[i]["End Date/Time"]);
-                    y = y.slice(0,-15);//remove sec and GMT etc
+                    y = y.slice(0,-15);//remove sec and GMT get_add_equipment_category
                     rows[i]["End Date/Time"] = y;
+                     z = JSON.stringify(rows[i]);
+                    z= z.slice(0,-1);
+                    z= z + ',"extra_link":/participate';
+                    rows[i] = JSON.parse(z);
                 }
-                res.render("./table.ejs", {datarows:rows, fields:fields, username:req.session.name, title:"Upcoming Auctions"});
+                res.render("./table.ejs", {datarows:rows, fields:fields, username:req.session.name, title1:"Upcoming Auctions",title2:"auctions",category:req.session.category, extra_link:"participate",eye:0,edit:0});
             }
         });
     },
@@ -782,7 +786,8 @@ module.exports =  {
                                             } 
                                         }
                                     }
-                                    console.log(req.session.category);
+                                    var cat =req.session.category;
+                                    console.log(cat);
                                     res.render("./user_liveauctions.ejs",{auction:rows, auction_fields :fields, category : req.session.category , my_equipment:my_equipment, my_bids:my_bids, others:others, username:req.session.name});
                                 }
                             });

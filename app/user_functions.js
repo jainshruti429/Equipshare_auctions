@@ -756,7 +756,7 @@ module.exports =  {
                     var x = (String)(rows[0]["Start Time"]);
                     x = x.slice(15,-15);//remove sec and GMT etc
                     rows[0]["Start Time"] = x;
-                    var z = (String)(rows[i]["End Time"]);
+                    var z = (String)(rows[0]["End Time"]);
                     z = z.slice(15,-15);//remove sec and GMT etc
                     rows[0]["End Time"] = z;
                     connection.query("SELECT all_equipment.photo1, all_equipment.owner_id, all_equipment.subcategory, all_equipment.brand, all_equipment.model, auction_equipment.current_bid, auction_equipment.base_price, auction_equipment.equip_id, count(bids.equip_id) as bids FROM auction_equipment LEFT JOIN all_equipment ON all_equipment.id=auction_equipment.equip_id LEFT JOIN bids ON auction_equipment.equip_id = bids.equip_id WHERE auction_equipment.auction_id = ? GROUP BY auction_equipment.equip_id, auction_equipment.current_bid, auction_equipment.base_price ORDER BY auction_equipment.equip_id;",[rows[0].id,rows[0].id],function(err1,rows1){
@@ -788,15 +788,15 @@ module.exports =  {
                                     }
                                     var cat =req.session.category;
                                     console.log(cat);
-                                    res.render("./user_liveauctions.ejs",{auction:rows, auction_fields :fields, category : req.session.category , my_equipment:my_equipment, my_bids:my_bids, others:others, username:req.session.name});
+                                    return res.render("./user_liveauctions.ejs",{auction:rows, auction_fields :fields, category : req.session.category , my_equipment:my_equipment, my_bids:my_bids, others:others, username:req.session.name});
                                 }
                             });
                         }
                     });
                 }
-                else next();// not permited to view auction
+                else return next();// not permited to view auction
             }
-            else next();//upcoming auctions
+            else return next();//upcoming auctions
         });
     },
 

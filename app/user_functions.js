@@ -113,20 +113,23 @@ module.exports =  {
         var subcategory, sort;
         if(req.subcategory){
             subcategory = req.subcategory;
+            //console.log(subcategory);
             sort = req.sort;
             req.subcategory = "";
             req.sort = "";
         }
         else {
             subcategory = req.body.subcategory;
+            console.log(subcategory);
             sort = req.body.sort;
         }
         var query = '';
-        if(sort == "new") query = "SELECT * FROM equipment_type WHERE subcategory = ?"
+        if(sort == "new") query = "SELECT type_id as id ,category ,model,doc1,doc2,subcategory,brand,master_id,parameters,photo1,photo2,photo3,photo4 FROM equipment_type WHERE subcategory = ?"
         else query = "SELECT * FROM all_equipment WHERE available = 1 AND subcategory = ?"
         connection.query(query ,[subcategory],function(err,rows){
             if(err) throw err;
-            else res.render("./user_list.ejs" , {datarows: rows, username: req.session.name, category:req.session.category});  
+            else{console.log(rows);
+             res.render("./user_list.ejs" , {datarows: rows, username: req.session.name, category:req.session.category});  }
             //else res.send(rows);
         });
     },
@@ -552,7 +555,7 @@ module.exports =  {
     },
 
     my_equipment2: function(req,res){
-        res.render("./table.ejs", {datarows:req.datarows, username:req.session.name, category:req.session.category, title1:"Equipments",title2:"My Equipment", fields:req.fields, edit :1, eye : 1});
+        res.render("./table.ejs", {datarows:req.datarows, username:req.session.name, category:req.session.category, title1:"Equipments",title2:"My Equipment", fields:req.fields, edit :1, eye : 1,extra_link:""});
     },
 
     // view_equipment:  function(req , res){
@@ -779,7 +782,8 @@ module.exports =  {
                                             } 
                                         }
                                     }
-                                    res.render("./user_liveauctions.ejs",{auction:rows, auction_fields :fields, my_equipment:my_equipment, my_bids:my_bids, others:others, username:req.session.name});
+                                    console.log(req.session.category);
+                                    res.render("./user_liveauctions.ejs",{auction:rows, auction_fields :fields, category : req.session.category , my_equipment:my_equipment, my_bids:my_bids, others:others, username:req.session.name});
                                 }
                             });
                         }

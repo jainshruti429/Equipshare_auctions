@@ -16,7 +16,6 @@ var bcrypt = require('bcrypt-nodejs');
 
 var ssn;//variable of session
 var schedule = require('node-schedule');
-
 var express  = require('express');
 var app = express();
 var crypto = require('crypto');
@@ -154,7 +153,7 @@ module.exports = {
                         };
                         used = 0;
                     }
-                    res.render("./detail.ejs", {username:req.session.name, category:req.session.category, equip_data:equip_data, param: arr, fields:fields1, param_name :rows1[0], tech_info:rows, used : used});
+                    res.render("./user_detail.ejs", {username:req.session.name, category:req.session.category, equip_data:equip_data, param: arr, fields:fields1, param_name :rows1[0], tech_info:rows, used : used});
                 }
             });    
             }
@@ -169,7 +168,8 @@ module.exports = {
             str = str + datarows[i].id+ ",";
         }
         str = str.slice(0,-1);
-        var str4 = "SELECT all_equipment.id, count(views.equip_id) as no_views, count(requests.equip_id) as no_requests, count(compares.equip_id) as no_compares FROM all_equipment LEFT JOIN views ON all_equipment.id = views.equip_id LEFT JOIN requests ON all_equipment.id = requests.equip_id LEFT JOIN compares ON all_equipment.id = compares.equip_id WHERE all_equipment.id IN (?) GROUP BY all_equipment.id ORDER BY all_equipment.id";            
+        console.log(str);
+        var str4 = "SELECT  all_equipment.id, count(views.equip_id) as no_views, count(requests.equip_id) as no_requests, count(compares.equip_id) as no_compares FROM all_equipment LEFT JOIN views ON all_equipment.id = views.equip_id LEFT JOIN requests ON all_equipment.id = requests.equip_id LEFT JOIN compares ON all_equipment.id = compares.equip_id WHERE all_equipment.id IN (?) GROUP BY all_equipment.id ORDER BY all_equipment.id";            
         connection.query(str4,[str], function(err1,rows){
             if(err1) throw err1;
             else{
@@ -178,12 +178,17 @@ module.exports = {
                 };
                 fields.push(obj);
                 var y = "";
-                for(var i = 0 ; i < datarows.length ; i++){
+              
+                for(var i = 0 ; i < rows.length ; i++){
                     y = JSON.stringify(datarows[i]);
                     y = y.slice(0,-1);
+                    
                     y = y + ',"'+obj.name+'":"'+rows[i].no_views+" | "+rows[i].no_requests+" | "+rows[i].no_compares+'"}';
                     datarows[i] = JSON.parse(y);
+                    console.log(datarows);
+                    console.log(rows);
                 }
+               
                 req.datarows = datarows;
                 req.fields = fields;
                 return next();

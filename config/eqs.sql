@@ -110,42 +110,47 @@ CREATE TABLE `all_equipment` (
   `uploaded_by` int(1) DEFAULT NULL,
   `status` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=latin1;
 
 /*Data for the table `all_equipment` */
 
 insert into `all_equipment` values 
-(41,'Hyundai','&*(YHUBhj',89789789,'hubyiubhub',7890789,'Alirajpur',87897,'',31,1,'41_1.jpg','Madhya Pradesh','41_4.png','41_3.jpg','41_3.png',NULL,NULL,25,NULL,NULL,NULL,NULL,'Earth moving Equipment','Excavators',NULL,NULL),
-(42,'b2','m2',789908,'cfgcvgyvhjv',897987,'Alirajpur',78789,'gvgyvuygbuyh',31,0,'42_1.png','Madhya Pradesh','42_4.png','42_3.png','42_2.png','42_1.png','42_2.png',18,'','','','','2','2',NULL,NULL),
-(43,'b1','m2',8789790,'8ygyugyugugh',7867,'Alirajpur',7897,'this is updated',31,1,'43_1.png','Madhya Pradesh','43_4.png','43_3.png','43_2.png','43_1.png','43_2.png',12,'','','','','1','2',NULL,NULL),
-(44,'b2','m2',2016,'yellow',890,'Lohit',65000,'very good equipment. very good condition but good for nothing',8,0,'44_1.jpg','Arunachal Pradesh','44_4.jpg','44_3.jpg','44_2.jpg','44_1.png','44_2.png',16,'','','','','1','3',NULL,NULL),
-(45,'gdfg','MT678',78979,NULL,8790890,'city1',687989080,'vgyvuybyuohboiul',7,1,'45_1.png','state1','45_4.png','45_3.png','45_2.png','','',35,'','','','','Concrete and Masonry','Concrete Batching Plant',NULL,NULL),
-(46,'HITACHI','H234',78979,NULL,8790890,'city1',687989080,'vgyvuybyuohboiul',7,1,'46_1.png','state1','46_4.png','46_3.png','46_2.png','','',27,'','','','','Concrete Pumps','Mini Mobile Batching Plant',NULL,NULL),
-(47,'gdfg','MT678',89890,NULL,898908,'Lohit',787908,'hjguijkhklnkl.',1,1,'47_1.png','Arunachal Pradesh','47_4.png','47_3.png','47_2.png','47_1.png','47_2.png',35,'','','','','Concrete and Masonry','Concrete Batching Plant',NULL,NULL),
-(48,'gdfg','MT678',89089,NULL,78979,'Lohit',879899,'vhjvhjkbjbhjvhv jhkbvhjkb',1,1,'48_1.png','Arunachal Pradesh','48_4.png','48_3.png','48_2.png','48_1.png','48_2.png',35,'48_3.png','48_4.png','48_5.png','48_6.png','Concrete and Masonry','Concrete Batching Plant',NULL,NULL),
-(49,'TATA','T89H',78979,NULL,78798,'Lohit',678789,'ghcvgyhvhgjbhjk',1,1,'49_1.png','Arunachal Pradesh','49_4.png','49_3.png','49_2.png','49_1.png','49_2.png',29,'','','','','Concrete Pumps','Mini Mobile Batching Plant',NULL,NULL),
-(50,'TATA','T89H',78979,NULL,78798,'Lohit',678789,'ghcvgyhvhgjbhjk',1,1,'50_1.png','Arunachal Pradesh','50_4.png','50_3.png','50_2.png','50_1.png','50_2.png',29,'50_3.png','50_4.png','50_5.png','50_6.png','Concrete Pumps','Mini Mobile Batching Plant',NULL,NULL),
-(51,'TATA','T7879J',78979,NULL,78798,'Lohit',678789,'ghcvgyhvhgjbhjk',1,1,'51_1.png','Arunachal Pradesh','51_4.png','51_3.png','51_2.png','51_1.png','51_2.png',30,'51_3.png','51_4.png','51_5.png','51_6.png','Concrete Pumps','Mini Mobile Batching Plant',NULL,NULL),
-(52,'TATA','T7879J',687,NULL,78979,'Lohit',677977,'fvghvyuhbuh',1,1,'52_1.png','Arunachal Pradesh','52_4.png','52_3.png','52_2.png','52_1.png','52_2.png',30,'52_3.png','52_4.png','52_5.png','52_6.png','Concrete Pumps','Mini Mobile Batching Plant',NULL,NULL),
-(53,'Hyundai','&*(YHUBhj',8981,NULL,890890,'Lohit',8989000,'89789ghbhjvghvuyk',1,1,'53_1.png','Arunachal Pradesh','53_4.png','53_3.png','53_2.png','53_1.png','53_2.png',33,'53_3.png','53_4.png','53_5.png','53_6.png','Concrete Pumps','Static Batching Plant',NULL,NULL),
-(54,'Hyundai','C7897',7898,NULL,67889,'Lohit',676879,'gyugyubkjnjk',1,1,'54_1.png','Arunachal Pradesh','54_4.png','54_3.png','54_2.png','54_1.png','54_2.png',34,'54_3.png','54_4.png','54_5.png','54_6.png','Concrete Pumps','Static Batching Plant',NULL,NULL),
-(55,'Hyundai','C7897',7990,NULL,7889,'city1',788999,'vguhviuyvbiu',7,1,'55_1.png','state1','55_4.png','55_3.png','55_2.png','55_1.png','55_2.png',26,'55_3.png','55_4.png','55_5.png','55_6.png','Earth moving Equipment','Excavators',NULL,NULL),
-(56,'TATA','T7879J',7899,'yellow',6789,'city1',6768989,'arbit description likhungi m',3,1,NULL,'state1',NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,NULL),
-(57,'TATA','T7879J',676,'yellow',6789,'city1',676788,'arbit description likhungi mghjbvjk',3,1,NULL,'state1',NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,NULL),
-(58,'TATA','T7879J',767,'black',6789,'city1',6768989,'arbit description likhungi m',3,1,NULL,'state1',NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,NULL),
-(59,'TATA','T7879J',7899,'grey',6789,'city1',6768989,'arbit description likhungi m',3,1,NULL,'state1',NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,NULL),
-(60,'TATA','T7879J',7899,'yellow',6789,'city1',6768989,'arbit description likhungi m',3,1,NULL,'state1',NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,NULL),
-(61,'TATA','T7879J',7899,'yellow',6789,'city1',6768989,'arbit description likhungi m',3,1,NULL,'state1',NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,NULL),
-(62,'TATA','T7879J',7899,'yellow',6789,'city1',6768989,'arbit description likhungi m',3,1,NULL,'state1',NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,NULL),
-(63,'TATA','T7879J',7899,'yellow',6789,'city1',6768989,'arbit description likhungi m',3,1,NULL,'state1',NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,NULL),
-(64,'TATA','T7879J',7899,'yellow',6789,NULL,6768989,'arbit description likhungi m',7,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,NULL),
-(65,'TATA','T7879J',676,'yellow',6789,NULL,676788,'arbit description likhungi mghjbvjk',7,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,NULL),
-(66,'TATA','T7879J',767,'black',6789,NULL,6768989,'arbit description likhungi m',7,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,NULL),
-(67,'TATA','T7879J',7899,'grey',6789,NULL,6768989,'arbit description likhungi m',7,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,NULL),
-(68,'TATA','T7879J',7899,'yellow',6789,NULL,6768989,'arbit description likhungi m',7,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,NULL),
-(69,'TATA','T7879J',7899,'yellow',6789,NULL,6768989,'arbit description likhungi m',7,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,NULL),
-(70,'TATA','T7879J',7899,'yellow',6789,NULL,6768989,'arbit description likhungi m',7,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,NULL),
-(71,'TATA','T7879J',7899,'yellow',6789,NULL,6768989,'arbit description likhungi m',7,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,NULL);
+(11,'TATA','T7879J',865,'black',876,'',764547,'ljhdkajkj',7,1,'','','','','','','',40,'','','','','Compaction','Ride on Vinratory Roller - Single Drum',0,0),
+(41,'Hyundai','&*(YHUBhj',89789789,'hubyiubhub',7890789,'Alirajpur',87897,'',31,1,'41_1.jpg','Madhya Pradesh','41_4.png','41_3.jpg','41_3.png',NULL,NULL,25,NULL,NULL,NULL,NULL,'Earth moving Equipment','Excavators',NULL,1),
+(42,'b2','m2',789908,'cfgcvgyvhjv',897987,'Alirajpur',78789,'gvgyvuygbuyh',31,0,'42_1.png','Madhya Pradesh','42_4.png','42_3.png','42_2.png','42_1.png','42_2.png',18,'','','','','2','2',NULL,1),
+(43,'b1','m2',8789790,'8ygyugyugugh',7867,'Alirajpur',7897,'this is updated',31,1,'43_1.png','Madhya Pradesh','43_4.png','43_3.png','43_2.png','43_1.png','43_2.png',12,'','','','','1','2',NULL,0),
+(44,'b2','m2',2016,'yellow',890,'Lohit',65000,'very good equipment. very good condition but good for nothing',8,0,'44_1.jpg','Arunachal Pradesh','44_4.jpg','44_3.jpg','44_2.jpg','44_1.png','44_2.png',16,'','','','','1','3',NULL,1),
+(45,'gdfg','MT678',78979,NULL,8790890,'city1',687989080,'vgyvuybyuohboiul',7,1,'45_1.png','state1','45_4.png','45_3.png','45_2.png','','',35,'','','','','Concrete and Masonry','Concrete Batching Plant',NULL,0),
+(46,'HITACHI','H234',78979,NULL,8790890,'city1',687989080,'vgyvuybyuohboiul',7,1,'46_1.png','state1','46_4.png','46_3.png','46_2.png','','',27,'','','','','Concrete Pumps','Mini Mobile Batching Plant',NULL,1),
+(47,'gdfg','MT678',89890,NULL,898908,'Lohit',787908,'hjguijkhklnkl.',1,1,'47_1.png','Arunachal Pradesh','47_4.png','47_3.png','47_2.png','47_1.png','47_2.png',35,'','','','','Concrete and Masonry','Concrete Batching Plant',NULL,0),
+(48,'gdfg','MT678',89089,NULL,78979,'Lohit',879899,'vhjvhjkbjbhjvhv jhkbvhjkb',1,1,'48_1.png','Arunachal Pradesh','48_4.png','48_3.png','48_2.png','48_1.png','48_2.png',35,'48_3.png','48_4.png','48_5.png','48_6.png','Concrete and Masonry','Concrete Batching Plant',NULL,0),
+(49,'TATA','T89H',78979,NULL,78798,'Lohit',678789,'ghcvgyhvhgjbhjk',1,1,'49_1.png','Arunachal Pradesh','49_4.png','49_3.png','49_2.png','49_1.png','49_2.png',29,'','','','','Concrete Pumps','Mini Mobile Batching Plant',NULL,1),
+(50,'TATA','T89H',78979,NULL,78798,'Lohit',678789,'ghcvgyhvhgjbhjk',1,1,'50_1.png','Arunachal Pradesh','50_4.png','50_3.png','50_2.png','50_1.png','50_2.png',29,'50_3.png','50_4.png','50_5.png','50_6.png','Concrete Pumps','Mini Mobile Batching Plant',NULL,1),
+(51,'TATA','T7879J',78979,NULL,78798,'Lohit',678789,'ghcvgyhvhgjbhjk',1,1,'51_1.png','Arunachal Pradesh','51_4.png','51_3.png','51_2.png','51_1.png','51_2.png',30,'51_3.png','51_4.png','51_5.png','51_6.png','Concrete Pumps','Mini Mobile Batching Plant',NULL,0),
+(52,'TATA','T7879J',687,NULL,78979,'Lohit',677977,'fvghvyuhbuh',1,1,'52_1.png','Arunachal Pradesh','52_4.png','52_3.png','52_2.png','52_1.png','52_2.png',30,'52_3.png','52_4.png','52_5.png','52_6.png','Concrete Pumps','Mini Mobile Batching Plant',NULL,0),
+(53,'Hyundai','&*(YHUBhj',8981,NULL,890890,'Lohit',8989000,'89789ghbhjvghvuyk',1,1,'53_1.png','Arunachal Pradesh','53_4.png','53_3.png','53_2.png','53_1.png','53_2.png',33,'53_3.png','53_4.png','53_5.png','53_6.png','Concrete Pumps','Static Batching Plant',NULL,1),
+(54,'Hyundai','C7897',7898,NULL,67889,'Lohit',676879,'gyugyubkjnjk',1,1,'54_1.png','Arunachal Pradesh','54_4.png','54_3.png','54_2.png','54_1.png','54_2.png',34,'54_3.png','54_4.png','54_5.png','54_6.png','Concrete Pumps','Static Batching Plant',NULL,1),
+(55,'Hyundai','C7897',7990,NULL,7889,'city1',788999,'vguhviuyvbiu',7,1,'55_1.png','state1','55_4.png','55_3.png','55_2.png','55_1.png','55_2.png',26,'55_3.png','55_4.png','55_5.png','55_6.png','Earth moving Equipment','Excavators',NULL,0),
+(56,'TATA','T7879J',7899,'yellow',6789,'city1',6768989,'arbit description likhungi m',3,1,NULL,'state1',NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,0),
+(57,'TATA','T7879J',676,'yellow',6789,'city1',676788,'arbit description likhungi mghjbvjk',3,1,NULL,'state1',NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,1),
+(58,'TATA','T7879J',767,'black',6789,'city1',6768989,'arbit description likhungi m',3,1,NULL,'state1',NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,1),
+(59,'TATA','T7879J',7899,'grey',6789,'city1',6768989,'arbit description likhungi m',3,1,NULL,'state1',NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,0),
+(60,'TATA','T7879J',7899,'yellow',6789,'city1',6768989,'arbit description likhungi m',3,1,NULL,'state1',NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,0),
+(61,'TATA','T7879J',7899,'yellow',6789,'city1',6768989,'arbit description likhungi m',3,1,NULL,'state1',NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,1),
+(62,'TATA','T7879J',7899,'yellow',6789,'city1',6768989,'arbit description likhungi m',3,1,NULL,'state1',NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,1),
+(63,'TATA','T7879J',7899,'yellow',6789,'city1',6768989,'arbit description likhungi m',3,1,NULL,'state1',NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,0),
+(64,'TATA','T7879J',7899,'yellow',6789,NULL,6768989,'arbit description likhungi m',7,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,0),
+(65,'TATA','T7879J',676,'yellow',6789,NULL,676788,'arbit description likhungi mghjbvjk',7,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,1),
+(66,'TATA','T7879J',767,'black',6789,NULL,6768989,'arbit description likhungi m',7,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,0),
+(67,'TATA','T7879J',7899,'grey',6789,NULL,6768989,'arbit description likhungi m',7,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,1),
+(68,'TATA','T7879J',7899,'yellow',6789,NULL,6768989,'arbit description likhungi m',7,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,0),
+(69,'TATA','T7879J',7899,'yellow',6789,NULL,6768989,'arbit description likhungi m',7,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,1),
+(70,'TATA','T7879J',7899,'yellow',6789,NULL,6768989,'arbit description likhungi m',7,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,1),
+(71,'TATA','T7879J',7899,'yellow',6789,NULL,6768989,'arbit description likhungi m',7,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,40,NULL,NULL,NULL,NULL,'Compaction','Ride on Vinratory Roller - Single Drum',NULL,0),
+(72,'TATA','T7879J',1286,'black',753,'',789,'arbit description likhungi m',7,1,'','','','','','','',40,'','','','','Compaction','Backhoes',0,0),
+(73,'','',0,'',0,'',0,'',0,0,'','','','','','','',0,'','','','','Compaction','Backhoes',0,0),
+(74,'','',0,'',0,'',0,'',0,0,'','','','','','','',0,'','','','','Compaction','Backhoes',0,0),
+(75,'','',0,'',0,'',0,'',0,0,'','','','','','','',0,'','','','','','Backhoes',0,0);
 
 /*Table structure for table `auction_equipment` */
 
@@ -469,7 +474,7 @@ CREATE TABLE `requests` (
   `comment` varchar(125) COLLATE utf8_bin DEFAULT NULL,
   `SNO` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`SNO`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*Data for the table `requests` */
 
@@ -498,7 +503,8 @@ insert into `requests` values
 ('t50',27,2,NULL,22),
 ('50',27,2,NULL,23),
 ('50',26,1,NULL,24),
-('44',27,1,'',25);
+('44',27,1,'',25),
+('t12',1,1,'',26);
 
 /*Table structure for table `save` */
 
@@ -512,9 +518,12 @@ CREATE TABLE `save` (
   `display` int(1) DEFAULT NULL,
   `sort` int(1) DEFAULT NULL,
   PRIMARY KEY (`save_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*Data for the table `save` */
+
+insert into `save` values 
+(1,'0000-00-00 00:00:00','dffs',2,1,1);
 
 /*Table structure for table `temp` */
 
@@ -581,4 +590,10 @@ insert into `views` values
 ('53',8),
 ('53',1),
 ('45',1),
-('45',8);
+('45',8),
+('72',1),
+('47',2),
+('47',3),
+('47',2),
+('54',2),
+('54',5);

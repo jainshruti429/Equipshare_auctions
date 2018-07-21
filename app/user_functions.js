@@ -856,7 +856,7 @@ module.exports =  {
         str1 = '';    
         for(var i = 0; i <rows.length; i++){
          str1 = str1 + rows[i].equip_id + ",";
-         console.log(rows[i].equip_id);
+        //console.log(rows[i].equip_id);
         }
         str1 = str1.slice(0,-1);
         str = str +str1+") ORDER BY equip_id, bid_amount";

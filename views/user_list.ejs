@@ -223,6 +223,7 @@
                                 </div>
                             
                             <a href="/view<%=datarows[i].id%>"><button type="button" class="btn btn-primary">View Details</button></a>
+                            <input type="checkbox" name="compare<%=datarows[i].id%>" onclick="compare_this(datarows[i].id);">
                              </div>
                       </div>
                     </div>
@@ -805,6 +806,33 @@
             </script>
         <!--choose state js-->
     
+    <script type="text/javascript">
+      function compare_this(val){
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && (this.status == 200 || this.status == 304)) {
+  
+  var compare=new Array();
+  compare=JSON.parse(this.responseText);
+
+  
+  var select = document.getElementById('subcat');
+       for(var i = select.options.length - 1 ; i > 0 ; i--) {
+         select.remove(i);
+        }
+  
+  for(var i=0;i<subcat.length;i++) { 
+            option = document.createElement('option');
+            option.value =subcat[i].subcategory ;
+            option.text = subcat[i].subcategory ;
+            select.appendChild(option);
+     }
+    }
+  };
+  xhttp.open("GET", "/user_search_category?category="+val,true);
+  xhttp.send();
+}
+    </script>
     
           
 		</body>

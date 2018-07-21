@@ -302,7 +302,7 @@ module.exports = function(app, passport) {
     app.get("/user_saved_searches", gfunc.isLoggedInfunc, ufunc.saved_searches);
 //     //Auction
     app.get("/user_upcoming_auctions",gfunc.isLoggedInfunc,ufunc.upcoming_auctions);
-    app.get("/user_live_auction", gfunc.isLoggedInfunc, ufunc.live_auction, ufunc.upcoming_auctions);
+    app.get("/user_live_auction", gfunc.isLoggedInfunc, ufunc.live_auction);
     app.get("/user_auction_results", gfunc.isLoggedInfunc, afunc.show_auctions);
 //     //app.get("/this_auction_result:id", gfunc.isLoggedInfunc,);
 //     //links from header dropdown - logout is a common function

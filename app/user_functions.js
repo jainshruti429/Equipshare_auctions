@@ -5,6 +5,7 @@
 var mysql = require('mysql');
 var dbconfig = require('../config/database');
 var connection = mysql.createConnection(dbconfig.connection);
+var alert = require('alert-node');
 
 //connection.query('USE ' + dbconfig.database);
 
@@ -128,7 +129,7 @@ module.exports =  {
         else query = "SELECT * FROM all_equipment WHERE available = 1 AND subcategory = ?"
         connection.query(query ,[subcategory],function(err,rows){
             if(err) throw err;
-            else{console.log(rows);
+            else{
              res.render("./user_list.ejs" , {datarows: rows, username: req.session.name, category:req.session.category});  }
             //else res.send(rows);
         });
@@ -738,7 +739,6 @@ module.exports =  {
                     else z= z + ',"extra_link":"/participate'+req.session.category+'&'+rows[i].id+'"}';
                     rows[i] = JSON.parse(z);
                 }
-                console.log(rows);
                 return res.render("./table.ejs", {datarows:rows, fields:fields, username:req.session.name, title2:"Upcoming Auctions",title1:"auctions",category:req.session.category, extra_link:"View Equipments",eye:0,edit:0});
             }
         });
@@ -830,6 +830,16 @@ module.exports =  {
                 });
             }
         });
+    },
+
+    participate : function(req,res){
+            connection.query("INSERT INTO auction_requests VALUES (?,?,?)",[req.auction_id,req.session.user,0],function(err){
+                if(err)throw err;
+                else{
+                            alert('Your request has been registered successfully!!!');
+                            res.render("");
+                }
+                });
     },
 
     auction_result_owner : function(req,res, next){//to be called

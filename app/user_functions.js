@@ -720,8 +720,8 @@ module.exports =  {
     //===========================AUCTION API'S==================================================
 
     upcoming_auctions : function(req,res){
-        connection.query("SELECT auctions.name AS 'Auction Name',auctions.start_date AS 'Start Date/Time',auctions.end_date AS 'End Date/Time',auctions.auction_id AS id FROM auctions LEFT JOIN auction_requests ON auctions.auction_id = auction_requests.auction_id WHERE auction_requests.user_id = ? AND auctions.start_date > current_timestamp()",[req.session.user], function(err,rows, fields){
-            //auction_requests.status
+        connection.query("SELECT auctions.name AS 'Auction Name',auctions.start_date AS 'Start Date/Time',auctions.end_date AS 'End Date/Time',a.Status ,auctions.auction_id AS id FROM auctions left join (SELECT status AS Status, auction_id AS id from auction_requests where user_id = ?) as a ON auctions.auction_id = a.id WHERE auctions.start_date > current_timestamp()",[req.session.user], function(err,rows, fields){
+            //SELECT a.Status , auctions.name AS 'Auction Name',auctions.start_date AS 'Start Date/Time',auctions.end_date AS 'End Date/Time',auctions.auction_id AS id FROM auctions left join (SELECT status AS STATUS, auction_id from auction_requests AS id where user_id = ?) as a ON auctions.auction_id = a.id WHERE auctions.start_date > current_timestamp() ;
             if(err) throw err;
             else {
                 var x = "";
@@ -735,11 +735,15 @@ module.exports =  {
                     rows[i]["End Date/Time"] = y;
                     z = JSON.stringify(rows[i]);
                     z= z.slice(0,-1);
-                    if(rows[i]["Status"]) z= z + ',"extra_link":"/view_auction'+rows[i].id+'"}';
-                    else z= z + ',"extra_link":"/participate'+req.session.category+'&'+rows[i].id+'"}';
+                    if(rows[i]["Status"]==1) z= z + ',"extra_link":"/view_auction'+rows[i].id+'"}';
+                    else z= z + ',"extra_link":"/participate'+rows[i].id+'"}';
                     rows[i] = JSON.parse(z);
                 }
+
                 return res.render("./table.ejs", {datarows:rows, fields:fields, username:req.session.name, title2:"Upcoming Auctions",title1:"auctions",category:req.session.category, extra_link:"View Equipments",eye:0,edit:0});
+
+   
+
             }
         });
     },

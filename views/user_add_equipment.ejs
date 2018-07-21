@@ -18,7 +18,7 @@
 						<ul class="breadcrumb">
 							<li>
 								<i class="ace-icon fa fa-home home-icon"></i>
-								<a href="/user_dashboard">Home</a>
+								<a href="#">Home</a>
 							</li>
 							<li class="active">Equipment</li>
 							<li class="active">Add New Equipment</li>
@@ -37,15 +37,16 @@
 					<div class="page-content">
 
 						<div class="row">
-								<div class="col-xs-12">
+								
 								<!-- PAGE CONTENT BEGINS -->
 								
 								<div>
                                     <form class="form-horizontal" role="form" method ="post" action = "/admin_add_equipment" enctype="multipart/form-data">
-									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Category </label>
+										<div class="col-lg-6">
+										<div class="form-group">
+										<label class="col-sm-2 col-lg-2 control-label no-padding-right" for="form-field-1"> Category </label>
 
-									<div class="col-sm-9">
+									<div class="col-sm-4 col-lg-4">
 											<select class="form-cntrol col-xs-10 col-sm-7" name = "category" onchange="if(this.value!= 0) { find_subcategory(this.value); }" id = 'cat' required>
 										<option value="0">Select Category</option>
                 					<%for(var i = 0;i< cat_rows.length; i++){%> 
@@ -56,34 +57,38 @@
 									</div>
 
 									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="form-field-1-1"> Sub Category </label>
+										<label class="col-sm-2 control-label no-padding-right" for="form-field-2"> Brand </label>
 
-										<div class="col-sm-9">
-											<select id = "subcat" class="form-cntrol col-xs-10 col-sm-7" name = "subcategory" onchange="if(this.value!= 0) { find_brand(this.value); }" list = 'subcat' required></select>
-										</div>
-									</div>
-
-									<div class="space-4"></div>
-
-									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="form-field-2"> Brand </label>
-
-										<div class="col-sm-9">
+										<div class="col-sm-4">
 											<select  id = "brand" class="form-cntrol col-xs-10 col-sm-7" name = "brand" onchange="if(this.value!= 0) { find_model(this.value); }" list = 'brand' required></select>
 										</div>
 									</div>
 
+									
+								</div> 
+								<div class="col-lg-6">
 									<div class="space-4"></div>
 
 									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly"> Model </label>
+										<label class="col-sm-2 control-label no-padding-right" for="form-field-1-1"> Sub Category </label>
 
-										<div class="col-sm-9">
+										<div class="col-sm-4">
+											<select id = "subcat" class="form-cntrol col-xs-10 col-sm-7" name = "subcategory" onchange="if(this.value!= 0) { find_brand(this.value); }" list = 'subcat' required></select>
+										</div>
+									</div>
+									<div class="space-4"></div>
+
+									<div class="form-group">
+										<label class="col-sm-2 control-label no-padding-right" for="form-input-readonly"> Model </label>
+
+										<div class="col-sm-4">
 											<select id ='model' class = "form-control " name="model"  list="model"  autocomplete="off" required  style="width:58.37%;" ></select>
 										</div>
 									</div>
 
+								</div>
 									<div class="space-4"></div>
+									<div class="col-lg-12">
     
                                     <div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Year </label>
@@ -178,7 +183,7 @@
 									</div>
                                         
                                     <div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> POC Document </label>
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> PUC Document </label>
 										<div class="col-sm-9">
                                             <input type="file" class="col-xs-10 col-sm-7" name="doc_poc">
 										</div>
@@ -208,6 +213,7 @@
 											</button></a> -->
 										</div>
 									</div>
+								</div>
                                     </form>
                                     </div>
                                     
@@ -219,7 +225,7 @@
 								
 
 								<!-- PAGE CONTENT ENDS -->
-							</div><!-- /.col -->
+							<!-- /.col -->
 						</div><!-- /.row -->
                      
                         

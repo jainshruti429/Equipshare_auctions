@@ -60,7 +60,15 @@
                                     
                                     
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                             
+													<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style="margin-left:43%!important;margin-bottom:2%!important;">
+															<li class="nav-item ">
+															  <a class="nav-link active custom-pill-header " id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true" >Buy</a>
+															</li>
+															<li class="nav-item">
+																<a class="nav-link custom-pill-header sell_custom_btn_index" href="/user_add_equipment">Sell</a>
+															</li>
+														   
+														  </ul>
                                <form class="form-verticle" action="/user_search" method="post">
                               <div class="row">
                               <div class="col-lg-4 col-lg-push-2 col-md-6 col-sm-12 col-xs-12">
@@ -86,18 +94,18 @@
 										<div class="row">
 												<div class="col-lg-push-5 col-lg-4 col-md-4 col-sm-12 col-xs-12">
 												<div class=" form-group radio">
-												<label class="header blue lighter less-margin"><input type="radio" name="sort" value= "1"><strong>Used</strong></label>
+												<label class="header blue lighter less-margin"><input type="radio" name="sort" value= "1" id="checkMe" onclick="check()"><strong>Used</strong></label>
 											  </div>
 											  </div>
 											  <div class=" col-lg-push-2 col-lg-4 col-md-4 col-sm-12 col-xs-12">
 											  <div class="form-group radio">
-												<label class="header blue lighter less-margin"><input type="radio" name="sort" value= "0" ><strong>New</strong></label>
+												<label class="header blue lighter less-margin"><input type="radio" name="sort" value= "0" id="checkMe" onclick="check()" ><strong>New</strong></label>
 											  </div>
 											</div>
                                           <div class="col-lg-4 col-lg-pull-1 col-md-4 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                               <!--button type="submit" class="btn btn-success custom-upper-btn" >Add Equipment</button-->
-                              <input type="submit" class="btn btn-success custom-upper-btn less-margin" value="SEARCH">
+                              <input type="submit" class="btn btn-success custom-upper-btn less-margin" value="SEARCH" id="choose" disabled="disabled">
                                             </div>
                                           </div>
     									</div>
@@ -238,9 +246,13 @@
         </div>
     </div>
     
-
-    
-    
+<script>
+	function check(){
+	    if(document.getElementById('checkMe').checked) {
+		document.getElementById('choose').disabled=false;
+	 }  
+	}
+    </script>
     
 	<!-- basic scripts -->
 	<script>
@@ -249,8 +261,7 @@
 				x.style.width = "120%";
 			}
 			
-			function norm
-			lImg(x) {
+			function normalImg(x) {
 				x.style.height = "225px";
 				x.style.width = "100%";
 			}

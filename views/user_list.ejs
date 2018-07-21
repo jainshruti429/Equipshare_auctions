@@ -52,51 +52,51 @@
           </li>
          
         </ul>
-                               <div class="tab-content custom-pill-para" id="pills-tabContent">
-          <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-               <form action="/search" method="post">
-              <div class="row">
-              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                  <!--<form action="/search" method="post">-->
-                  <div class="form-group">
-              <label for="sel1" class="machine-select">Machine Category</label>
-                          <select class = "form-control" name="category"  onchange="if(this.value!= 0) { find_subcategory(this.value);}">
-                                       <option value="">Select Category</option>	
-                                        <% for(var i = 0;i< datarows.length; i++){ %> 
-                                        <option value="<%=datarows[i].category%>"><%=datarows[i].category%> </option>
-                                        <%}%>
-                                    </select>      
-                            </div>
-                  </div>
-                  
-                 
-                  <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                        <div class="row">
-                          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                  <div class="form-group">
-                      <label for="sel1" class="machine-select">Machine Sub - Category</label>
-                           <select id ='subcat' class = "form-control" name="subcategory"  list="subcat"  autocomplete="off"  required ></select> 
-                  </div>
+        <form class="form-verticle" action="/user_search" method="post">
+            <div class="row">
+            <div class="col-lg-4 col-lg-push-2 col-md-6 col-sm-12 col-xs-12">
+                <!--<form action="/search" method="post">-->
+                <div class="form-group">
+            <label  class="header blue lighter less-margin"><strong>Machine Category</strong></label>
+                        <select class = "form-control" name="category"  onchange="if(this.value!= 0) { find_subcategory(this.value);}">
+                                     <option value="">Select Category</option>
+                                  <%for(var i =0; i< cat_rows.length; i++){%>
+                                  <option value="<%=cat_rows[i].category%>"><%=cat_rows[i].category%></option>
+                                  <%}%>                  
+                                  </select>      
                           </div>
-                          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                            <div class="form-group">
-                              <!--button type="submit" class="btn btn-success custom-upper-btn" >Add Equipment</button-->
-              <input type="submit" class="btn btn-success custom-upper-btn" value="SEARCH">
-                            </div>
-                          </div>
-        
+                </div>                                                                            
+                        <div class="col-lg-4 col-lg-push-2 col-md-6 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label  class="header blue lighter less-margin" ><strong>Machine Sub - Category</strong></label>
+                         <select  class = "form-control" name="subcategory"  list="subcat" id = "subcat" autocomplete="off"  required >
+                         </select> 
+                </div>
                         </div>
-                     <!-- </form> -->
-                        
-                  </div>
-                      
-              </div>
-              </form>
-                                  </div>
-          
-                                   </div>
-                                   
-                                  
+                      </div>
+                      <div class="row">
+                              <div class="col-lg-push-5 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                              <div class=" form-group radio">
+                              <label class="header blue lighter less-margin"><input type="radio" name="sort" value= "1" id="checkMe" onclick="check()"><strong>Used</strong></label>
+                            </div>
+                            </div>
+                            <div class=" col-lg-push-2 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="form-group radio">
+                              <label class="header blue lighter less-margin"><input type="radio" name="sort" value= "0" id="checkMe" onclick="check()" ><strong>New</strong></label>
+                            </div>
+                          </div>
+                        <div class="col-lg-4 col-lg-pull-1 col-md-4 col-sm-12 col-xs-12">
+                          <div class="form-group">
+                            <!--button type="submit" class="btn btn-success custom-upper-btn" >Add Equipment</button-->
+            <input type="submit" class="btn btn-success custom-upper-btn less-margin" value="SEARCH" id="choose" disabled="disabled">
+                          </div>
+                        </div>
+                      </div>
+                   <!-- </form> -->
+                    
+               </form>
+            
+                                  <!--end-->
                                    
         </div>   
                                 
@@ -111,7 +111,7 @@
                 <div class="container-fluid">
                     <div class="row">
                             <div>
-                             <div class=" col-lg-push-1 col-md-push-1 col-lg-1 col-md-1 col-sm-12 col-xs-12 float-left">
+                             <div class="  col-lg-1 col-md-1 col-sm-12 col-xs-12 float-left">
                              <a class="btn btn-primary btn-lg " href="#">Save Search</a>
                              </div>
                             </div>
@@ -176,8 +176,7 @@
                                       <td><img src= "/equipment4.jpg" alt="select search" style="height:100px ;width:100%"></td>
                                     
 
-                                     
-                                  </tr>
+                                                                     </tr>
                                   <tr>
                                       <td>Point1</td>
                                       <td>Point1</td>
@@ -223,6 +222,7 @@
                                 </div>
                             
                             <a href="/view<%=datarows[i].id%>"><button type="button" class="btn btn-primary">View Details</button></a>
+                            <label class=""><input type="checkbox" value="" ><strong>Add to Compare</strong></label >
                              </div>
                       </div>
                     </div>
@@ -234,7 +234,14 @@
               </div>
             </div>                   
 
-  					
+            <script>
+                    function check(){
+                        if(document.getElementById('checkMe').checked) {
+                        document.getElementById('choose').disabled=false;
+                     }  
+                    }
+                    </script>
+                        
             
             <!--END PRODUCT DESCRIPTION ACCORDION-->
             
@@ -282,10 +289,9 @@
              <script src="assets/js/ace.min.js"></script> --> -->
 
              <script src="assets/js/jquery-2.1.4.min.js"></script>
-             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+             
+             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
              <!-- <![endif]-->
      
              <!--[if IE]>

@@ -5,6 +5,7 @@
 var mysql = require('mysql');
 var dbconfig = require('../config/database');
 var connection = mysql.createConnection(dbconfig.connection);
+//var alert = require('alert-node');
 
 //connection.query('USE ' + dbconfig.database);
 
@@ -128,7 +129,7 @@ module.exports =  {
         else query = "SELECT * FROM all_equipment WHERE available = 1 AND subcategory = ?"
         connection.query(query ,[subcategory],function(err,rows){
             if(err) throw err;
-            else{console.log(rows);
+            else{
              res.render("./user_list.ejs" , {datarows: rows, username: req.session.name, category:req.session.category});  }
             //else res.send(rows);
         });
@@ -738,7 +739,11 @@ module.exports =  {
                     else z= z + ',"extra_link":"/participate'+rows[i].id+'"}';
                     rows[i] = JSON.parse(z);
                 }
-                return res.render("./table.ejs", {datarows:rows, fields:fields, username:req.session.name, title2:"Upcoming Auctions",title1:"Auctions",category:req.session.category, extra_link:"View Equipments",eye:0,edit:0});
+
+                return res.render("./table.ejs", {datarows:rows, fields:fields, username:req.session.name, title2:"Upcoming Auctions",title1:"auctions",category:req.session.category, extra_link:"View Equipments",eye:0,edit:0});
+
+   
+
             }
         });
     },
@@ -830,6 +835,39 @@ module.exports =  {
             }
         });
     },
+///----------------------------------------------------21/7/2018-----------------------------------------
+    participate : function(req,res){
+            connection.query("INSERT INTO auction_requests VALUES (?,?,?)",[req.auction_id,req.session.user,0],function(err){
+                if(err)throw err;
+                else{
+                            alert('Your request has been registered successfully!!!');
+                            res.render("");
+                }
+                });
+    },
+
+
+        view_auction : function(req,res){
+        connection.query("SELECT * FROM auctions WHERE auction_id = ?",[req.params.auction_id],function(err1,rows1){
+            if(err1) throw err1;
+            else{
+                connection.query("SELECT all_equipment.category, all_equipment.subcategory, all_equipment.brand, all_equipment.model, auction_equipment.*, count(bids.equip_id) FROM all_equipment LEFT JOIN auction_equipment ON all_equipment.id=auction_equipment.equip_id LEFT JOIN bids ON all_equipment.id = bids.equip_id WHERE auction_equipment.auction_id = ? AND bids.auction_id = ? GROUP BY all_equipment.id ORDER BY all_equipment.id",[req.auction_id, req.auction_id], function(err,rows){
+                    if(err) throw err;
+                    else {
+                        connection.query("SELECT MAX(bids.bid_amount), bids.user_id FROM bids LEFT JOIN auction_equipment ON auction_equipment.equip_id = bids.equip_id WHERE bids.auction_id = ? AND auction_equipment.auction_id = ? GROUP BY auction_equipment.equip_id ORDER BY auction_equipment.equip_id", [req.auction_id,req.auction_id], function(err2,rows2){
+                            if(err2) throw err2;
+                            else {
+                                
+                                res.render("", {auction :rows1, equip :rows, bidder:rows2});}
+                        }); 
+                    }
+                });  
+            }  
+        }); 
+    },
+
+//---------------------------------------------------------------------------------------------------------------------
+
 
     auction_result_owner : function(req,res, next){//to be called
         connection.query("SELECT * FROM auctions WHERE auction_id = ?",[req.params.auction_id],function(err1,rows1){

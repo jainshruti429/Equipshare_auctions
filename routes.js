@@ -288,7 +288,6 @@ module.exports = function(app, passport) {
             else return res.render('./user_login.ejs',{msg:'Signup successful! Login to continue', login_para:1});
         })(req,res,next);
     });
-
 //  // all are checking that the user is first logged in and then that he is of the right category that the request belong to.
     app.get("/user_dashboard", gfunc.isLoggedInfunc, ufunc.dashboard);
 //     //links from dashboard
@@ -302,7 +301,7 @@ module.exports = function(app, passport) {
     app.get("/user_saved_searches", gfunc.isLoggedInfunc, ufunc.saved_searches);
 //     //Auction
     app.get("/user_upcoming_auctions",gfunc.isLoggedInfunc,ufunc.upcoming_auctions);
-    app.get("/user_live_auction", gfunc.isLoggedInfunc, ufunc.live_auction, ufunc.upcoming_auctions);
+    app.get("/user_live_auction",gfunc.isLoggedInfunc,ufunc.live_auction);
     app.get("/user_auction_results", gfunc.isLoggedInfunc, afunc.show_auctions);
 //     //app.get("/this_auction_result:id", gfunc.isLoggedInfunc,);
 //     //links from header dropdown - logout is a common function

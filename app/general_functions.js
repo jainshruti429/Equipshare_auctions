@@ -114,10 +114,16 @@ module.exports = {
                         if(!rows2.length){ //if viewer is not already added in the list
                             connection.query("INSERT INTO views (equip_id, viewer_id) VALUES (?,?)", [req.params.id, viewer], function(err1){
                                 if(err1) throw err1;
-                                else return next(); 
+                                else {
+                                    req.request = request;
+                                    return next()
+                                } 
                             });     
                         }
-                        else return next();
+                        else {
+                            req.request = request;
+                            return next()
+                        }
                     }
                 });
             }
@@ -133,7 +139,6 @@ module.exports = {
                 if(err1) throw err1;
                 else{
                     var str = (String)(rows[0].parameters);
-                    console.log(str);
                     var arr = str.split("!#%");
                     var used, equip_data;
                     if(req.equip_data) {
@@ -153,7 +158,7 @@ module.exports = {
                         };
                         used = 0;
                     }
-                    res.render("./user_detail.ejs", {username:req.session.name, category:req.session.category, equip_data:equip_data, param: arr, fields:fields1, param_name :rows1[0], tech_info:rows, used : used});
+                    return res.render("./user_detail.ejs", {username:req.session.name, category:req.session.category, equip_data:equip_data, param: arr, fields:fields1, param_name :rows1[0], tech_info:rows, used : used, request:0});
                 }
             });    
             }

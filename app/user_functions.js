@@ -121,7 +121,7 @@ module.exports =  {
         }
         else {
             subcategory = req.body.subcategory;
-            console.log(subcategory);
+            
             sort = req.body.sort;
         }
         var query = '';
@@ -130,7 +130,20 @@ module.exports =  {
         connection.query(query ,[subcategory],function(err,rows){
             if(err) throw err;
             else{
-             res.render("./user_list.ejs" , {datarows: rows, username: req.session.name, category:req.session.category});  }
+             
+
+         connection.query("SELECT DISTINCT category FROM equipment_type", function(errc,crows){
+            if(errc) throw errc;
+            else {
+                connection.query("SELECT all_equipment.photo1, all_equipment.expected_price, all_equipment.subcategory,all_equipment.category, all_equipment.brand, all_equipment.model, all_equipment.id FROM all_equipment INNER JOIN featured ON featured.equip_id = all_equipment.id WHERE featured.display = 1",function(errf,featured){
+                    if(errf) throw errf;
+                    else{ 
+                           res.render("./user_list.ejs" , {datarows: rows, cat_rows:crows, username: req.session.name, category:req.session.category}); 
+                }
+                });
+            }
+        });
+     }
             //else res.send(rows);
         });
     },

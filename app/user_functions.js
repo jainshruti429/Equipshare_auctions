@@ -121,7 +121,7 @@ module.exports =  {
         }
         else {
             subcategory = req.body.subcategory;
-            console.log(subcategory);
+            //console.log(subcategory);
             sort = req.body.sort;
         }
         var query = '';
@@ -130,7 +130,7 @@ module.exports =  {
         connection.query(query ,[subcategory],function(err,rows){
             if(err) throw err;
             else{
-             res.render("./user_list.ejs" , {datarows: rows, username: req.session.name, category:req.session.category});  }
+            return res.render("./user_list.ejs" , {datarows: rows, username: req.session.name, category:req.session.category, cat_rows : []});  }
             //else res.send(rows);
         });
     },
@@ -143,7 +143,7 @@ module.exports =  {
         else query = "SELECT * FROM all_equipment WHERE available = 1 AND subcategory = ?"
         connection.query(query ,[subcategory],function(err,rows){
             if(err) throw err;
-            else res.render("./user_list.ejs" , {datarows: rows, username: req.session.name, category:req.session.category});  
+            else res.render("./user_list.ejs" , {datarows: rows, username: req.session.name, category:req.session.category, cat_rows : []});  
             //else res.send(rows);
         });
     },
@@ -178,19 +178,29 @@ module.exports =  {
 
     //change and break into two functions
     compare :function(req,res){
-        if(!req.session.compare) req.session.compare = []; 
-        compare = req.session.compare
-        if(compare.length>4) return res.send(); //send a msg or something
-        id = req.query.id;
-        for(var i = 0; i< compare.length; i++){
-            if(compare[i] == id){
-                compare.splice(i,1);
-                return res.send(compare);
+        connection.query("SELECT default_image FROM equipment_master WHERE subcategory=?",[req.query.subcategory],function(err,rows){
+            if(err) throw err;
+            else{
+                var data = [];
+                data.push(rows[0].default_image);
+                if(!req.session.compare) req.session.compare = []; 
+                compare = req.session.compare
+                if(compare.length>4) return res.send(); //send a msg or something
+                id = req.query.id;
+                for(var i = 0; i< compare.length; i++){
+                    if(compare[i] == id){
+                        compare.splice(i,1);
+                    }
+                    if(i == 3) compare.push(req.query.id); 
+                }
+                req.session.compare = compare;
+                console.log(compare);
+        
+                return res.send(compare);    
             }
-        }
-        compare.push(req.query.id);
-        req.session.compare = compare;
-        return res.send(compare);
+        });
+
+
     },
 
     saved_searches : function(req,res, fields){

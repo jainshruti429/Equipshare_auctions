@@ -251,10 +251,8 @@ module.exports = function(app, passport) {
     });
 
     app.get('/buy_sell', gfunc.login);
-     app.get('/user_login', gfunc.login);
+    app.get('/user_login', gfunc.login);
     
-
-
     app.post('/user_login', function(req, res, next){
             //call the local-login in ../config/passport.js
         passport.authenticate('local-user-login', function (err, user, info) {
@@ -308,7 +306,7 @@ module.exports = function(app, passport) {
     app.get('/user_update_profile',gfunc.isLoggedInfunc, ufunc.get_update_profile);
     app.post('/user_update_profile', gfunc.isLoggedInfunc, ufunc.post_update_profile);
 
-//     // app.get('/user_compare',gfunc.isLoggedInfunc,ufunc.compare);
+    app.get('/user_compare',gfunc.isLoggedInfunc,ufunc.compare);
 //     // app.get('/user_compare_now', gfunc.isLoggedInfunc,ufunc.compare_now);
     app.get('/user_save_search', gfunc.isLoggedInfunc, ufunc.save_search);    
 //     // app.get('/user_request:id', gfunc.isLoggedInfunc, ufunc.request_this);

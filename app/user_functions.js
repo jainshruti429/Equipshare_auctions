@@ -753,7 +753,7 @@ module.exports =  {
                     rows[i] = JSON.parse(z);
                 }
 
-                return res.render("./table.ejs", {datarows:rows, fields:fields, username:req.session.name, title2:"Upcoming Auctions",title1:"auctions",category:req.session.category, extra_link:"View Equipments",eye:0,edit:0});
+                return res.render("./table.ejs", {datarows:rows, fields:fields, username:req.session.name, title2:"Upcoming Auctions",title1:"auctions",category:req.session.category, extra_link:"Participate",eye:0,edit:0});
 
    
 

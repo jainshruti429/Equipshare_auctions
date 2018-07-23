@@ -82,7 +82,7 @@
                             </div>
                             <div class=" col-lg-push-2 col-lg-4 col-md-4 col-sm-12 col-xs-12">
                             <div class="form-group radio">
-                              <label class="header blue lighter less-margin"><input type="radio" name="sort" value= "0" id="checkMe" onclick="check()" ><strong>New</strong></label>
+                              <label class="header blue lighter less-margin"><input type="radio" name="sort" value= "0" id="checkMe1" onclick="check()" ><strong>New</strong></label>
                             </div>
                           </div>
                         <div class="col-lg-4 col-lg-pull-1 col-md-4 col-sm-12 col-xs-12">
@@ -107,17 +107,18 @@
          
             <!-- end contact Area -->
             <!-- upper section-->
-            <section class="jumbotron float-right" style="height:200px;width:1100px;">
+            <section class="jumbotron" style="height:200px;width:1300px;">
                 <div class="container-fluid">
                     <div class="row">
                             <div>
-                             <div class="  col-lg-1 col-md-1 col-sm-12 col-xs-12 float-left">
-                             <a class="btn btn-primary btn-lg " href="#">Save Search</a>
+                             <div class="  col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                             <a class="btn btn-primary btn-sm " href="#">Save Search</a>
                              </div>
                             </div>
                             <div>
                                 <!-- end col 2here-->
-                               <div class="col-lg-push-2 col-md-push-2  col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <div class="col-lg-10 col-md-10">
+                               <div class="col-lg-push-1 col-md-push-1  col-lg-5 col-md-5 col-sm-12 col-xs-12">
                                <div class="table-responsive">
                                <table class="table table-hover table-bordered">
                                    <tbody>
@@ -126,6 +127,7 @@
                                          <td><img src="/equipment2.jpg" alt="select search" style="height:100px ;width:100%" id="img2"></td>  
                                          <td><img src="/equipment4.jpg" alt="select search" style="height:100px ;width:100%" id="img3"></td>  
                                          <td><img src="/equipment3.jpg" alt="select search" style="height:100px ;width:100%" id="img4"></td>    
+
                                         
                                         </tr>
                                    </tbody>
@@ -135,23 +137,26 @@
                                </div>
                                   <!--end col 4 here-->
                                    <div class=" col-lg-push-2 col-md-push-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                                        <a class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Compare Now</a>
+                                        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Compare Now</a>
                                    </div>
                                 
                                   <!--end col2 here-->
                                   <div class="col-lg-push-2 col-md-push-2  col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                        
                                    <div class="dropdown">
-                                   <button data-toggle="dropdown" class="btn btn-lg btn-primary dropdown-toggle"  >Sort &nbsp;&nbsp;&nbsp; <span class="caret"></span>
+                                   <button data-toggle="dropdown" class="btn btn-sm btn-primary dropdown-toggle"   >Sort &nbsp;&nbsp;&nbsp; <span class="caret"></span>
                                    </button> 
                                    <ul class="dropdown-menu">
                                        <li class="dropdown-header"><strong>By Price</strong></li>
+                                       
                                        <li><a href="#">High to Low</a></li>
                                        <li><a href="#">Low to High</a></li>
                                    </ul> 
+                                   
                                    </div>
                                   </div> 
                                   <!--end col 4 here-->   
+                                </div>
                                </div>
                              </div>
             </section>
@@ -202,9 +207,9 @@
             <div class="album py-5 bg-light">
             <div class="container">
 
-                <div class="row">
+                <div class="row" style="">
                   <%for(var i=0;i< datarows.length;i++){%>
-                  <div class="col-md-4">
+                  <div class="col-md-4" style="order:<%=datarows[i].expected_price%>;" >
                     <div class="card border-secondary mb-4 box-shadow" style="width:30rem ;">
                       <img class="card-img-top"  alt="Equipment name" style="height: 225px; width: 100%; display: block;" src= "/equipment2.jpg"  data-holder-rendered="true">
                       <div class="card-body text-secondary">
@@ -231,12 +236,13 @@
                 <%}%>
                    
                  </div>
+                 <div class="space-6"></div>
               </div>
             </div>                   
 
             <script>
                     function check(){
-                        if(document.getElementById('checkMe').checked) {
+                        if(document.getElementById('checkMe').checked||document.getElementById('checkMe1').checked) {
                         document.getElementById('choose').disabled=false;
                      }  
                     }
@@ -270,7 +276,11 @@
              <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
              <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
              <script src="assets/js/popper.min.js"></script>
+<<<<<<< HEAD
+             <!- <script src="../../assets/js/bootstrap.min.js"></script> -->
+=======
               <script src="../../assets/js/bootstrap.min.js"></script> -->
+>>>>>>> 20463ff5fa7e1ea7aac6656dcaaf2e22af70c1a3
              <!-- <script src="assets/js/holder.min.js"></script>
        
              <svg xmlns="http://www.w3.org/2000/svg" width="208" height="226" viewBox="0 0 208 226" preserveAspectRatio="none" style="display: none; visibility: hidden; position: absolute; top: -100%; left: -100%;"><defs><style type="text/css"></style></defs><text x="0" y="11" style="font-weight:bold;font-size:11pt;font-family:Arial, Helvetica, Open Sans, sans-serif">Thumbnail</text></svg>

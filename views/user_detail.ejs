@@ -15,9 +15,9 @@
                                                 <ul class="breadcrumb">
                                                     <li>
                                                         <i class="ace-icon fa fa-home home-icon"></i>
-                                                      <%if(category==0){%>  <a href="/admin_dashboard.">Home</a><%}%>
-                                                      <%if(category==1){%><a href="/user_dashboard.">Home</a><%}%>
-                                                      <%if(category==4){%><a href="/company_dashboard.">Home</a><%}%>
+                                                      <%if(category==0){%>  <a href="/admin_dashboard">Home</a><%}%>
+                                                      <%if(category==1){%><a href="/user_dashboard">Home</a><%}%>
+                                                      <%if(category==4){%><a href="/company_dashboard">Home</a><%}%>
                                                     </li>
                                                     <li class="active">Equipments</li>
                                                     <li>Equipment Detail</li>
@@ -94,11 +94,11 @@
                         
                         <div class="row custom-row-border">
                         <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-                            <p class="fa fa-inr" style="font-size:2rem;">&nbsp;<!--%=equip_data.expected_price%-->1000</p> 
+                            <p class="fa fa-inr" style="font-size:2rem;">&nbsp;<%=equip_data.expected_price%></p> 
                             </div>
                             
                             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                            <%if(request == 1){%>
+                            <%if(request1 == 1){%>
                             <a href="/user_request<%=equip_data.id%>">
                             <input type="submit" class="btn btn-primary custom-buy-btn" value ="BUY NOW"></a>
                             <%} else{%>

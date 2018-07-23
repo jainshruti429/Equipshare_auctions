@@ -309,13 +309,13 @@ module.exports = function(app, passport) {
     app.get('/user_compare',gfunc.isLoggedInfunc,ufunc.compare);
 //     // app.get('/user_compare_now', gfunc.isLoggedInfunc,ufunc.compare_now);
     app.get('/user_save_search', gfunc.isLoggedInfunc, ufunc.save_search);    
-//     // app.get('/user_request:id', gfunc.isLoggedInfunc, ufunc.request_this);
+    app.get('/user_request:id', gfunc.isLoggedInfunc, ufunc.request_this);
 //     // app.post("/user_proposal_status", gfunc.isLoggedInfunc,ufunc.change_proposal_status);    
    
     app.get('/user_reset_password', gfunc.isLoggedInfunc, ufunc.get_reset_password);
     app.post('/user_reset_password', gfunc.isLoggedInfunc, ufunc.post_reset_password, ufunc.get_reset_password);
-//     // app.get('/user_update_equipment:id',gfunc.isLoggedInfunc, ufunc.get_update_this_equipment);
-//     // app.post('/user_update_equipment:id', gfunc.isLoggedInfunc, ufunc.post_update_this_equipment, gfunc.view);
+    app.get('/user_update_equipment:id',gfunc.isLoggedInfunc, ufunc.get_update_this_equipment);
+    app.post('/user_update_equipment:id', gfunc.isLoggedInfunc, ufunc.post_update_this_equipment,gfunc.view1,gfunc.view2);
 //     // //app.get('/user_view_equipment', gfunc.isLoggedInfunc, ufunc.view_equipment);
     app.get('/user_add_equipment_category', gfunc.isLoggedInfunc, ufunc.get_add_equipment_category);
     app.get('/user_add_equipment_subcategory', gfunc.isLoggedInfunc, ufunc.get_add_equipment_subcategory);

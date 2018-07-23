@@ -58,7 +58,7 @@
                 <!--<form action="/search" method="post">-->
                 <div class="form-group">
             <label  class="header blue lighter less-margin"><strong>Machine Category</strong></label>
-                        <select class = "form-control" name="category"  onchange="if(this.value!= 0) { find_subcategory(this.value);}">
+                        <select class = "form-control" name="category"  onchange="if(this.value!= 0) { find_subcategory(this.value, datarows[i].subcategory);}">
                                      <option value="">Select Category</option>
                                   <%for(var i =0; i< cat_rows.length; i++){%>
                                   <option value="<%=cat_rows[i].category%>"><%=cat_rows[i].category%></option>
@@ -119,6 +119,7 @@
                                 <!-- end col 2here-->
                                <div class="col-lg-push-1 col-md-push-1  col-lg-5 col-md-5 col-sm-12 col-xs-12">
                                <div class="table-responsive">
+<<<<<<< HEAD
                                <table class="table table-hover table-bordered " >
                                    <tbody>
                                        <tr  style="height:80px;width:550px;margin-left:100px;">
@@ -126,6 +127,15 @@
                                          <td><img src="/equipment2.jpg" alt="select search" style="height:100px ;width:100%"></td>  
                                          <td><img src="/equipment4.jpg" alt="select search" style="height:100px ;width:100%"></td>  
                                          <td><img src="/equipment3.jpg" alt="select search" style="height:100px ;width:100%"></td>    
+=======
+                               <table class="table table-hover table-bordered">
+                                   <tbody>
+                                       <tr  style="height:80px;width:250px;margin-left:100px;" id="compare_table" >
+                                         <td><img src= "/equipment4.jpg" alt="select search" style="height:100px ;width:100%" id="img1"></td>
+                                         <td><img src="/equipment2.jpg" alt="select search" style="height:100px ;width:100%" id="img2"></td>  
+                                         <td><img src="/equipment4.jpg" alt="select search" style="height:100px ;width:100%" id="img3"></td>  
+                                         <td><img src="/equipment3.jpg" alt="select search" style="height:100px ;width:100%" id="img4"></td>    
+>>>>>>> 893bf40ab3ff036b4af44f229005e80feafdb20b
                                         
                                         </tr>
                                    </tbody>
@@ -222,7 +232,7 @@
                                 </div>
                             
                             <a href="/view<%=datarows[i].id%>"><button type="button" class="btn btn-primary">View Details</button></a>
-                            <label class=""><input type="checkbox" value="" ><strong>Add to Compare</strong></label >
+                            <label class=""><input type="checkbox" value="<%=datarows[i].id" onclick="compare_this(this.value);" ><strong>Add to Compare</strong></label >
                              </div>
                       </div>
                     </div>
@@ -810,6 +820,39 @@
                 });
             </script>
         <!--choose state js-->
+<<<<<<< HEAD
+    
+    <script type="text/javascript">
+      function compare_this(id, subcategory){
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && (this.status == 200 || this.status == 304)) {
+  
+  var compare=new Array();
+  compare=JSON.parse(this.responseText);
+
+  var img = []
+  img[0] = "";
+  img[1] = document.getElementById('img1');
+  img[2] = document.getElementById('img2');
+  img[3] = document.getElementById('img3');
+  img[4] = document.getElementById('img4');
+  var i = 1;
+  for(i;i<compare.length;i++) { 
+          img[i].setAttribute("src", compare[0]);
+     }
+  for(i;i<5;i++){
+          img[i].setAttribute("src", "");
+     } 
+    }
+  console.log("ye possible h............."+datarows.length);
+  };
+  xhttp.open("GET", "/compare?equip_id="+val+"&subcategory="+subcategory,true);
+  xhttp.send();
+}
+    </script>
+    
+=======
         <script type="text/javascript">
 
         function find_subcategory(val){
@@ -839,6 +882,7 @@
           }
           
     </script>
+>>>>>>> dec69f2e8c0c1c0e73e0e103c877f7d6210355e7
           
 		</body>
 	</html>

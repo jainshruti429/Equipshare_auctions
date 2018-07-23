@@ -99,7 +99,7 @@
 											  </div>
 											  <div class=" col-lg-push-2 col-lg-4 col-md-4 col-sm-12 col-xs-12">
 											  <div class="form-group radio">
-												<label class="header blue lighter less-margin"><input type="radio" name="sort" value= "0" id="checkMe" onclick="check()" ><strong>New</strong></label>
+												<label class="header blue lighter less-margin"><input type="radio" name="sort" value= "0" id="checkMe2" onclick="check()" ><strong>New</strong></label>
 											  </div>
 											</div>
                                           <div class="col-lg-4 col-lg-pull-1 col-md-4 col-sm-12 col-xs-12">
@@ -248,7 +248,7 @@
     
 <script>
 	function check(){
-	    if(document.getElementById('checkMe').checked) {
+	    if(document.getElementById('checkMe').checked||document.getElementById('checkMe2').checked) {
 		document.getElementById('choose').disabled=false;
 	 }  
 	}

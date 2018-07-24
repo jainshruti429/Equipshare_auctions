@@ -48,7 +48,7 @@
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Category </label>
 
 									<div class="col-sm-9">
-											<input class="form-cntrol col-xs-10 col-sm-7" name = "category" value="equipdata.category" id = 'cat' required readonly>
+											<input class="form-cntrol col-xs-10 col-sm-7" name = "category" value="<%=equip_data.category%>" id = 'cat' required readonly>
 
 										</div>
 									</div>
@@ -58,7 +58,7 @@
 											<label class="col-sm-3 control-label no-padding-right" for="form-field-1-1"> Sub Category </label>
 	
 											<div class="col-sm-9">
-												<input id = "subcat" class="form-cntrol col-xs-10 col-sm-7" value="equipdata.subcategory" name = "subcategory"  list = 'subcat' required readonly>
+												<input id = "subcat" class="form-cntrol col-xs-10 col-sm-7" value="<%=equip_data.subcategory%>" name = "subcategory"  list = 'subcat' required readonly>
 											</div>
 										</div>
 										<div class="space-4"></div>
@@ -67,7 +67,7 @@
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-2"> Brand </label>
 
 										<div class="col-sm-9">
-											<input  id = "brand" class="form-cntrol col-xs-10 col-sm-7" name = "brand"  list = 'brand' value="equipdata.brand" required readonly>
+											<input  id = "brand" class="form-cntrol col-xs-10 col-sm-7" name = "brand"  list = 'brand' value="<%=equip_data.brand%>" required readonly>
 										</div>
 									</div>
 
@@ -82,7 +82,8 @@
 										<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly"> Model </label>
 
 										<div class="col-sm-9">
-											<input id ='model' class = "form-control " name="model"  list="model"  autocomplete="off" required  style="width:58.37%;" readonly>
+											<input id ='model' class = "form-control " name="model"  list="model"  
+											 value="<%=equip_data.model%>" autocomplete="off" required  style="width:58.37%;" readonly>
 										</div>
 									</div>
 
@@ -94,15 +95,15 @@
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Year </label>
 
 										<div class="col-sm-9">
-											<input type="number" id="form-field-1" name = "year" placeholder="Enter Year" value="equipdata.year" class="col-xs-10 col-sm-7" />
+											<input type="number" id="form-field-1" name = "year" placeholder="Enter Year" value="<%=equip_data.year%>" class="col-xs-10 col-sm-7" />
 										</div>
 									</div>
                                         
                                     <div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Km/hour </label>
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Km </label>
 
 									<div class="col-sm-9">
-											<input type="number" id="form-field-1" placeholder="Enter Km" name = "km" value="equipdata.km/hour" class="col-xs-10 col-sm-7" />
+											<input type="number" id="form-field-1" placeholder="Enter Km" name = "km" value="<%=equip_data.km%>" class="col-xs-10 col-sm-7" />
 										</div>
 									</div>
                                         
@@ -110,7 +111,7 @@
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Expected Price </label>
 
 										<div class="col-sm-9">
-											<input type="number" id="form-field-1" placeholder="Enter Expectd Price" value="equipdata.expected_price" name = "expected_price" class="col-xs-10 col-sm-7" />
+											<input type="number" id="form-field-1" placeholder="Enter Expectd Price" value="<%=equip_data.expected_price%>" name = "expected_price" class="col-xs-10 col-sm-7" />
 										</div>
                                     </div>
                                     
@@ -118,7 +119,7 @@
                                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Colour  </label>
     
                                             <div class="col-sm-9">
-                                                <input  id="form-field-1" placeholder="Enter Colour" name = "colour" value="" class="col-xs-10 col-sm-7" />
+                                                <input  id="form-field-1" placeholder="Enter Colour" name = "colour" value="<%=equip_data.colour%>" class="col-xs-10 col-sm-7" />
                                             </div>
                                         </div>
                                          
@@ -127,7 +128,7 @@
 
 										<div class="col-sm-9">
 											<!--<input type="number" id="form-field-1" placeholder="Enter Year" class="col-xs-10 col-sm-7" />-->
-                                            <textarea rows="3" class="col-sm-7 col-xs-10" placeholder="Enter Description" value="equipdata.description" name="description"></textarea>
+                                            <textarea rows="3" class="col-sm-7 col-xs-10" placeholder="Enter Description" value="<%=equip_data.description%>" name="description"></textarea>
 										</div>
 									</div>
 

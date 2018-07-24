@@ -583,7 +583,7 @@ module.exports =  {
     },
 
     my_equipment2: function(req,res){
-        res.render("./table.ejs", {datarows:req.datarows, username:req.session.name, category:req.session.category,request:request, title1:"Equipments",title2:"My Equipment", fields:req.fields, edit :1, eye : 1,extra_link:""});
+        res.render("./table.ejs", {datarows:req.datarows, username:req.session.name, category:req.session.category, title1:"Equipments",title2:"My Equipment", fields:req.fields, edit :1, eye : 1,extra_link:""});
     },
 
     // view_equipment:  function(req , res){

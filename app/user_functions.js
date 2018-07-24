@@ -135,7 +135,8 @@ module.exports =  {
                 connection.query("SELECT all_equipment.photo1, all_equipment.expected_price, all_equipment.subcategory,all_equipment.category, all_equipment.brand, all_equipment.model, all_equipment.id FROM all_equipment INNER JOIN featured ON featured.equip_id = all_equipment.id WHERE featured.display = 1",function(errf,featured){
                     if(errf) throw errf;
                     else{ 
-                           res.render("./user_list.ejs" , {datarows: rows, cat_rows:crows, username: req.session.name, category:req.session.category}); 
+                        req.session.compare = [];
+                        res.render("./user_list.ejs" , {datarows: rows, cat_rows:crows, username: req.session.name, category:req.session.category, default_image: ""}); 
                 }
                 });
             }
@@ -187,29 +188,35 @@ module.exports =  {
 
     //change and break into two functions
     compare :function(req,res){
-        connection.query("SELECT default_image FROM equipment_master WHERE subcategory=?",[req.query.subcategory],function(err,rows){
-            if(err) throw err;
-            else{
-                var data = [];
-                data.push(rows[0].default_image);
-                if(!req.session.compare) req.session.compare = []; 
+        // connection.query("SELECT default_image FROM equipment_master WHERE subcategory=?",[req.query.subcategory],function(err,rows){
+        //     if(err) throw err;
+        //     else{
+                // var data = [];
+                // data.push(rows[0].default_image);
+                //if(!req.session.compare) req.session.compare = []; 
                 compare = req.session.compare
-                if(compare.length>4) return res.send(); //send a msg or something
+                if(compare.length==4) return res.send(compare); //send a msg or something
                 id = req.query.id;
-                for(var i = 0; i< compare.length; i++){
-                    if(compare[i] == id){
-                        compare.splice(i,1);
+                var x = compare.length
+                if(x == 0) compare.push(req.query.id);
+                else{
+                    var i = 0;
+                    for(i; i< x; i++){
+                        if(compare[i] == id){
+                            compare.splice(i,1);
+                            break;
+                        }
+                        else {
+                            if(i == (x-1)) compare.push(req.query.id); 
+                        }
                     }
-                    if(i == 3) compare.push(req.query.id); 
+                    //if(i == (x-1)) compare.push(req.query.id);
                 }
                 req.session.compare = compare;
-                console.log(compare);
-        
+                //console.log(compare);
                 return res.send(compare);    
-            }
-        });
-
-
+        //     }
+        // });
     },
 
     saved_searches : function(req,res, fields){

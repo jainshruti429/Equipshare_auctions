@@ -5,7 +5,7 @@
 var mysql = require('mysql');
 var dbconfig = require('../config/database');
 var connection = mysql.createConnection(dbconfig.connection);
-//var alert = require('alert-node');
+var alert = require('alert-node');
 
 //connection.query('USE ' + dbconfig.database);
 
@@ -277,7 +277,7 @@ module.exports =  {
                         connection.query("INSERT INTO requests (equip_id, applicant_id) VALUES (?,?)", [equip_id, applicant_id], function(err){
                             if(err) throw err;
                             else{
-                                //send to requests page or msg = "Our team will soon contact you!" or both
+                                  alert('Your request has been registered and our team will soon contact you!!!!!');
                             }
                         });
                     }
@@ -493,7 +493,8 @@ module.exports =  {
     get_update_this_equipment: function(req, res){
     connection.query("SELECT * FROM all_equipment WHERE id = ?" ,[req.params.id],function(err,rows){
             if (err) throw err;
-            else res.render('./user_update_equipment.ejs' , {equip_data : rows[0], username: req.session.name, category:req.session.category});
+            else {console.log(rows);
+            	res.render('./update_equipment.ejs' , {equip_data : rows[0], username: req.session.name, category:req.session.category});}
         });
     },
     
@@ -582,7 +583,7 @@ module.exports =  {
     },
 
     my_equipment2: function(req,res){
-        res.render("./table.ejs", {datarows:req.datarows, username:req.session.name, category:req.session.category, title1:"Equipments",title2:"My Equipment", fields:req.fields, edit :1, eye : 1,extra_link:""});
+        res.render("./table.ejs", {datarows:req.datarows, username:req.session.name, category:req.session.category,request:request, title1:"Equipments",title2:"My Equipment", fields:req.fields, edit :1, eye : 1,extra_link:""});
     },
 
     // view_equipment:  function(req , res){
@@ -766,7 +767,7 @@ module.exports =  {
                     rows[i] = JSON.parse(z);
                 }
 
-                return res.render("./table.ejs", {datarows:rows, fields:fields, username:req.session.name, title2:"Upcoming Auctions",title1:"auctions",category:req.session.category, extra_link:"View Equipments",eye:0,edit:0});
+                return res.render("./table.ejs", {datarows:rows, fields:fields, username:req.session.name, title2:"Upcoming Auctions",title1:"auctions",category:req.session.category, extra_link:"Participate",eye:0,edit:0});
 
    
 

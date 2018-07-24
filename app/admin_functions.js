@@ -968,22 +968,31 @@ module.exports = {
    add_master : function(req,res){
     connection.query("SELECT * from equipment_master WHERE subcategory=?",[req.body.subcategory],function(err,rows){
         if (err) throw err ;
+        else if(rows.length){
+                return res.send("subcategory already exists.....");
+        }
         else{
-            if(rows.length)
-            {
-                return res.send("subcategory already existed");
-            }
-            else{
-            connection.query("INSERT INTO equipment_master (category,subcategory,engine,speed,mixer_tank_capacity,four_wheel_drive,two_wheel_drive,max_digging_depth,bucket_volumetric_capacity,shovel_volumetric_capactiy,operating_weight,single_drum,double_drum,volumetric_output,roller_width,roller_dia,body_size,blade_length,concrete_pressure,mobile,stationary,max_lift,stablizer,boomarm_length,horizontal_deliver,vertical_deliver,blade_width,max_paving_width,current,fuel_consumption,other1,other2,other3,other4) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[req.body.category,req.body.subcategory,req.body.engine,req.body.speed,req.body.mixer_tank_capacity,req.body.four_wheel_drive,req.body.two_wheel_drive,req.body.max_digging_depth,req.body.bucket_volumetric_capacity,req.body.shovel_volumetric_capactiy,req.body.operating_weight,req.body.single_drum,req.body.double_drum,req.body.volumetric_output,req.body.roller_width,req.body.roller_dia,req.body.body_size,req.body.blade_length,req.body.concrete_pressure,req.body.mobile,req.body.stationary,req.body.max_lift,req.body.stablizer,req.body.boomarm_length,req.body.horizontal_deliver,req.body.vertical_deliver,req.body.blade_width,req.body.max_paving_width,req.body.current,req.body.fuel_consumption,req.body.other1,req.body.other2,req.body.other3,req.body.other4],function(err1){
+            connection.query("INSERT INTO equipment_master (category,subcategory,engine,speed,mixer_tank_capacity,four_wheel_drive,two_wheel_drive,max_digging_depth,bucket_volumetric_capacity,shovel_volumetric_capactiy,operating_weight,single_drum,double_drum,volumetric_output,roller_width,roller_dia,body_size,blade_length,concrete_pressure,mobile,stationary,max_lift,stablizer,boomarm_length,horizontal_deliver,vertical_deliver,blade_width,max_paving_width,current,fuel_consumption,other1,other2,other3,other4) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[req.body.category,req.body.subcategory,req.body.engine,req.body.speed,req.body.mixer_tank_capacity,req.body.four_wheel_drive,req.body.two_wheel_drive,req.body.max_digging_depth,req.body.bucket_volumetric_capacity,req.body.shovel_volumetric_capactiy,req.body.operating_weight,req.body.single_drum,req.body.double_drum,req.body.volumetric_output,req.body.roller_width,req.body.roller_dia,req.body.body_size,req.body.blade_length,req.body.concrete_pressure,req.body.mobile,req.body.stationary,req.body.max_lift,req.body.stablizer,req.body.boomarm_length,req.body.horizontal_deliver,req.body.vertical_deliver,req.body.blade_width,req.body.max_paving_width,req.body.current,req.body.fuel_consumption,req.body.other1,req.body.other2,req.body.other3,req.body.other4],function(err1, rows1){
                 if (err1) throw err1;
                 else{
-                return res.send("data successfully added");
-                    }
+                    radicle = "m" + rows1.insertId;
+                    var default_image = req.files.default_image;
+                    imgname = default_image.name;
+                    result = imgname.split('.');
+                    img_name = radicle+'.'+result.slice(-1) ;
+                    default_image.mv('images/master/'+img_name , function(err3){           
+                        if (err3) throw(err3);
+                    });
+                    connection.query("UPDATE equipment_master SET default_image = ? WHERE master_id=?",[img_name,rows1.insertId],function(err2){
+                        if(err2) throw err2;
+                        else return res.send("data successfully added");
+                    });
+                }
             });
-            }
         }
     });
    },
+
    // called in routes
    show_master : function(req,res){
      connection.query("SELECT master_id,category,subcategory FROM equipment_master",function(err,res){

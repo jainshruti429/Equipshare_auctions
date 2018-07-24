@@ -109,7 +109,8 @@ module.exports =  {
     //---------SORT OF AN EQUIPMENT---------------------------------------
     //          0 = NEW
     //          1 = USED
-    //-------------------------------------------------------------------     
+    //-------------------------------------------------------------------   
+    //$$available ko replace karna h status se status = sell now  
     search: function(req,res){
         var subcategory, sort;
         if(req.subcategory){
@@ -124,33 +125,29 @@ module.exports =  {
             sort = req.body.sort;
         }
         var query = '';
-        if(sort == "new") query = "SELECT type_id as id ,category ,model,doc1,doc2,subcategory,brand,master_id,parameters,photo1,photo2,photo3,photo4 FROM equipment_type WHERE subcategory = ?"
-        else query = "SELECT * FROM all_equipment WHERE available = 1 AND subcategory = ?"
+        if(sort == "new") query = "SELECT equipment_master.default_image, type_id as id ,category ,model,doc1,doc2,subcategory,brand,master_id,parameters,photo1,photo2,photo3,photo4 FROM equipment_type INNER JOIN equipment_master ON equipment_type.subcategory=equipment_master.subcategory WHERE equipment_master.subcategory = ?"
+        else query = "SELECT all_equipment.*, equipment_master.default_image FROM all_equipment INNER JOIN equipment_master ON all_equipment.subcategory=equipment_master.subcategory WHERE all_equipment.status = 1 AND equipment_master.subcategory = ?"
         connection.query(query ,[subcategory],function(err,rows){
             if(err) throw err;
             else{
-         connection.query("SELECT DISTINCT category FROM equipment_type", function(errc,crows){
-            if(errc) throw errc;
-            else {
-                connection.query("SELECT all_equipment.photo1, all_equipment.expected_price, all_equipment.subcategory,all_equipment.category, all_equipment.brand, all_equipment.model, all_equipment.id FROM all_equipment INNER JOIN featured ON featured.equip_id = all_equipment.id WHERE featured.display = 1",function(errf,featured){
-                    if(errf) throw errf;
-                    else{ 
+                connection.query("SELECT DISTINCT category FROM equipment_type", function(errc,crows){
+                    if(errc) throw errc;
+                    else {
                         req.session.compare = [];
-                        res.render("./user_list.ejs" , {datarows: rows, cat_rows:crows, username: req.session.name, category:req.session.category, default_image: ""}); 
-                }
+                        res.render("./user_list.ejs" , {datarows: rows, cat_rows:crows, username: req.session.name, category:req.session.category, default_image: rows[0].default_image}); 
+                    }
                 });
             }
         });
-     }
-        });
     },
 
+    //$$ye same function firse q bana h?????
     search2: function(req,res){
         var subcategory = req.query.subcategory;
         var sort = req.query.sort;
         var query = '';
         if(sort == "new") query = "SELECT * FROM equipment_type WHERE subcategory = ?"
-        else query = "SELECT * FROM all_equipment WHERE available = 1 AND subcategory = ?"
+        else query = "SELECT * FROM all_equipment WHERE status = 1 AND subcategory = ?"
         connection.query(query ,[subcategory],function(err,rows){
             if(err) throw err;
             else res.render("./user_list.ejs" , {datarows: rows, username: req.session.name, category:req.session.category, cat_rows : []});  
@@ -583,7 +580,7 @@ module.exports =  {
     },
 
     my_equipment2: function(req,res){
-        res.render("./table.ejs", {datarows:req.datarows, username:req.session.name, category:req.session.category,request:request, title1:"Equipments",title2:"My Equipment", fields:req.fields, edit :1, eye : 1,extra_link:""});
+        res.render("./table.ejs", {datarows:req.datarows, username:req.session.name, category:req.session.category, title1:"Equipments",title2:"My Equipment", fields:req.fields, edit :1, eye : 1,extra_link:""});
     },
 
     // view_equipment:  function(req , res){

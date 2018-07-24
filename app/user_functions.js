@@ -213,7 +213,7 @@ module.exports =  {
                     //if(i == (x-1)) compare.push(req.query.id);
                 }
                 req.session.compare = compare;
-                console.log(compare);
+                //console.log(compare);
                 return res.send(compare);    
         //     }
         // });

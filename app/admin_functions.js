@@ -772,13 +772,6 @@ module.exports = {
     		}
     	});
     },
-
-
-    
-
-
-
-
     //---------- schedule auction---------------
     //get - page render
     get_schedule_auction: function(req,res){
@@ -995,7 +988,7 @@ module.exports = {
 
    // called in routes
    show_master : function(req,res){
-     connection.query("SELECT master_id,category,subcategory FROM equipment_master",function(err,res){
+     connection.query("SELECT master_id,category,subcategory FROM equipment_master",function(err,rows){
         if (err) throw err ;
         else
         {

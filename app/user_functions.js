@@ -134,6 +134,7 @@ module.exports =  {
                     if(errc) throw errc;
                     else {
                         req.session.compare = [];
+                        console.log(rows[0].default_image);
                         res.render("./user_list.ejs" , {datarows: rows, cat_rows:crows, username: req.session.name, category:req.session.category, default_image: rows[0].default_image}); 
                     }
                 });
@@ -328,6 +329,7 @@ module.exports =  {
                     equip_id = rows[i].equip_id + '';
                     if(rows[i].equip_id[0] == 't'){
                         equip_id = equip_id.slice(1);
+                        console.log(equip_id);
                         new_equip.push(equip_id);
                     }
                     else used_equip.push(equip_id);
@@ -348,11 +350,12 @@ module.exports =  {
             new_equip = req.new_equip;
             str = "SELECT  category,subcategory, brand, model FROM equipment_type WHERE type_id IN (";
             for(var i = 0; i <new_equip.length; i++){
-                equip_id = new_equip[i].slice(1);
+                equip_id = new_equip[i];
                 str = str + equip_id + ",";
             }
             str = str.slice(0,-1);
             str = str +")";
+            console.log(str);
             connection.query(str, function(err2,rows2){
                 if(err2) throw err2;
                 else {

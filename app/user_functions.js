@@ -419,7 +419,7 @@ module.exports =  {
     },
 
     my_requests5: function(req,res, next){
-        console.log(req.new_equip);
+        console.log(req.used_equip);
         res.render("./user_myrequests.ejs", {new_equip: req.new_equip, used_equip: req.used_equip, proposals:req.proposals, username:req.session.name, category:req.session.category});
     },
 

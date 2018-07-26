@@ -348,7 +348,7 @@ module.exports =  {
     my_requests2 : function(req,res,next){
         if(req.new_equip.length){
             new_equip = req.new_equip;
-            str = "SELECT  category,subcategory, brand, model FROM equipment_type WHERE type_id IN (";
+            str = "SELECT type_id,category,subcategory, brand, model FROM equipment_type WHERE type_id IN (";
             for(var i = 0; i <new_equip.length; i++){
                 equip_id = new_equip[i];
                 str = str + equip_id + ",";

@@ -1067,12 +1067,14 @@ module.exports = {
     show_user : function(req,res){
         connection.query("SELECT account.id, account.name, account.category, account.state, account.mobile, count(all_equipment.owner_id)as no_of_equip FROM account LEFT JOIN all_equipment ON account.id=all_equipment.id GROUP BY account.id",function(err,rows,fields){
             if(err)throw err ;
-            else{for(var i = 0 ;i<rows.length;i++){
+            else{
+                for(var i = 0 ;i<rows.length;i++){
                     y = JSON.stringify(rows[i]);
                     y = y.slice(0,-1);
-                    y = y + ',"extra_link":"/admin_show_user_profile'+rows[i].id'"}';
+                    y = y + ',"extra_link":"/admin_showuserprofile'+rows[i].id+'"}';
                     rows[i] = JSON.parse(y);
                 }
+                console.log(rows);
                res.render("./table.ejs",{datarows:rows,fields:fields,extra_link:"view profile",eye:0,edit:0,title1:"show user",title2:"user details",username :req.session.name,category:req.session.category});
             }
         });

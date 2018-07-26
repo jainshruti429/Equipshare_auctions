@@ -242,10 +242,7 @@ module.exports = function(app, passport) {
 // // =========================== USER FUNCTIONS ================================================== 
 // // =======================================================================================
 //     //TBD .... url depends on front end linking
-// app.get('/',function(req,res){
-//     res.render('/user_liveauctions.ejs');
-// });    
-
+//
     app.get('/', function(req,res){
     	res.render('./user_split_screen.ejs');
     });
@@ -327,28 +324,28 @@ module.exports = function(app, passport) {
 // // // =========================== ADMIN FUNCTIONS ====================================== 
 // // // =======================================================================================
 
-//     app.get('/admin_login',function(req, res) {
-//         res.render('./admin_login.ejs', {msg :"Please login to continue"});
-//     });
+    app.get('/admin_login',function(req, res) {
+        res.render('./admin_login.ejs', {msg :"Please login to continue"});
+    });
 
-//     app.post('/admin', function(req, res, next){
-//          //call the local-login in ../config/passport.js
-//         passport.authenticate('local-admin_login', function (err, user, info) {
-//             // info is json given by passport.aunthicate
-//             //this function is called when LocalStrategy returns done function with parameters
-//             if(err) return res.render('./admin_login.ejs', {msg : 'Please Try Again!'});;    
-//             //if username or password doesn't match
-//             if(!user) return res.render('./admin_login.ejs', {msg: 'Please Try Again!'});  
-//             //this is when login is successful
-//             req.logIn(user, function(err) {
-//                 if (err) return next(err); 
-//                 else return next();
-//             });   
-//         })(req,res,next);
-//     }, afunc.home);
+    app.post('/admin', function(req, res, next){
+         //call the local-login in ../config/passport.js
+        passport.authenticate('local-admin_login', function (err, user, info) {
+            // info is json given by passport.aunthicate
+            //this function is called when LocalStrategy returns done function with parameters
+            if(err) return res.render('./admin_login.ejs', {msg : 'Please Try Again!'});;    
+            //if username or password doesn't match
+            if(!user) return res.render('./admin_login.ejs', {msg: 'Please Try Again!'});  
+            //this is when login is successful
+            req.logIn(user, function(err) {
+                if (err) return next(err); 
+                else return next();
+            });   
+        })(req,res,next);
+    }, afunc.home);
 
 // //  // all are checking that the user is first logged in and then that he is of the right category that the request belong to.
-//     //app.get('/admin', gfunc.isLoggedInfunc, admin_access, afunc.home);
+    app.get('/admin', gfunc.isLoggedInfunc, admin_access, afunc.home);
 // //     app.get('/admin_inquiry', gfunc.isLoggedInfunc, admin_access, afunc.inquiry);
 // //     //app.get('/admin_resolved:sno', gfunc.isLoggedInfunc, admin_access, afunc.resolved, afunc.inquiry);
 // //     app.post('/admin_comment:sno', gfunc.isLoggedInfunc, admin_access, afunc.comment, afunc.inquiry);
@@ -391,8 +388,8 @@ module.exports = function(app, passport) {
 
 //     app.post('/admin_add_equipment', gfunc.isLoggedInfunc, admin_access, afunc.post_add_equipment, afunc.get_add_equipment);
 //     //$$page may not be designed
-//     app.get('/admin_add_new_admin', gfunc.isLoggedInfunc, admin_access, afunc.get_add_new_admin);
-//     app.post('/admin_add_new_admin', gfunc.isLoggedInfunc, admin_access, afunc.post_add_new_admin);
+    app.get('/admin_add_new_admin', gfunc.isLoggedInfunc, admin_access, afunc.get_add_new_admin);
+    app.post('/admin_add_new_admin', gfunc.isLoggedInfunc, admin_access, afunc.post_add_new_admin);
     
 
 //     app.get("/admin_add_equipment_type",gfunc.isLoggedInfunc, admin_access,afunc.get_add_equipment_type);
@@ -425,7 +422,7 @@ module.exports = function(app, passport) {
        // app.get('/admin_update_master',gfunc.isLoggedInfunc, admin_access,afunc.get_update_master);
        // app.post('/admin_post_update_master',gfunc.isLoggedInfunc, admin_access,afunc.post_update_master,afunc.show_master);
        // app.get('/admin_show_user_profile',gfunc.isLoggedInfunc, admin_access,afunc.show_user_profile1,ufunc.my_requests1,ufunc.my_requests2,ufunc.my_requests3,afunc.show_user_profile2);
-       // app.get('/admin_show_user',gfunc.isLoggedInfunc, admin_access,afunc.show_user);
+       app.get('/admin_show_user',gfunc.isLoggedInfunc, admin_access,afunc.show_user);
 
 
 // // =======================================================================================
@@ -508,7 +505,8 @@ module.exports = function(app, passport) {
 
 
 var admin_access = function(req,res,next){
-    if(req.session.category==0) return next();
+
+    if(req.session.category==0){ console.log(req.session.category); return next();}
     else return res.render("./error.ejs");
 };
 

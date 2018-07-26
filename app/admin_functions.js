@@ -422,14 +422,14 @@ module.exports = {
     },
 
     get_add_new_admin: function(req,res){
-     res.render('./Profiles/admin/add_new_admin.ejs', {msg: 'Enter the following details' , username:req.session.name});
+     res.render('./admin_add_new_admin.ejs', {msg: 'Enter the following details' ,category:req.session.category, username:req.session.name});
     },
 
     post_add_new_admin: function(req,res){
      if(req.body.password == req.body.retype_password){
         connection.query("SELECT * FROM account WHERE name = ?",[req.body.name], function(err, rows) {
             if (err) throw err;
-            if (rows.length) res.render('./Profiles/admin/add_new_admin.ejs', {msg: 'That name is already taken' });
+            if (rows.length) res.render('./admin_add_new_admin.ejs', {msg: 'That name is already taken' });
             else {
                 // insert data into account table
                 var newAdmin = {
@@ -452,8 +452,15 @@ module.exports = {
 
     home:function(req, res) {
         //$$stats missing
-        return res.render('./admin_dashboard.ejs', {category:req.session.category, username : req.session.name});
-    },
+            
+                connection.query("SELECT all_equipment.photo1, all_equipment.expected_price, all_equipment.subcategory,all_equipment.category, all_equipment.brand, all_equipment.model, all_equipment.id FROM all_equipment INNER JOIN featured ON featured.equip_id = all_equipment.id WHERE featured.display = 1",function(errf,featured){
+                    if(errf) throw errf;
+                   else{
+
+                      return res.render('./admin_dashboard.ejs', {category:req.session.category, featured:featured,username : req.session.name});
+                      }
+                   });
+               },
     
     get_equipment_type_csv : function(req,res){
         req.title = "Equipment Type";
@@ -1058,10 +1065,15 @@ module.exports = {
     //called
     //users - name - category, #equip(count + innerjoin all_equipment(owner_id)), state from account table 
     show_user : function(req,res){
-        connection.query("SELECT account.id, account.name, account.category, account.state, count(all_equipment.owner_id)as no_of_equip FROM account INNER JOIN all_equipment ON account.id=all_equipment.id WHERE account.id=? GROUP BY account.id",[req.params.id],function(err,rows){
+        connection.query("SELECT account.id, account.name, account.category, account.state, account.mobile, count(all_equipment.owner_id)as no_of_equip FROM account LEFT JOIN all_equipment ON account.id=all_equipment.id GROUP BY account.id",function(err,rows,fields){
             if(err)throw err ;
-            else{
-                res.render("./show_user.ejs",{datarows:rows, username :req.session.name});
+            else{for(var i = 0 ;i<rows.length;i++){
+                    y = JSON.stringify(rows[i]);
+                    y = y.slice(0,-1);
+                    y = y + ',"extra_link":"/admin_show_user_profile'+rows[i].id'"}';
+                    rows[i] = JSON.parse(y);
+                }
+               res.render("./table.ejs",{datarows:rows,fields:fields,extra_link:"view profile",eye:0,edit:0,title1:"show user",title2:"user details",username :req.session.name,category:req.session.category});
             }
         });
     },
@@ -1081,7 +1093,8 @@ module.exports = {
     
     //called in routes
     show_user_profile2 : function(req,res){
-        return res.render('./show_user_profile.ejs',{username:req.session.name,category:req.session.category});
+
+        return res.render('./showuserprofile.ejs',{username:req.session.name,show_users:req.show_users, category:req.session.category});
     },
 
     //auction_summary - show auctoios - params m auction_id, fuction to convert it to session.auction_id, this_acution()

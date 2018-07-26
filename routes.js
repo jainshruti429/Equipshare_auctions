@@ -363,7 +363,7 @@ module.exports = function(app, passport) {
 //     //$$render dynamic table
 //     //$$gfunc.equip_data
 //     app.get('/admin_view_equipment', gfunc.isLoggedInfunc,admin_access, afunc.available, afunc.view_equipment); 
-//     app.get('/admin_view_all_equipments', gfunc.isLoggedInfunc, admin_access, afunc.view_all_equipments);
+    app.get('/admin_view_all_equipments', gfunc.isLoggedInfunc, admin_access, afunc.view_all_equipments);
 //     app.get('/admin_my_equipment', gfunc.isLoggedInfunc,admin_access,afunc.my_equipment);        
 //     app.get('/admin_add_equipment',gfunc.isLoggedInfunc,admin_access, afunc.get_add_equipment_user);
 //     app.post('/admin_add_equipment_reg', gfunc.isLoggedInfunc, admin_access, afunc.post_add_equipment_reg, afunc.get_add_equipment);
@@ -423,7 +423,7 @@ module.exports = function(app, passport) {
        // app.post('/admin_post_update_master',gfunc.isLoggedInfunc, admin_access,afunc.post_update_master,afunc.show_master);
        app.get('/admin_showuserprofile:id',gfunc.isLoggedInfunc, admin_access,afunc.show_user_profile1,ufunc.my_requests1,ufunc.my_requests2,ufunc.my_requests3,afunc.show_user_profile2);
        app.get('/admin_show_user',gfunc.isLoggedInfunc, admin_access,afunc.show_user);
-
+       app.get('/admin_upcoming_auction',gfunc.isLoggedInfunc,admin_access,afunc.upcoming_auctions);
 
 // // =======================================================================================
 // // =========================== COMPANY USER FUNCTIONS ====================================== 

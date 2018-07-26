@@ -299,7 +299,7 @@ module.exports = {
                                     if(!info[i].requests) info[i].requests = 0;
                                 }
                                 req.title = "All Equipments"; 
-                                res.render("./admin_view_equipment.ejs", {title : req.title,datarows:rows, data:info, username:req.session.name});
+                                res.render("./admin_view_equipment.ejs", {title : req.title,datarows:rows, data:info, username:req.session.name,category:req.session.category});
                             }
                         });
                     }
@@ -1183,6 +1183,29 @@ module.exports = {
 	// });
     },
 
+    upcoming_auctions : function(req,res){
+        connection.query("SELECT auctions.name AS 'Auction Name',auctions.start_date AS 'Start Date/Time',auctions.end_date AS 'End Date/Time',a.Status ,auctions.auction_id AS id FROM auctions left join (SELECT status AS Status, auction_id AS id from auction_requests where user_id = ?) as a ON auctions.auction_id = a.id WHERE auctions.start_date > current_timestamp()",[req.session.user], function(err,rows, fields){
+            //SELECT a.Status , auctions.name AS 'Auction Name',auctions.start_date AS 'Start Date/Time',auctions.end_date AS 'End Date/Time',auctions.auction_id AS id FROM auctions left join (SELECT status AS STATUS, auction_id from auction_requests AS id where user_id = ?) as a ON auctions.auction_id = a.id WHERE auctions.start_date > current_timestamp() ;
+            if(err) throw err;
+            else {
+                var x = "";
+                var y = "";
+                for(var i = 0 ;i<rows.length;i++){
+                    x = (String)(rows[i]["Start Date/Time"]);
+                    x = x.slice(0,-15);//remove sec and GMT etc
+                    rows[i]["Start Date/Time"] = x;
+                    y = (String)(rows[i]["End Date/Time"]);
+                    y = y.slice(0,-15);//remove sec and GMT get_add_equipment_category
+                    rows[i]["End Date/Time"] = y;
+                }
+
+                return res.render("./table.ejs", {datarows:rows, fields:fields, username:req.session.name, title2:"Upcoming Auctions",title1:"auctions",category:req.session.category, extra_link:"",eye:0,edit:1});
+
+   
+
+            }
+        });
+    },
     
     //dealer auction 
 

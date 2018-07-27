@@ -46,8 +46,11 @@ var crypto = require('crypto');
 
 module.exports = {
 
-    login : function(req,res){
-        res.render('./user_login.ejs' , {msg : 'Enter the following details', login_para : 1});
+    // login : function(req,res){
+    //     res.render('./user_login.ejs' , {msg : 'Enter the following details', login_para : 1});
+    // },
+     login : function(req,res){
+        res.render('./admin_login.ejs' , {msg : 'Enter the following details', login_para : 1});
     },
 
     
@@ -76,7 +79,7 @@ module.exports = {
     isLoggedInfunc: function(req, res, next) {
         // if user is authenticated in the session, carry on else ask them to login again
         if (req.isAuthenticated()) return next();
-        else { return res.render('./user_login.ejs', {login_para : 1,msg:"PLease Login to continue"});
+        else { return res.render('./user_login.ejs', {login_para : 1,msg:"Please Login to continue"});
         }
     },
 

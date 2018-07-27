@@ -734,8 +734,8 @@ module.exports = {
     },
 
 
-      //show_auc.ejs is to be designed..
-     //this is to be called in routes
+    //show_auc.ejs is to be designed..
+    //this is to be called in routes
     show_auctions : function(req,res){        
          connection.query("SELECT auctions.name AS 'Auction Name', auctions.start_date AS 'Start Date/time', auctions.end_date AS 'End Date/time', count(auction_equipment.auction_id) as 'No of equipments', auctions.auction_id AS id FROM auctions LEFT JOIN auction_equipment ON auctions.auction_id = auction_equipment.auction_id WHERE auctions.end_date < current_timestamp() GROUP BY auctions.auction_id ORDER BY auctions.auction_id", function(err1,rows1, fields){
             if (err1) throw err1 ;
@@ -772,6 +772,7 @@ module.exports = {
     		}
     	});
     },
+
     //---------- schedule auction---------------
     //get - page render
     get_schedule_auction: function(req,res){

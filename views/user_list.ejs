@@ -123,17 +123,12 @@
                                <div class="table-responsive">
                                <table class="table table-hover table-bordered">
                                    <tbody>
-                                       <tr  style="height:80px;width:250px;margin-left:100px;" id="compare_table" >
-
-
-                                         <td><img src= "/equipment4.jpg" alt="select search" style="height:100px ;width:100%" id="img1"></td>
-                                         <td><img src="/equipment2.jpg" alt="select search" style="height:100px ;width:100%" id="img2"></td>  
-                                         <td><img src="/equipment4.jpg" alt="select search" style="height:100px ;width:100%" id="img3"></td>  
-                                         <td><img src="/equipment3.jpg" alt="select search" style="height:100px ;width:100%" id="img4"></td>    
-
-
-                                        
-                                        </tr>
+                                       <tr style="height:80px;width:250px;margin-left:100px;" id="compare_table" >
+                                         <td><img src= "" alt="select search" style="height:100px ;width:100%" id="img1"></td>
+                                         <td><img src="" alt="select search" style="height:100px ;width:100%" id="img2"></td>  
+                                         <td><img src="" alt="select search" style="height:100px ;width:100%" id="img3"></td>  
+                                         <td><img src="" alt="select search" style="height:100px ;width:100%" id="img4"></td>    
+                                       </tr>
                                    </tbody>
                                </table> 
                                </div>
@@ -148,7 +143,7 @@
                                   <div class="col-lg-push-2 col-md-push-2  col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                        
                                    <div class="dropdown">
-                                   <button data-toggle="dropdown" class="btn btn-sm btn-primary dropdown-toggle"   >Sort &nbsp;&nbsp;&nbsp; <span class="caret"></span>
+                                   <button data-toggle="dropdown" class="btn btn-sm btn-primary dropdown-toggle">Sort &nbsp;&nbsp;&nbsp; <span class="caret"></span>
                                    </button> 
                                    <ul class="dropdown-menu">
                                        <li class="dropdown-header"><strong>By Price</strong></li>
@@ -176,16 +171,15 @@
                         </div>
                         <div class="model-body" >
                               <table class="table table-bordered table-responsive table-hover">
+                                  
                                   <tr>
-                                      <td>Selected Item </td>
+                                      <td>Selected Item</td>
 
-                                      <td><img src= "/equipment4.jpg" alt="select search" style="height:100px ;width:100%"></td>
-                                      <td><img src= "/equipment4.jpg" alt="select search" style="height:100px ;width:100%"></td>
-                                      <td><img src= "/equipment4.jpg" alt="select search" style="height:100px ;width:100%"></td>
-                                      <td><img src= "/equipment4.jpg" alt="select search" style="height:100px ;width:100%"></td>
-                                    
-
-                                                                     </tr>
+                                      <td><img src= "" alt="select search" style="height:100px ;width:100%"></td>
+                                      <td><img src= "" alt="select search" style="height:100px ;width:100%"></td>
+                                      <td><img src= "" alt="select search" style="height:100px ;width:100%"></td>
+                                      <td><img src= "" alt="select search" style="height:100px ;width:100%"></td>  
+                                  </tr>
                                   <tr>
                                       <td>Point1</td>
                                       <td>Point1</td>
@@ -193,11 +187,7 @@
                                       <td>Point1</td>
                                       <td>Point1</td>
                                   </tr>
-                              </table>
-                              <div class="form-group">
-                                 <button class="btn btn-primary">BID NOW</button>
-                              </div>
-                          
+                              </table>                          
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -885,6 +875,77 @@
             xhttp.send();
           }
           
+    </script>
+
+    <script type="text/javascript">
+      function compare_now(){
+        var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && (this.status == 200 || this.status == 304)) {
+            
+            var data=new Array();
+            data=JSON.parse(this.responseText);
+            compare = data.compare;
+            param = data.param;
+            param_name = data.param_name;
+            param_fields = data.param_fields;
+            other = data.other;
+            other_fields = data.other_fields;
+        
+             var doc = document;
+             var fragment = doc.createDocumentFragment();
+
+            for(var j = 0 ; j <5; j++){
+               tr = doc.createElement("tr");
+               td = doc.createElement("td"); 
+               td.innerHTML = other_fields[j].name;
+               tr.appendChild(td);
+               for(var i=0;i< compare.length; i++){
+                  td = doc.createElement("td"); 
+                  td.innerHTML = '<img src = "/'+other[i][other_fields[j].name]+'">';
+                  tr.appendChild(td);  
+               }
+               fragment.appendChild(tr);
+            }
+
+            var k = 0;
+            for(var j = 0 ; j < param_fields.length; j++){
+              if(param_name[j][param_fields]){
+                tr = doc.createElement("tr");
+                td = doc.createElement("td"); 
+                td.innerHTML = param_fields[j].name;
+                tr.appendChild(td); 
+                for(var i=0;i< compare.length; i++){
+                  td = doc.createElement("td"); 
+                  td.innerHTML = param[i][k];
+                  tr.appendChild(td);  
+               }
+               k++;
+              } 
+            }
+              var table = doc.createElement("table");
+
+              table.appendChild(fragment);
+
+              doc.getElementById("compare_table").appendChild(table);
+
+            for(var i=0;i<subcat.length;i++) { 
+                      option = document.createElement('option');
+                      option.value =subcat[i].subcategory ;
+                      option.text = subcat[i].subcategory ;
+                      select.appendChild(option);
+               }
+              
+
+              }
+            };
+
+           
+            
+
+            xhttp.open("GET", "/compare_now",true);
+            xhttp.send();
+          }
     </script>
 
 		</body>

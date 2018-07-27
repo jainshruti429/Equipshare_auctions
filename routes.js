@@ -419,7 +419,7 @@ app.get('/',function(req,res){
 // //     app.post('/admin_upload_equipment_csv', gfunc.isLoggedInfunc, admin_access,csv.equipment_csv, afunc.get_add_equipment_user);
     
 // //     app.get('/admin_show_requests', gfunc.isLoggedInfunc, admin_access, afunc.show_requests);
-    app.get('/admin_saved_searches', gfunc.isLoggedInfunc, admin_access, afunc.saved_searches);
+       app.get('/admin_saved_searches', gfunc.isLoggedInfunc, admin_access, afunc.saved_searches);
 // //     app.get('/admin_enquiry', gfunc.isLoggedInfunc, admin_access, afunc.inEmail);
 		
        // app.get('/admin_show_master',gfunc.isLoggedInfunc, admin_access,afunc.show_master);

@@ -783,7 +783,7 @@ module.exports = {
     //---------- schedule auction---------------
     //get - page render
     get_schedule_auction: function(req,res){
-        res.render("", {username:req.session.user, datarows:[]});
+        res.render("./admin_scheduleauctionform.ejs", {username:req.session.name, category:req.session.category});
     },
 
     //check schedule (only one auction should be live at a time)
@@ -806,7 +806,7 @@ module.exports = {
     },
 
    //changed according to update and add admin to auction requests by default - make another function 
-    post_schedule_auction1: function(req,res){
+    post_schedule_auction1: function(req,res,next){
         if(req.params.auction_id){
             connection.query("UPDATE auctions SET name = ? , start_date = ? , end_date = ?, max_no_equipment = ?",[req.body.name, req.body.start_date, req.body.end_date, req.body.max_no_equipment],function(err){
                 if(err) throw err;
@@ -832,7 +832,7 @@ module.exports = {
                 }
                 connection.query("SELECT * FROM all_equipment WHERE status = 2",function(err1,rows1){
                     if(err1) throw err1;
-                    else  res.render("", {datarows:rows1, username:req.session.user, selected : req.selected_equip, max_no_equipment : req.body.max_no_equipment});
+                    else  res.render("./admin_add_to_auction.ejs", {datarows:rows1, username:req.session.name, selected : req.selected_equip, max_no_equipment : req.body.max_no_equipment});
                 });
             }
         });

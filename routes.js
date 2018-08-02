@@ -130,7 +130,7 @@ app.get("/compare", function(req,res,next){
 //     //TBD .... url depends on front end linking
 
 // app.get('/',function(req,res){
-//     res.render('./admin_add_to_auction.ejs',{username:"",category:0,datarows:[]});
+//     res.render('./admin_scheduleauctionform.ejs',{username:"",category:0,datarows:[]});
 // });
  
 
@@ -315,6 +315,8 @@ app.get("/compare", function(req,res,next){
        app.get('/admin_showuserprofile:id',gfunc.isLoggedInfunc, admin_access,afunc.show_user_profile1,ufunc.my_requests1,ufunc.my_requests2,ufunc.my_requests3,afunc.show_user_profile2);
        app.get('/admin_show_user',gfunc.isLoggedInfunc, admin_access,afunc.show_user);
        app.get('/admin_upcoming_auction',gfunc.isLoggedInfunc,admin_access,afunc.upcoming_auctions);
+       app.get('/get_sch_auc',gfunc.isLoggedInfunc,admin_access,afunc.get_schedule_auction);
+       app.post('/add_to_auc',gfunc.isLoggedInfunc,admin_access,afunc.post_schedule_auction1,afunc.post_schedule_auction2);
 
 // // =======================================================================================
 // // =========================== COMPANY USER FUNCTIONS ====================================== 

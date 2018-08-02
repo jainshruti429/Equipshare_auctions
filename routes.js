@@ -129,15 +129,16 @@ app.get("/compare", function(req,res,next){
 // // =======================================================================================
 //     //TBD .... url depends on front end linking
 
-app.get('/',function(req,res){
-    res.render('./admin_add_to_auction.ejs',{username:"",category:0,datarows:[]});
+// app.get('/',function(req,res){
+//     res.render('./admin_add_to_auction.ejs',{username:"",category:0,datarows:[]});
+// });
  
 
-//     app.get('/', function(req,res){
-//     	res.render('./user_split_screen.ejs');
-//     });
+    app.get('/', function(req,res){
+    	res.render('./user_split_screen.ejs');
+    });
 
-//     app.get('/buy_sell', gfunc.login);
+    app.get('/buy_sell', gfunc.login);
 //     app.get('/user_login', gfunc.login);
     
 //     app.post('/user_login', function(req, res, next){

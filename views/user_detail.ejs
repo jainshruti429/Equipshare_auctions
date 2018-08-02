@@ -4,8 +4,13 @@
     
             <div class="container-fluid">
                     <div class="row">
-                        
+                       <%if(category==1){%>   
                       <%- include user_sidebar.ejs %>
+                      <%}%>
+                      <%if(category==0){%>   
+                      <%- include admin_sidebar.ejs %>
+                      <%}%>
+                       
                         <!--main content begin here-->
           
                         <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12" style="padding:0">
@@ -91,7 +96,7 @@
                         </div>
                     <div class="custom-equip-detail" style="margin-top:10px;">
                    
-                        
+                        <%if(category==1){%>
                         <div class="row custom-row-border">
                         <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                             <p class="fa fa-inr" style="font-size:2rem;">&nbsp;<%=equip_data.expected_price%></p> 
@@ -107,7 +112,7 @@
                             <%}%>
                             </div>
                             
-                        </div>
+                        </div><%}%>
                         
                            <p style="padding-top:10px;"><%=equip_data.description%></p>
 

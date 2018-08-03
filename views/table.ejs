@@ -5,8 +5,12 @@
     
     <div class="container-fluid">
     <div class="row">
-        
+     <%if(category == 1){%>   
       <%- include user_sidebar.ejs %>
+       <%}%>
+     <%if(category == 0){%>   
+      <%- include admin_sidebar.ejs %>
+       <%}%>
         
         <!--main content begin here-->
         <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12" style="padding:0">
@@ -108,13 +112,21 @@
 															</button>
 															</a>
 															<%}%>
-															<%if(edit){%>
+															<%if(edit == 1 && category == 1){%>
 															<a href = "/user_update_equipment<%=datarows[i].id%>">    
                                                                 <button class="btn btn-xs btn-warning">
                                                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                                                                 </button>
                                                             </a>
                                                             <%}%>
+                                                            <%if(edit == 1 && category == 0){%>
+															<a href = "/admin_update_auction<%=datarows[i].id%>">    
+                                                                <button class="btn btn-xs btn-warning">
+                                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                                </button>
+                                                            </a>
+                                                            <%}%>
+                                                            
                                                             <!-- <%if(datarows[i].available){%>
                                                             <a href = "/admin_unavailable<%=datarows[i].id%>">    
                                                                 <button class="btn btn-xs btn-danger">

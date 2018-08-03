@@ -160,7 +160,8 @@ module.exports = {
                             description : rows[0].description 
                         };
                         used = 0;
-                    }console.log(req.request);
+                    }
+                    //console.log(req.request);
                     return res.render("./user_detail.ejs", {username:req.session.name, category:req.session.category, equip_data:equip_data,request1 :req.request, param: arr, fields:fields1, param_name :rows1[0], tech_info:rows, used : used, request:0});
                 }
             });    

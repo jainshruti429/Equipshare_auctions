@@ -29,128 +29,14 @@ var ufunc = require('./app/user_functions');
 // ==========================================
 
 module.exports = function(app, passport) {
-	// app.get('/', function(req,res){
-	// 	var str = "678!#%ghh!#%ghjg!#%ghjv!#%fy!#%vh!#%vg!#%!#%";
-	// 	var arr = str.split("!#%");
-	// 	res.send(arr);
+//for testing
+app.get("/list", function(req,res,next){
+    return res.render("./user_list.ejs" , {datarows: [], cat_rows:[], username: "req.session.name", category:1, default_image: "rows[0].default_image"}); 
+});	
 
-	// });
-
-    // app.get('/', function(req,res, next){
-    //         featured = [];
-    //         prev_featured = [];
-    //         feat_details = [];
-    //         str1 = "SELECT featured.equip_id,featured.views, featured.start_date, featured.end_date, featured.display,all_equipment.photo1, all_equipment.expected_price, all_equipment.subcategory, all_equipment.brand, all_equipment.model, all_equipment.owner_id FROM all_equipment INNER JOIN featured ON featured.equip_id = all_equipment.id";
-    //         connection.query(str1, function(err,rows){
-    //             if(err) throw err;
-    //             else{
-    //                 for(var i = 0; i<rows.length; i++){
-    //                     if(rows[i].display) featured.push(rows[i]);
-    //                     else prev_featured.push(rows[i]);
-    //                 }
-    //                 str = "SELECT name, address1, address2, address3, city, state, zipcode, mobile FROM account WHERE id IN (";
-    //                 for(var i = 0; i <featured.length; i++){
-    //                     str = str + featured[i].owner_id + ",";
-    //                 }
-    //                 str = str.slice(0,-1);
-    //                 str = str +")";
-    //                 connection.query(str, function(err2,rows2){
-    //                     if(err2) throw err2;
-    //                     else{
-    //                         if(rows2.length == featured.length) feat_details = rows2;
-    //                         else if(rows2.length == 1){
-    //                              for(var i = 0 ; i < 3 ; i++){
-    //                                 feat_details[i] = rows2[0];
-    //                             }
-    //                         } 
-    //                         else{
-    //                             if(featured[0].owner_id == featured[1].owner_id){
-    //                                 feat_details[0] = rows2[0];
-    //                                 feat_details[1] = rows2[0];
-    //                                 feat_details[2] = rows2[1];
-    //                             }
-    //                             if(featured[1].owner_id == featured[2].owner_id){
-    //                                 feat_details[0] = rows2[0];
-    //                                 feat_details[1] = rows2[1];
-    //                                 feat_details[2] = rows2[1];   
-    //                             }
-    //                             if(featured[0].owner_id == featured[2].owner_id){
-    //                                 feat_details[0] = rows2[0];
-    //                                 feat_details[1] = rows2[1];
-    //                                 feat_details[2] = rows2[0];   
-    //                             }
-    //                         }
-    //                         return next();
-    //                     }
-    //                 });
-    //             }
-    //         });
-    //     },
-    //   function(req,res){
-    //       feat_data = [];
-    //       data = {views:0,
-    //         requests:7};
-    //       for(var i = 0;i<featured ;i++){
-    //           feat_data.push(data);
-    //       }
-
-    //     //res.render("./user_equipmentDetail.ejs",{username:'',request:1,equip,prev_featured:prev_featured,featured:featured, feat_data : feat_data,cat_rows:[2] ,user_data:[] })
-    //     res.render("./user_dashboard.ejs",{username:'',prev_featured:prev_featured,featured:featured, feat_data : feat_data,cat_rows:[2] });
-
-    // });
-
-    // app.get('/', function(req,res){
-    //     connection.query("SELECT * FROM all_equipment WHERE id = 42",function(err,rows){
-    //         if(err) throw err;
-    //         else {
-    //             connection.query("SELECT * FROM equipment_type WHERE type_id = ?",[rows[0].type_id], function(err1,rows1){
-    //                 if(err1) throw err1;
-    //                 else res.render("./Admin_EquipmentMaster.ejs", {new_equip:[],used_equip:[],user_data:[],category:1,username:'', title:'',cat_rows:[], equip_data:rows, tech_info:rows1[0], request:1});
-    //             });
-    //         }
-    //     });
-    // });
-
-    // app.get("/", afunc.find_fields, afunc.find_fields2);
-
-
-    // app.get('/', function(req,res){
-    //     connection.query("SELECT * FROM all_equipment WHERE id = 42",function(err,rows){
-    //         if(err) throw err;
-    //         else {
-    //             connection.query("SELECT * FROM equipment_type WHERE type_id = ?",[rows[0].type_id], function(err1,rows1){
-    //                 if(err1) throw err1;
-    //                 else res.render("./user_liveauctions.ejs", {username:'', title:'',cat_rows:[], equip_data:rows, tech_info:rows1[0], request:1});
-    //             });
-    //         }
-    //     });
-    // });
-
-
-	// app.get('/', function(req,res){
-	// 		connection.query("SELECT start_date AS 'Date Searched' FROM auctions", function(err,rows,fields){
-	// 		if(err) throw err;
-	// 		else {
-	// 			var y = "";
-	// 			obj = {
- //                    name : "Views | Requests | Compares"
- //                };
- //                var my = [2,3,4,5,6,7,8];
- //                fields.push(obj);
-	// 			var x = (String)(rows[1]["Date Searched"]);
-	// 			x = x.slice(0,-18);//remove sec and GMT etc
-	// 			rows[1]["Date Searched"] = x;
-	// 			for(var i =0; i <rows.length; i++){
-	// 				y = JSON.stringify(rows[i]);
-	// 				y = y.slice(0,-1);
-	// 				y = y + ',"'+obj.name+'":"'+my[i]+'"}';
-	// 				rows[i] = JSON.parse(y);
-	// 			}
-	// 			res.render("index.ejs", {fields:fields, users:rows});	
-	// 		}
-	// 	});
-	// });
-
+app.get("/compare", function(req,res,next){
+    req.session.compare = [48,49,50,51];
+},ufunc.compare_now);
 
     // PROFILE SECTION =====================
     // app.get('/profile/:id', func.isLoggedInfunc, func.profilefunc); // issLoggedIn verifies that user is authenticated
@@ -247,11 +133,12 @@ app.get('/',function(req,res){
     res.render('./admin_scheduleauctionform(workingmode).ejs',{username:"",category:0,datarows:[]});
 });
 
-//     app.get('/', function(req,res){
-//     	res.render('./user_split_screen.ejs');
-//     });
 
-//     app.get('/buy_sell', gfunc.login);
+    app.get('/', function(req,res){
+    	res.render('./user_split_screen.ejs');
+    });
+
+    app.get('/buy_sell', gfunc.login);
 //     app.get('/user_login', gfunc.login);
     
 //     app.post('/user_login', function(req, res, next){
@@ -367,7 +254,7 @@ app.get('/',function(req,res){
 //     //$$render dynamic table
 //     //$$gfunc.equip_data
 //     app.get('/admin_view_equipment', gfunc.isLoggedInfunc,admin_access, afunc.available, afunc.view_equipment); 
-//     app.get('/admin_view_all_equipments', gfunc.isLoggedInfunc, admin_access, afunc.view_all_equipments);
+    app.get('/admin_view_all_equipments', gfunc.isLoggedInfunc, admin_access, afunc.view_all_equipments);
 //     app.get('/admin_my_equipment', gfunc.isLoggedInfunc,admin_access,afunc.my_equipment);        
 //     app.get('/admin_add_equipment',gfunc.isLoggedInfunc,admin_access, afunc.get_add_equipment_user);
 //     app.post('/admin_add_equipment_reg', gfunc.isLoggedInfunc, admin_access, afunc.post_add_equipment_reg, afunc.get_add_equipment);
@@ -419,7 +306,7 @@ app.get('/',function(req,res){
 // //     app.post('/admin_upload_equipment_csv', gfunc.isLoggedInfunc, admin_access,csv.equipment_csv, afunc.get_add_equipment_user);
     
 // //     app.get('/admin_show_requests', gfunc.isLoggedInfunc, admin_access, afunc.show_requests);
-    app.get('/admin_saved_searches', gfunc.isLoggedInfunc, admin_access, afunc.saved_searches);
+       app.get('/admin_saved_searches', gfunc.isLoggedInfunc, admin_access, afunc.saved_searches);
 // //     app.get('/admin_enquiry', gfunc.isLoggedInfunc, admin_access, afunc.inEmail);
 		
        // app.get('/admin_show_master',gfunc.isLoggedInfunc, admin_access,afunc.show_master);
@@ -427,7 +314,9 @@ app.get('/',function(req,res){
        // app.post('/admin_post_update_master',gfunc.isLoggedInfunc, admin_access,afunc.post_update_master,afunc.show_master);
        app.get('/admin_showuserprofile:id',gfunc.isLoggedInfunc, admin_access,afunc.show_user_profile1,ufunc.my_requests1,ufunc.my_requests2,ufunc.my_requests3,afunc.show_user_profile2);
        app.get('/admin_show_user',gfunc.isLoggedInfunc, admin_access,afunc.show_user);
-
+       app.get('/admin_upcoming_auction',gfunc.isLoggedInfunc,admin_access,afunc.upcoming_auctions);
+       app.get('/get_sch_auc',gfunc.isLoggedInfunc,admin_access,afunc.get_schedule_auction);
+       app.post('/add_to_auc',gfunc.isLoggedInfunc,admin_access,afunc.post_schedule_auction1,afunc.post_schedule_auction2);
 
 // // =======================================================================================
 // // =========================== COMPANY USER FUNCTIONS ====================================== 

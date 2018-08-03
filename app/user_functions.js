@@ -135,7 +135,7 @@ module.exports =  {
                     else {
                         req.session.compare = [];
                         console.log(rows[0].default_image);
-                        res.render("./user_list.ejs" , {datarows: rows, cat_rows:crows, username: req.session.name, category:req.session.category, default_image: rows[0].default_image}); 
+                        return res.render("./user_list.ejs" , {datarows: rows, cat_rows:crows, username: req.session.name, category:req.session.category, default_image: rows[0].default_image}); 
                     }
                 });
             }
@@ -158,29 +158,47 @@ module.exports =  {
 
     compare_now : function(req,res){
         if(req.session.compare){
-            compare = req.session.compare
-            str = "SELECT * FROM equipment_type WHERE type_id IN (";
-            str1 = '';    
+            compare = req.session.compare;
+            if(sort == "new") str = "SELECT equipment_type.photo1 AS 'Selected Equipment', equipment_type.category, equipment_type.subcategory, equipment_type.brand, equipment_type.model, equipment_type.parameters, equipment_type.master_id FROM equipment_type WHERE equipment_type.type_id IN ("
+            else str = "SELECT all_equipment.photo1 AS 'Selected Equipment', all_equipment.category, all_equipment.subcategory, all_equipment.brand, all_equipment.model, equipment_type.parameters, equipment_type.master_id FROM all_equipment INNER JOIN equipment_type ON all_equipment.type_id = equipment_type.type_id WHERE all_equipment.id IN (";
+            str2 = "INSERT INTO compares VALUES ";    
             for(var i = 0; i <compare.length; i++){
-                str1 = str1 + compare[i] + ",";
+                str = str + compare[i] + ",";
+                str2 = str2 + "("+ compare[i] +","+ req.session.user+"),";
             }
-            str1 = str1.slice(0,-1);
-            str = str +str1+")";
-            connection.query(str, function(err,rows){
+            str = str.slice(0,-1);
+            str2 = str2.slice(0,-1);
+            str = str+")";
+            str2 = str2+")";
+            connection.query(str, function(err,rows, fields){
                 if(err) throw err;
                 else {
-                    str2 = "INSERT INTO compares VALUES ";
-                    for(var i = 0 ; i <compare.length; i ++){
-                        str2 = str2 + "("+ compare[i] +","+ req.session.user+"),";
-                    }
-                    str2 = str2.slice(0,-1);
-                    connection.query(str2, function(err1){
-                        if (err) throw err;
-                        else return res.send(rows);
+                    connection.query("SELECT * FROM equipment_master WHERE master_id = ?", [rows[0].master_id], function(err1,rows1,fields1){
+                        if(err1) throw err1;
+                        else{
+                            var param = []
+                            for(var i = 0 ; i < rows.length; i++ ){
+                                var str3 = (String)(rows[0].parameters);
+                                var arr = str.split("!#%");
+                                param.push(arr);
+                            }
+                            data = {
+                                compare : compare,
+                                param : param,
+                                param_name: rows1[0],
+                                param_fields : fields1,
+                                other : rows,
+                                other_fields : fields
+                            };
+                            connection.query(str2, function(err1){
+                                if (err) throw err;
+                                else return res.send(data);
+                            });
+                       } 
                     });
-                } 
+                }
             });
-        }
+        }    
         else res.send();
     },
 

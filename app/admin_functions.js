@@ -299,7 +299,7 @@ module.exports = {
                                     if(!info[i].requests) info[i].requests = 0;
                                 }
                                 req.title = "All Equipments"; 
-                                res.render("./admin_view_equipment.ejs", {title : req.title,datarows:rows, data:info, username:req.session.name});
+                                res.render("./admin_view_equipment.ejs", {title : req.title,datarows:rows, data:info, username:req.session.name,category:req.session.category});
                             }
                         });
                     }
@@ -741,8 +741,8 @@ module.exports = {
     },
 
 
-      //show_auc.ejs is to be designed..
-     //this is to be called in routes
+    //show_auc.ejs is to be designed..
+    //this is to be called in routes
     show_auctions : function(req,res){        
          connection.query("SELECT auctions.name AS 'Auction Name', auctions.start_date AS 'Start Date/time', auctions.end_date AS 'End Date/time', count(auction_equipment.auction_id) as 'No of equipments', auctions.auction_id AS id FROM auctions LEFT JOIN auction_equipment ON auctions.auction_id = auction_equipment.auction_id WHERE auctions.end_date < current_timestamp() GROUP BY auctions.auction_id ORDER BY auctions.auction_id", function(err1,rows1, fields){
             if (err1) throw err1 ;
@@ -779,10 +779,11 @@ module.exports = {
     		}
     	});
     },
+
     //---------- schedule auction---------------
     //get - page render
     get_schedule_auction: function(req,res){
-        res.render("", {username:req.session.user, datarows:[]});
+        res.render("./admin_scheduleauctionform.ejs", {username:req.session.name, category:req.session.category});
     },
 
     //check schedule (only one auction should be live at a time)
@@ -805,7 +806,7 @@ module.exports = {
     },
 
    //changed according to update and add admin to auction requests by default - make another function 
-    post_schedule_auction1: function(req,res){
+    post_schedule_auction1: function(req,res,next){
         if(req.params.auction_id){
             connection.query("UPDATE auctions SET name = ? , start_date = ? , end_date = ?, max_no_equipment = ?",[req.body.name, req.body.start_date, req.body.end_date, req.body.max_no_equipment],function(err){
                 if(err) throw err;
@@ -831,7 +832,7 @@ module.exports = {
                 }
                 connection.query("SELECT * FROM all_equipment WHERE status = 2",function(err1,rows1){
                     if(err1) throw err1;
-                    else  res.render("", {datarows:rows1, username:req.session.user, selected : req.selected_equip, max_no_equipment : req.body.max_no_equipment});
+                    else  res.render("./admin_add_to_auction.ejs", {datarows:rows1, username:req.session.name, selected : req.selected_equip, max_no_equipment : req.body.max_no_equipment});
                 });
             }
         });
@@ -1183,6 +1184,29 @@ module.exports = {
 	// });
     },
 
+    upcoming_auctions : function(req,res){
+        connection.query("SELECT auctions.name AS 'Auction Name',auctions.start_date AS 'Start Date/Time',auctions.end_date AS 'End Date/Time',a.Status ,auctions.auction_id AS id FROM auctions left join (SELECT status AS Status, auction_id AS id from auction_requests where user_id = ?) as a ON auctions.auction_id = a.id WHERE auctions.start_date > current_timestamp()",[req.session.user], function(err,rows, fields){
+            //SELECT a.Status , auctions.name AS 'Auction Name',auctions.start_date AS 'Start Date/Time',auctions.end_date AS 'End Date/Time',auctions.auction_id AS id FROM auctions left join (SELECT status AS STATUS, auction_id from auction_requests AS id where user_id = ?) as a ON auctions.auction_id = a.id WHERE auctions.start_date > current_timestamp() ;
+            if(err) throw err;
+            else {
+                var x = "";
+                var y = "";
+                for(var i = 0 ;i<rows.length;i++){
+                    x = (String)(rows[i]["Start Date/Time"]);
+                    x = x.slice(0,-15);//remove sec and GMT etc
+                    rows[i]["Start Date/Time"] = x;
+                    y = (String)(rows[i]["End Date/Time"]);
+                    y = y.slice(0,-15);//remove sec and GMT get_add_equipment_category
+                    rows[i]["End Date/Time"] = y;
+                }
+
+                return res.render("./table.ejs", {datarows:rows, fields:fields, username:req.session.name, title2:"Upcoming Auctions",title1:"auctions",category:req.session.category, extra_link:"",eye:0,edit:1});
+
+   
+
+            }
+        });
+    },
     
     //dealer auction 
 

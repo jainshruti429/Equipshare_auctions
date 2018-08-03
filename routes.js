@@ -244,8 +244,8 @@ module.exports = function(app, passport) {
 //     //TBD .... url depends on front end linking
 
 app.get('/',function(req,res){
-    res.render('./admin_add_to_auction.ejs',{username:"",category:0,datarows:[]});
- 
+    res.render('./admin_scheduleauctionform(workingmode).ejs',{username:"",category:0,datarows:[]});
+});
 
 //     app.get('/', function(req,res){
 //     	res.render('./user_split_screen.ejs');

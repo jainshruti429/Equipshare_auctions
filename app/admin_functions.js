@@ -474,7 +474,7 @@ module.exports = {
 
     //$$page need to be changed
     get_add_equipment_type : function(req,res){
-        res.render('./admin_add_equipment_type.ejs', {username:req.session.name, category:req.session.category});
+        res.render('./admin_add_equipment_type.ejs', {username:req.session.name,cat_rows:[],category:req.session.category});
     },
 
     post_add_equipment_type :  function(req,res, next){

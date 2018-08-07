@@ -129,9 +129,9 @@ app.get("/compare", function(req,res,next){
 // // =======================================================================================
 //     //TBD .... url depends on front end linking
 
-app.get('/',function(req,res){
-    res.render('./admin_scheduleauctionform(workingmode).ejs',{username:"",category:0,datarows:[]});
-});
+// app.get('/',function(req,res){
+//     res.render('./admin_scheduleauctionform(workingmode).ejs',{username:"",category:0,datarows:[]});
+// });
 
 
     app.get('/', function(req,res){
@@ -317,6 +317,7 @@ app.get('/',function(req,res){
        app.get('/admin_upcoming_auction',gfunc.isLoggedInfunc,admin_access,afunc.upcoming_auctions);
        app.get('/get_sch_auc',gfunc.isLoggedInfunc,admin_access,afunc.get_schedule_auction);
        app.post('/add_to_auc',gfunc.isLoggedInfunc,admin_access,afunc.post_schedule_auction1,afunc.post_schedule_auction2);
+       app.get('/admin_add_equipment_type',gfunc.isLoggedInfunc,admin_access,afunc.get_add_equipment_type);
 
 // // =======================================================================================
 // // =========================== COMPANY USER FUNCTIONS ====================================== 

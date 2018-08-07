@@ -116,6 +116,7 @@ CREATE TABLE `all_equipment` (
 
 insert into `all_equipment` values 
 (11,'TATA','T7879J',865,'black',876,'',764547,'ljhdkajkj',7,1,'','','','','','','',40,'','','','','Compaction','Ride on Vinratory Roller - Single Drum',0,0),
+(12,'TATA','T7879J',2001,'yellow',7979,'',10,'',1,1,'','','','','','','',40,'','','','','Compaction','Bakchoes',0,1),
 (41,'Hyundai','&*(YHUBhj',89789789,'hubyiubhub',7890789,'Alirajpur',87897,'',31,1,'41_1.jpg','Madhya Pradesh','41_4.png','41_3.jpg','41_3.png',NULL,NULL,25,NULL,NULL,NULL,NULL,'Earth moving Equipment','Excavators',NULL,1),
 (42,'b2','m2',789908,'cfgcvgyvhjv',897987,'Alirajpur',78789,'gvgyvuygbuyh',31,0,'42_1.png','Madhya Pradesh','42_4.png','42_3.png','42_2.png','42_1.png','42_2.png',18,'','','','','2','2',NULL,1),
 (43,'b1','m2',8789790,'8ygyugyugugh',7867,'Alirajpur',7897,'this is updated',31,1,'43_1.png','Madhya Pradesh','43_4.png','43_3.png','43_2.png','43_1.png','43_2.png',12,'','','','','1','2',NULL,0),
@@ -207,7 +208,7 @@ CREATE TABLE `auctions` (
   `end_date` datetime DEFAULT NULL,
   `max_no_equipment` int(3) DEFAULT NULL,
   PRIMARY KEY (`auction_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*Data for the table `auctions` */
 
@@ -215,7 +216,9 @@ insert into `auctions` values
 (1,'aaj ka bazar','2018-07-21 16:40:36','2018-07-22 16:40:36',100),
 (2,'tttt','0000-00-00 00:00:00','0000-00-00 00:00:00',100),
 (3,'dfsf','2018-07-09 16:40:36','2018-07-09 16:40:36',100),
-(4,'mixer','2018-08-08 00:00:00','2018-09-09 00:00:00',100);
+(4,'mixer','2018-08-08 00:00:00','2018-09-09 00:00:00',100),
+(5,'',NULL,NULL,NULL),
+(6,'',NULL,NULL,NULL);
 
 /*Table structure for table `bids` */
 
@@ -601,4 +604,6 @@ insert into `views` values
 ('47',2),
 ('54',2),
 ('54',5),
-('46',1);
+('46',1),
+('12',1),
+('45',7);

@@ -966,6 +966,11 @@ module.exports = {
         });
     },
 
+    get_add_equipment_master : function(req,res){
+        res.render('./Admin_EquipmentMaster.ejs',{username:req.session.name,category:req.session.category});
+
+    },
+
    add_master : function(req,res){
     connection.query("SELECT * from equipment_master WHERE subcategory=?",[req.body.subcategory],function(err,rows){
         if (err) throw err ;

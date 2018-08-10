@@ -553,7 +553,7 @@ module.exports = {
                 connection.query(str, function(err1, row1){
                     if(err1) throw err1;
                     else {
-                        console.log(row1);
+                        
                         res.render("./admin_request_table.ejs", {datarows:row1, username:req.session.name});
                                     }});
             }
@@ -589,11 +589,15 @@ module.exports = {
     // },
 
     get_add_equipment : function(req,res){
+           connection.query("SELECT DISTINCT category FROM equipment_type", function(err1, cat_rows){
+            if (err1) throw err1;
+            else
         res.render('./admin_add_equipment.ejs', {msg : '', cat_rows:cat_rows,username: req.session.name, category:req.session.category, category:req.session.category});                             
-    },
+    });
+       },
 
     get_add_equipment_user : function(req,res){
-        res.render("./admin_add_equipment_user.ejs", {username: req.session.name, category:req.session.category, category:req.session.category});
+        res.render("./admin_add_equipment_user.ejs", {username: req.session.name, category:req.session.category});
     },
 
     post_add_equipment_reg: function(req,res, next){
@@ -752,8 +756,8 @@ module.exports = {
                     else{
                         obj = {name:"Participants"};
                         fields.push(obj);
-                        console.log(rows1.length);
-                        console.log(rows2.length);
+                       
+                       
                         for(var i = 0 ; i<rows1.length; i++ ){
                             y = JSON.stringify(rows1[i]);
                             y = y.slice(0,-1);
@@ -1080,7 +1084,7 @@ module.exports = {
                     y = y + ',"extra_link":"/admin_showuserprofile'+rows[i].id+'"}';
                     rows[i] = JSON.parse(y);
                 }
-                console.log(rows);
+                
                res.render("./table.ejs",{datarows:rows,fields:fields,extra_link:"view profile",eye:0,edit:0,title1:"show user",title2:"user details",username :req.session.name,category:req.session.category});
             }
         });

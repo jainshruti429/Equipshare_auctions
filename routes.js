@@ -203,10 +203,10 @@ app.get("/compare", function(req,res,next){
 //     app.get('/user_update_equipment:id',gfunc.isLoggedInfunc, ufunc.get_update_this_equipment);
 //     app.post('/user_update_equipment:id', gfunc.isLoggedInfunc, ufunc.post_update_this_equipment,gfunc.view1,gfunc.view2);
 // //     // //app.get('/user_view_equipment', gfunc.isLoggedInfunc, ufunc.view_equipment);
-//     app.get('/user_add_equipment_category', gfunc.isLoggedInfunc, ufunc.get_add_equipment_category);
-//     app.get('/user_add_equipment_subcategory', gfunc.isLoggedInfunc, ufunc.get_add_equipment_subcategory);
-//     app.get('/user_add_equipment_brand', gfunc.isLoggedInfunc, ufunc.get_add_equipment_brand);
-//     app.post('/user_add_equipment', gfunc.isLoggedInfunc, ufunc.post_add_equipment, ufunc.get_add_equipment);
+    app.get('/user_add_equipment_category', gfunc.isLoggedInfunc, ufunc.get_add_equipment_category);
+    app.get('/user_add_equipment_subcategory', gfunc.isLoggedInfunc, ufunc.get_add_equipment_subcategory);
+    app.get('/user_add_equipment_brand', gfunc.isLoggedInfunc, ufunc.get_add_equipment_brand);
+    // app.post('/user_add_equipment', gfunc.isLoggedInfunc, ufunc.post_add_equipment, ufunc.get_add_equipment);
 // //     // 
     
 // // // =======================================================================================
@@ -318,6 +318,7 @@ app.get("/compare", function(req,res,next){
        app.get('/admin_add_equipment_type',gfunc.isLoggedInfunc,admin_access,afunc.get_add_equipment_type);
        app.get('/admin_add_equipment_master',gfunc.isLoggedInfunc,admin_access,afunc.get_add_equipment_master);
        app.post('/admin_add_equipment_master',gfunc.isLoggedInfunc,admin_access,afunc.add_master);
+       app.get('/get_add_equipment',gfunc.isLoggedInfunc,admin_access,afunc.get_add_equipment);
 // // =======================================================================================
 // // =========================== COMPANY USER FUNCTIONS ====================================== 
 // // =======================================================================================
@@ -399,7 +400,7 @@ app.get("/compare", function(req,res,next){
 
 var admin_access = function(req,res,next){
 
-    if(req.session.category==0){ console.log(req.session.category); return next();}
+    if(req.session.category==0){  return next();}
     else return res.render("./error.ejs");
 };
 

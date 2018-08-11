@@ -308,11 +308,24 @@ module.exports = {
         });
     },
 
-    my_equipment: function(req , res){
+    my_equipment: function(req ,res){
         str4 = "SELECT all_equipment.id,all_equipment.available, all_equipment.category, all_equipment.subcategory, all_equipment.brand, all_equipment.model,all_equipment.expected_price,account.name, account.address1, account.address2, account.address3, account.city, account.state, account.zipcode, account.email, account.mobile FROM account INNER JOIN all_equipment ON all_equipment.owner_id = account.id WHERE all_equipment.uploaded_by = 1"
-        connection.query(str4, [req.session.user] , function(err, rows){
+        connection.query(str4, [req.session.user] , function(err, rows,fields){
             if (err) throw err;
-            else return next();
+            else {
+                var x = "";
+                for(var i = 0 ;i<rows.length;i++){
+                    x = (String)(rows[i]["Date/Time Of Search"]);
+                    x = x.slice(0,-18);//remove sec and GMT etc
+                    rows[i]["Date/Time Of Search"] = x;
+                    y = JSON.stringify(rows[i]);
+                    y = y.slice(0,-1);
+                    y = y + ',"extra_link":"/show_viewers';
+                    rows[i] = JSON.parse(y);
+                }                         
+                    res.render("./table.ejs", {datarows:rows, fields:fields, username:req.session.name,category:req.session.category, title1 : "Equipment", title2:"My Equipment", extra_link : "Go", eye:0, edit:0 });
+
+            }
         });
     },
 
@@ -474,8 +487,12 @@ module.exports = {
 
     //$$page need to be changed
     get_add_equipment_type : function(req,res){
-        res.render('./admin_add_equipment_type.ejs', {username:req.session.name,cat_rows:[],category:req.session.category});
-    },
+           connection.query("SELECT DISTINCT category FROM equipment_type", function(err1, cat_rows){
+            if (err1) throw err1;
+            else
+        res.render('./admin_add_equipment_type.ejs', {username:req.session.name,cat_rows:cat_rows,category:req.session.category});
+    });
+       },
 
     post_add_equipment_type :  function(req,res, next){
         connection.query("SELECT id FROM all_equipment WHERE category = ? AND subcategory = ? AND brand = ? AND model = ?", [req.body.category,req.body.subcategory,req.body.brand,req.body.model], function(err,rows){

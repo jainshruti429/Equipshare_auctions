@@ -46,11 +46,11 @@ var crypto = require('crypto');
 
 module.exports = {
 
-    // login : function(req,res){
-    //     res.render('./user_login.ejs' , {msg : 'Enter the following details', login_para : 1});
-    // },
-     login : function(req,res){
+    login : function(req,res){
         res.render('./user_login.ejs' , {msg : 'Enter the following details', login_para : 1});
+    },
+     admin_login : function(req,res){
+        res.render('./admin_login.ejs' , {msg : 'Enter the following details', login_para : 1});
     },
 
     

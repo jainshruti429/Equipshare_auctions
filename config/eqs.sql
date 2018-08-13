@@ -117,9 +117,9 @@ CREATE TABLE `all_equipment` (
 insert into `all_equipment` values 
 (11,'TATA','T7879J',865,'black',876,'',764547,'ljhdkajkj',7,1,'','','','','','','',40,'','','','','Compaction','Ride on Vinratory Roller - Single Drum',0,0),
 (12,'TATA','T7879J',2001,'yellow',7979,'',10,'',1,1,'','','','','','','',40,'','','','','Compaction','Bakchoes',0,1),
-(41,'Hyundai','&*(YHUBhj',89789789,'hubyiubhub',7890789,'Alirajpur',87897,'',31,1,'41_1.jpg','Madhya Pradesh','41_4.png','41_3.jpg','41_3.png',NULL,NULL,25,NULL,NULL,NULL,NULL,'Earth moving Equipment','Excavators',NULL,1),
-(42,'b2','m2',789908,'cfgcvgyvhjv',897987,'Alirajpur',78789,'gvgyvuygbuyh',31,0,'42_1.png','Madhya Pradesh','42_4.png','42_3.png','42_2.png','42_1.png','42_2.png',18,'','','','','2','2',NULL,1),
-(43,'b1','m2',8789790,'8ygyugyugugh',7867,'Alirajpur',7897,'this is updated',31,1,'43_1.png','Madhya Pradesh','43_4.png','43_3.png','43_2.png','43_1.png','43_2.png',12,'','','','','1','2',NULL,0),
+(41,'Hyundai','&*(YHUBhj',89789789,'hubyiubhub',7890789,'Alirajpur',87897,'',31,1,'41_1.jpg','Madhya Pradesh','41_4.png','41_3.jpg','41_3.png',NULL,NULL,25,NULL,NULL,NULL,NULL,'Earth moving Equipment','Excavators',0,1),
+(42,'b2','m2',789908,'cfgcvgyvhjv',897987,'Alirajpur',78789,'gvgyvuygbuyh',31,0,'42_1.png','Madhya Pradesh','42_4.png','42_3.png','42_2.png','42_1.png','42_2.png',18,'','','','','2','2',0,1),
+(43,'b1','m2',8789790,'8ygyugyugugh',7867,'Alirajpur',7897,'this is updated',31,1,'43_1.png','Madhya Pradesh','43_4.png','43_3.png','43_2.png','43_1.png','43_2.png',12,'','','','','1','2',0,0),
 (44,'b2','m2',2016,'yellow',890,'Lohit',65000,'very good equipment. very good condition but good for nothing',8,0,'44_1.jpg','Arunachal Pradesh','44_4.jpg','44_3.jpg','44_2.jpg','44_1.png','44_2.png',16,'','','','','1','3',NULL,1),
 (45,'gdfg','MT678',78979,NULL,8790890,'city1',687989080,'vgyvuybyuohboiul',1,1,'45_1.png','state1','45_4.png','45_3.png','45_2.png','','',35,'','','','','Concrete and Masonry','Concrete Batching Plant',NULL,0),
 (46,'HITACHI','H234',78979,NULL,8790890,'city1',687989080,'vgyvuybyuohboiul',7,1,'46_1.png','state1','46_4.png','46_3.png','46_2.png','','',27,'','','','','Concrete Pumps','Mini Mobile Batching Plant',NULL,1),

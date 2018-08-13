@@ -8,8 +8,8 @@ module.exports = {
       // local configs.
         'host' : 'localhost',
         'user': 'root',
-        'password': 'root',
-    'database': 'eqsauction',
+        'password': 'root@SQL1',
+    'database': 'eqsAuction',
        }   
 };
 //=================================USE THIS FOR OTHER COMPUTER==================================

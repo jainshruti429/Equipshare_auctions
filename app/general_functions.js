@@ -50,7 +50,7 @@ module.exports = {
     //     res.render('./user_login.ejs' , {msg : 'Enter the following details', login_para : 1});
     // },
      login : function(req,res){
-        res.render('./admin_login.ejs' , {msg : 'Enter the following details', login_para : 1});
+        res.render('./user_login.ejs' , {msg : 'Enter the following details', login_para : 1});
     },
 
     

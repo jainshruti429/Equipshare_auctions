@@ -186,7 +186,7 @@ module.exports =  {
                                 compare : compare,
                                 param : param,
                                 param_name: rows1[0],
-                                param_fields : fields1,
+                                param_rfields : fields1,
                                 other : rows,
                                 other_fields : fields
                             };
@@ -366,7 +366,7 @@ module.exports =  {
     my_requests2 : function(req,res,next){
         if(req.new_equip.length){
             new_equip = req.new_equip;
-            str = "SELECT type_id,category,subcategory, brand, model FROM equipment_type WHERE type_id IN (";
+            str = "SELECT  category,subcategory, brand, model FROM equipment_type WHERE type_id IN (";
             for(var i = 0; i <new_equip.length; i++){
                 equip_id = new_equip[i];
                 str = str + equip_id + ",";
@@ -804,6 +804,7 @@ module.exports =  {
         connection.query("SELECT auctions.name AS 'Auction Name',auctions.start_date AS 'Start Time',auctions.end_date AS 'End Time',auction_requests.status AS 'Status',auctions.auction_id AS id FROM auctions LEFT JOIN auction_requests ON auction_requests.auction_id = auctions.auction_id WHERE auctions.start_date < current_timestamp AND auctions.end_date > current_timestamp AND auction_requests.user_id = ?",[req.session.user], function(err, rows,fields){
             if(err) throw err;
             else if(rows.length){
+    
                 if(rows[0]["Status"]){
                     var x = (String)(rows[0]["Start Time"]);
                     x = x.slice(15,-15);//remove sec and GMT etc

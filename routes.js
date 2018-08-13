@@ -29,90 +29,7 @@ var ufunc = require('./app/user_functions');
 // ==========================================
 
 module.exports = function(app, passport) {
-//for testing
-app.get("/list", function(req,res,next){
-    return res.render("./user_list.ejs" , {datarows: [], cat_rows:[], username: "req.session.name", category:1, default_image: "rows[0].default_image"}); 
-});	
-
-app.get("/compare", function(req,res,next){
-    req.session.compare = [48,49,50,51];
-},ufunc.compare_now);
-
-    // PROFILE SECTION =====================
-    // app.get('/profile/:id', func.isLoggedInfunc, func.profilefunc); // issLoggedIn verifies that user is authenticated
-
-    // // LOGOUT ==============================
-    // app.get('/logout', func.logoutfunc);
-    // // =====================================
-
-    // app.get('/dashboard', func.isLoggedInfunc, func.dashboard);
-
-    // app.get('/wallet',func.isLoggedInfunc, func.walletfunc);
-
-    // //this is post for forgot password which requires user's email id
-    // app.post('/forgot', func.forgot);
-
-    // //this route will verify the password token hasn't expire and returns a json response
-    // app.get('/reset/:token', func.reset_pass);
-
-    // //POST for password reset and if token hasn't expired, the password of user is reset.
-    // app.post('/reset/:token', func.reset_pass_post_form);
-
-    // app.post('/add_to_likes', func.isLoggedInfunc, dealer_user_access, func.add_to_likes);
-
-    // app.post('/search_suggestions', func.isLoggedInfunc, dealer_user_access, func.search_suggestions);
-
-    // app.post('/search', func.isLoggedInfunc, dealer_user_access, func.search);
-
-    // app.get('/my_likes', func.isLoggedInfunc, dealer_user_access, func.my_likes);    
-
-    //  app.get('/show_car/:id', func.isLoggedInfunc, func.show_car);
-
-    // //================================================================================
-    // //======================= ADMIN ROUTES ===========================================
-    // //================================================================================
-
-
-    // app.post('/admin/new_location', func.isLoggedInfunc, admin_access, func_admin.add_new_location);
-    // app.get('/admin/existing_location', func.isLoggedInfunc, admin_access, func_admin.existing_location);
-    // app.get('/admin/existing_user', func.isLoggedInfunc, admin_access, func_admin.existing_user);
-    // app.get('/admin/add_new_admin', func.isLoggedInfunc, admin_access, func_admin.add_new_admin);
-    // app.post('/admin/add_new_admin', func.isLoggedInfunc, admin_access, func_admin.add_new_admin_post_form);
-    // app.post('/admin/add_new_equipment', func.isLoggedInfunc, admin_access, func_admin.add_new_equipment_post_form);
-    // app.post('/admin/add_new_auction', func.isLoggedInfunc, admin_access, func_admin.add_new_auction_post_form);
-
-    // app.get('/existing_dealers', func.isLoggedInfunc, func.existing_dealers);    //common for admin and dealer
-
-    // app.post('/admin/enquiry_form', func.isLoggedInfunc, admin_access, func_admin.enquiry_form_post_form);
-    // app.post('/admin/change_time', func.isLoggedInfunc, admin_access, func_admin.change_time);
-    // app.get('/pending_request', func.isLoggedInfunc, admin_access, func_admin.pending_request);
-    // app.post('/verified', func.isLoggedInfunc, admin_access, func_admin.verified);
-
-    // //================================================================================
-    // //======================= DEALER ROUTES + USER ROUTES ============================
-    // //================================================================================
-
-    // app.get('/dealer/complete_profile', func.isLoggedInfunc, dealer_access, func_dealer.complete_profile);
-    // app.post('/dealer/complete_profile', func.isLoggedInfunc,  dealer_access, func_dealer.complete_profile_post_form);
-    // app.get('/add_car', func.isLoggedInfunc, dealer_user_access, func.add_car); 
-    // app.post('/add_car', func.isLoggedInfunc, dealer_user_access,  func.add_car_post_form);
-    // app.get('/dealer_my_equipment', func.isLoggedInfunc, dealer_user_access,  func.dealer_my_equipment); 
-    // app.post('/change_auction_status', func.isLoggedInfunc, dealer_user_access,  func.change_auction_status);
-    // app.get('/dealer/dealer_purchase', func.isLoggedInfunc, dealer_access,  func_dealer.dealer_purchase);
-    // app.post('/dealer/dealer_purchase',func.isLoggedInfunc, dealer_access,  func_dealer.dealer_purchase_post_form);
-    // app.get('/dealer/dealer_sell', func.isLoggedInfunc, dealer_access,  func_dealer.dealer_sell);
-    // app.post('/dealer/dealer_sell', func.isLoggedInfunc, dealer_access,  func_dealer.dealer_sell_post_form);
-    // app.get('/dealer/sell_lead', func.isLoggedInfunc, dealer_access, func_dealer.sell_lead);
-    // app.post('/dealer/schedule', func.isLoggedInfunc, dealer_access, func_dealer.schedule);
-    // app.get('dealer//my_schedule', func.isLoggedInfunc, dealer_access, func_dealer.my_schedule);
-
-    // app.get('/next_auction', func.isLoggedInfunc, dealer_user_access,  func.next_auction);
-    // app.get('/my_bids', func.isLoggedInfunc, dealer_user_access,  func.my_bids);
-
-
-    // //app.get('/deal', 
-    // app.post('/add_new_bid', func.isLoggedInfunc,dealer_user_access, func.add_new_bid);
-
+    
 // =======================================================================================
 // =========================== COMMON FUNCTIONS ====================================== 
 // =======================================================================================
@@ -129,80 +46,77 @@ app.get("/compare", function(req,res,next){
 // // =======================================================================================
 //     //TBD .... url depends on front end linking
 
-
-
-
     app.get('/', function(req,res){
     	res.render('./user_split_screen.ejs');
     });
 
     app.get('/buy_sell', gfunc.login);
-//     app.get('/user_login', gfunc.login);
+    app.get('/user_login', gfunc.login);
     
-//     app.post('/user_login', function(req, res, next){
-//             //call the local-login in ../config/passport.js
-//         passport.authenticate('local-user-login', function (err, user, info) {
-//             // info is json given by passport.aunthicate
-//             //this function is called when LocalStrategy returns done function with parameters
-//             if(err) 
-//                 return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para : 1});    
-//             //if username or password doesn't match
-//             if(!user) return res.render('./user_login.ejs', {msg: 'Please Try Again!', login_para : 1});  
-//             //this is when login is successful
-//             req.logIn(user, function(err) {
-//                 if (err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para : 1}); 
-//                 else  return next();
-//             });   
-//         })(req,res,next);
-//     }, ufunc.dashboard);
-//         // function(req,res,next){
-//         //     if(req.params.id != 0) return next();
-//         //     else return gfunc.home(req,res);
-//         // }, gfunc.view);
+    app.post('/user_login', function(req, res, next){
+            //call the local-login in ../config/passport.js
+        passport.authenticate('local-user-login', function (err, user, info) {
+            // info is json given by passport.aunthicate
+            //this function is called when LocalStrategy returns done function with parameters
+            if(err) 
+                return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para : 1});    
+            //if username or password doesn't match
+            if(!user) return res.render('./user_login.ejs', {msg: 'Please Try Again!', login_para : 1});  
+            //this is when login is successful
+            req.logIn(user, function(err) {
+                if (err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para : 1}); 
+                else  return next();
+            });   
+        })(req,res,next);
+    }, ufunc.dashboard);
+        // function(req,res,next){
+        //     if(req.params.id != 0) return next();
+        //     else return gfunc.home(req,res);
+        // }, gfunc.view);
 
-//     app.post('/user_signup', function(req, res, next){
-//         passport.authenticate('local-signup', function (err, user, info) {
-//             //this function is called when LocalStrategy returns done function with parameters
-//             if(err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para:0});    
-//             //if username or password doesn't match
-//             if(!user) return res.render('./user_login.ejs', {msg:info.message,  login_para:0});
-//             if (req.body.password != req.body.retype_password) return res.render('./user_login.ejs',{msg:'passwords did not match', login_para:0});
-//             //if (!req.body.agree) return res.render('./user_signup.ejs',{msg:'You need to agree to TnC'});          
-//             //this is when signup is successful
-//             else return res.render('./user_login.ejs',{msg:'Signup successful! Login to continue', login_para:1});
-//         })(req,res,next);
-//     });
-// //  // all are checking that the user is first logged in and then that he is of the right category that the request belong to.
-//     app.get("/user_dashboard", gfunc.isLoggedInfunc, ufunc.dashboard);
-// //     //links from dashboard
-//     app.get('/user_search_category', gfunc.isLoggedInfunc,ufunc.search_category);
-//     app.post('/user_search',gfunc.isLoggedInfunc,ufunc.search);
-// //     //links from side_nav_bar
-// //     //Equipments
-//     app.get("/user_my_requests", gfunc.isLoggedInfunc, ufunc.my_requests0,ufunc.my_requests1, ufunc.my_requests2, ufunc.my_requests3, ufunc.my_requests4, ufunc.my_requests5);
-//     app.get('/user_my_equipment', gfunc.isLoggedInfunc,ufunc.my_equipment1,gfunc.equip_data,ufunc.my_equipment2 );
-//     app.get('/user_add_equipment',gfunc.isLoggedInfunc, ufunc.check_profile, ufunc.get_add_equipment);
-//     app.get("/user_saved_searches", gfunc.isLoggedInfunc, ufunc.saved_searches);
-// //     //Auction
-//     app.get("/user_upcoming_auctions",gfunc.isLoggedInfunc,ufunc.upcoming_auctions);
-//     app.get("/user_live_auction",gfunc.isLoggedInfunc,ufunc.live_auction);
-//     app.get("/user_auction_results", gfunc.isLoggedInfunc, afunc.show_auctions);
-// //     //app.get("/this_auction_result:id", gfunc.isLoggedInfunc,);
-// //     //links from header dropdown - logout is a common function
-//     app.get('/user_update_profile',gfunc.isLoggedInfunc, ufunc.get_update_profile);
-//     app.post('/user_update_profile', gfunc.isLoggedInfunc, ufunc.post_update_profile);
+    app.post('/user_signup', function(req, res, next){
+        passport.authenticate('local-signup', function (err, user, info) {
+            //this function is called when LocalStrategy returns done function with parameters
+            if(err) return res.render('./user_login.ejs', {msg : 'Please Try Again!', login_para:0});    
+            //if username or password doesn't match
+            if(!user) return res.render('./user_login.ejs', {msg:info.message,  login_para:0});
+            if (req.body.password != req.body.retype_password) return res.render('./user_login.ejs',{msg:'passwords did not match', login_para:0});
+            //if (!req.body.agree) return res.render('./user_signup.ejs',{msg:'You need to agree to TnC'});          
+            //this is when signup is successful
+            else return res.render('./user_login.ejs',{msg:'Signup successful! Login to continue', login_para:1});
+        })(req,res,next);
+    });
+//  // all are checking that the user is first logged in and then that he is of the right category that the request belong to.
+    app.get("/user_dashboard", gfunc.isLoggedInfunc, ufunc.dashboard);
+//     //links from dashboard
+    app.get('/user_search_category', gfunc.isLoggedInfunc,ufunc.search_category);
+    app.post('/user_search',gfunc.isLoggedInfunc,ufunc.search);
+//     //links from side_nav_bar
+//     //Equipments
+    app.get("/user_my_requests", gfunc.isLoggedInfunc, ufunc.my_requests0,ufunc.my_requests1, ufunc.my_requests2, ufunc.my_requests3, ufunc.my_requests4, ufunc.my_requests5);
+    app.get('/user_my_equipment', gfunc.isLoggedInfunc,ufunc.my_equipment1,gfunc.equip_data,ufunc.my_equipment2 );
+    app.get('/user_add_equipment',gfunc.isLoggedInfunc, ufunc.check_profile, ufunc.get_add_equipment);
+    app.get("/user_saved_searches", gfunc.isLoggedInfunc, ufunc.saved_searches);
+//     //Auction
+    app.get("/user_upcoming_auctions",gfunc.isLoggedInfunc,ufunc.upcoming_auctions);
+    app.get("/user_live_auction",gfunc.isLoggedInfunc,ufunc.live_auction,ufunc.upcoming_auctions);
+    app.get("/user_auction_results", gfunc.isLoggedInfunc, afunc.show_auctions);
+//     //app.get("/this_auction_result:id", gfunc.isLoggedInfunc,);
+//     //links from header dropdown - logout is a common function
+    app.get('/user_update_profile',gfunc.isLoggedInfunc, ufunc.get_update_profile);
+    app.post('/user_update_profile', gfunc.isLoggedInfunc, ufunc.post_update_profile);
 
-//     app.get('/user_compare',gfunc.isLoggedInfunc,ufunc.compare);
-// //     // app.get('/user_compare_now', gfunc.isLoggedInfunc,ufunc.compare_now);
-//     app.get('/user_save_search', gfunc.isLoggedInfunc, ufunc.save_search);    
-//     app.get('/user_request:id', gfunc.isLoggedInfunc, ufunc.request_this);
-// //     // app.post("/user_proposal_status", gfunc.isLoggedInfunc,ufunc.change_proposal_status);    
+    app.get('/user_compare',gfunc.isLoggedInfunc,ufunc.compare);
+//     // app.get('/user_compare_now', gfunc.isLoggedInfunc,ufunc.compare_now);
+    app.get('/user_save_search', gfunc.isLoggedInfunc, ufunc.save_search);    
+    app.get('/user_request:id', gfunc.isLoggedInfunc, ufunc.request_this);
+//     // app.post("/user_proposal_status", gfunc.isLoggedInfunc,ufunc.change_proposal_status);    
    
-//     app.get('/user_reset_password', gfunc.isLoggedInfunc, ufunc.get_reset_password);
-//     app.post('/user_reset_password', gfunc.isLoggedInfunc, ufunc.post_reset_password, ufunc.get_reset_password);
-//     app.get('/user_update_equipment:id',gfunc.isLoggedInfunc, ufunc.get_update_this_equipment);
-//     app.post('/user_update_equipment:id', gfunc.isLoggedInfunc, ufunc.post_update_this_equipment,gfunc.view1,gfunc.view2);
-// //     // //app.get('/user_view_equipment', gfunc.isLoggedInfunc, ufunc.view_equipment);
+    app.get('/user_reset_password', gfunc.isLoggedInfunc, ufunc.get_reset_password);
+    app.post('/user_reset_password', gfunc.isLoggedInfunc, ufunc.post_reset_password, ufunc.get_reset_password);
+    app.get('/user_update_equipment:id',gfunc.isLoggedInfunc, ufunc.get_update_this_equipment);
+    app.post('/user_update_equipment:id', gfunc.isLoggedInfunc, ufunc.post_update_this_equipment,gfunc.view1,gfunc.view2);
+//     // //app.get('/user_view_equipment', gfunc.isLoggedInfunc, ufunc.view_equipment);
     app.get('/user_add_equipment_category', gfunc.isLoggedInfunc, ufunc.get_add_equipment_category);
     app.get('/user_add_equipment_subcategory', gfunc.isLoggedInfunc, ufunc.get_add_equipment_subcategory);
     app.get('/user_add_equipment_brand', gfunc.isLoggedInfunc, ufunc.get_add_equipment_brand);
